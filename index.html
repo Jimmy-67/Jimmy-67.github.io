@@ -1,9 +1,980 @@
-<html>
-    <head>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dimitri Platformer</title>
 
-    </head>
+<style>
+* {
+    box-sizing: border-box;
+    user-select: none;
+}
 
-    <body>
-        Dit is mijn eerste website!
-    </body>
+body {
+    margin: 0;
+    background: #111827;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+#game {
+    display: block;
+    margin: auto;
+    background: #5ec8ff;
+    width: 100vw;
+    height: 100vh;
+}
+
+#ui {
+    position: fixed;
+    top: 12px;
+    left: 15px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 2px 2px #000;
+    z-index: 5;
+}
+
+#shopButton {
+    position: fixed;
+    right: 15px;
+    top: 12px;
+    padding: 12px 18px;
+    background: #ffd43b;
+    border: 3px solid #222;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#shop {
+    position: fixed;
+    display: none;
+    width: 380px;
+    max-width: 90vw;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #202735;
+    color: white;
+    padding: 25px;
+    border-radius: 18px;
+    border: 4px solid #ffd43b;
+    z-index: 20;
+    box-shadow: 0 0 40px #000;
+}
+
+#shop h2 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.upgrade {
+    background: #303a4d;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.upgrade button {
+    float: right;
+    padding: 7px 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.close {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #ff5c5c;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#message {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 45px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 4px 4px #000;
+    display: none;
+    z-index: 15;
+}
+
+.help {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    text-shadow: 2px 2px #000;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="game"></canvas>
+
+<div id="ui">
+    ❤️ <span id="lives">3</span>
+    &nbsp;&nbsp;
+    🪙 <span id="coins">0</span>
+    &nbsp;&nbsp;
+    ⭐ Level <span id="level">1</span>/10
+</div>
+
+<button id="shopButton">🛒 SHOP</button>
+
+<div id="shop">
+    <h2>🛒 Dimitri Shop</h2>
+    <p>Munten: 🪙 <span id="shopCoins">0</span></p>
+
+    <div class="upgrade">
+        <b>Dimitri Special</b><br>
+        <small>Extra krachtige speciale aanval.</small>
+        <button onclick="buyUpgrade('special')">
+            Koop <span id="priceSpecial">25</span>
+        </button>
+    </div>
+
+    <div class="upgrade">
+        <b>Stroke Strenght</b><br>
+        <small>Meer kracht bij je speciale aanval.</small>
+        <button onclick="buyUpgrade('strength')">
+            Koop <span id="priceStrength">30</span>
+        </button>
+    </div>
+
+    <div class="upgrade">
+        <b>Stroke Speed</b><br>
+        <small>Sneller bewegen.</small>
+        <button onclick="buyUpgrade('speed')">
+            Koop <span id="priceSpeed">35</span>
+        </button>
+    </div>
+
+    <div class="upgrade">
+        <b>Dimitri Torrie</b><br>
+        <small>Extra leven.</small>
+        <button onclick="buyUpgrade('torrie')">
+            Koop <span id="priceTorrie">50</span>
+        </button>
+    </div>
+
+    <button class="close" onclick="closeShop()">SLUIT SHOP</button>
+</div>
+
+<div id="message"></div>
+
+<div class="help">
+    ← → / A D = bewegen &nbsp; | &nbsp; SPACE / W = springen &nbsp; | &nbsp; E = Special
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+/* =========================
+   GAME DATA
+========================= */
+
+let currentLevel = 1;
+let lives = 3;
+let coins = Number(localStorage.getItem("dimitriCoins")) || 0;
+
+let upgrades = {
+    special: Number(localStorage.getItem("special")) || 0,
+    strength: Number(localStorage.getItem("strength")) || 0,
+    speed: Number(localStorage.getItem("speed")) || 0,
+    torrie: Number(localStorage.getItem("torrie")) || 0
+};
+
+let keys = {};
+
+document.addEventListener("keydown", e => {
+    keys[e.key.toLowerCase()] = true;
+
+    if (
+        ["arrowup", "arrowdown", "arrowleft", "arrowright", " "].includes(e.key.toLowerCase())
+    ) {
+        e.preventDefault();
+    }
+
+    if (e.key.toLowerCase() === "e") {
+        specialAttack();
+    }
+
+    if (
+        (e.key === " " || e.key.toLowerCase() === "w" || e.key === "ArrowUp") &&
+        !player.jumpPressed
+    ) {
+        jump();
+        player.jumpPressed = true;
+    }
+});
+
+document.addEventListener("keyup", e => {
+    keys[e.key.toLowerCase()] = false;
+
+    if (
+        e.key === " " ||
+        e.key.toLowerCase() === "w" ||
+        e.key === "ArrowUp"
+    ) {
+        player.jumpPressed = false;
+    }
+});
+
+/* =========================
+   LEVELS
+========================= */
+
+const levels = [
+
+/* LEVEL 1 */
+[
+    [0,550,700,50],
+    [850,500,250,35],
+    [1200,440,250,35],
+    [1550,500,300,35],
+    [1950,430,250,35],
+    [2300,500,500,50]
+],
+
+/* LEVEL 2 */
+[
+    [0,550,500,50],
+    [650,470,220,30],
+    [950,390,200,30],
+    [1250,470,220,30],
+    [1550,350,200,30],
+    [1850,430,300,30],
+    [2250,520,550,50]
+],
+
+/* LEVEL 3 */
+[
+    [0,550,400,50],
+    [550,480,180,30],
+    [850,410,180,30],
+    [1150,330,180,30],
+    [1450,410,180,30],
+    [1750,300,180,30],
+    [2050,400,220,30],
+    [2400,500,400,50]
+],
+
+/* LEVEL 4 */
+[
+    [0,550,450,50],
+    [600,450,180,30],
+    [900,520,160,30],
+    [1180,400,200,30],
+    [1500,300,160,30],
+    [1800,420,220,30],
+    [2150,350,180,30],
+    [2450,480,350,50]
+],
+
+/* LEVEL 5 */
+[
+    [0,550,350,50],
+    [500,450,180,30],
+    [800,350,160,30],
+    [1080,450,180,30],
+    [1380,320,160,30],
+    [1680,250,180,30],
+    [1950,350,200,30],
+    [2250,430,180,30],
+    [2550,520,300,50]
+],
+
+/* LEVEL 6 */
+[
+    [0,550,400,50],
+    [550,470,150,30],
+    [800,390,150,30],
+    [1050,310,150,30],
+    [1300,390,150,30],
+    [1550,470,150,30],
+    [1800,350,150,30],
+    [2050,280,150,30],
+    [2300,400,180,30],
+    [2600,500,300,50]
+],
+
+/* LEVEL 7 */
+[
+    [0,550,300,50],
+    [450,450,150,30],
+    [700,330,150,30],
+    [950,450,150,30],
+    [1200,300,150,30],
+    [1450,420,150,30],
+    [1700,250,150,30],
+    [1950,380,150,30],
+    [2200,280,150,30],
+    [2500,430,300,50]
+],
+
+/* LEVEL 8 */
+[
+    [0,550,350,50],
+    [500,400,150,30],
+    [750,280,150,30],
+    [1000,400,150,30],
+    [1250,250,150,30],
+    [1500,350,150,30],
+    [1750,220,150,30],
+    [2000,330,150,30],
+    [2250,240,150,30],
+    [2500,380,150,30],
+    [2750,500,300,50]
+],
+
+/* LEVEL 9 */
+[
+    [0,550,300,50],
+    [450,430,130,30],
+    [680,300,130,30],
+    [910,420,130,30],
+    [1140,250,130,30],
+    [1370,350,130,30],
+    [1600,200,130,30],
+    [1830,330,130,30],
+    [2060,230,130,30],
+    [2290,360,130,30],
+    [2520,260,130,30],
+    [2750,450,150,30]
+],
+
+/* LEVEL 10 */
+[
+    [0,550,300,50],
+    [450,450,130,30],
+    [680,350,130,30],
+    [910,250,130,30],
+    [1140,350,130,30],
+    [1370,220,130,30],
+    [1600,320,130,30],
+    [1830,200,130,30],
+    [2060,300,130,30],
+    [2290,180,130,30],
+    [2520,300,130,30],
+    [2750,430,250,50]
+]
+];
+
+let platforms = [];
+let coinsArray = [];
+let enemies = [];
+let checkpoints = [];
+
+function loadLevel(n) {
+
+    platforms = levels[n - 1].map(p => ({
+        x: p[0],
+        y: p[1],
+        w: p[2],
+        h: p[3]
+    }));
+
+    coinsArray = [];
+    enemies = [];
+    checkpoints = [];
+
+    for (let i = 0; i < platforms.length; i++) {
+
+        let p = platforms[i];
+
+        if (i > 0 && i < platforms.length - 1) {
+
+            coinsArray.push({
+                x: p.x + p.w / 2,
+                y: p.y - 35,
+                collected: false
+            });
+
+            if (i % 3 === 0) {
+                enemies.push({
+                    x: p.x + 30,
+                    y: p.y - 38,
+                    w: 35,
+                    h: 38,
+                    vx: 1.3 + n * 0.1,
+                    start: p.x,
+                    end: p.x + p.w - 35,
+                    alive: true
+                });
+            }
+        }
+    }
+
+    checkpoints = [
+        {
+            x: platforms[Math.floor(platforms.length / 2)].x,
+            y: platforms[Math.floor(platforms.length / 2)].y - 70,
+            active: false
+        }
+    ];
+
+    player.x = 80;
+    player.y = 400;
+    player.vx = 0;
+    player.vy = 0;
+    player.spawnX = 80;
+    player.spawnY = 400;
+
+    updateUI();
+}
+
+/* =========================
+   PLAYER
+========================= */
+
+const player = {
+    x: 80,
+    y: 400,
+    w: 42,
+    h: 52,
+    vx: 0,
+    vy: 0,
+    speed: 0.7,
+    maxSpeed: 6,
+    jumpPower: 14,
+    gravity: 0.65,
+    grounded: false,
+    jumpPressed: false,
+    attackTimer: 0,
+    spawnX: 80,
+    spawnY: 400
+};
+
+function jump() {
+
+    if (player.grounded) {
+        player.vy = -player.jumpPower;
+        player.grounded = false;
+    }
+}
+
+function specialAttack() {
+
+    if (upgrades.special <= 0) return;
+
+    player.attackTimer = 18;
+
+    const power = 50 + upgrades.strength * 25;
+
+    enemies.forEach(enemy => {
+
+        if (!enemy.alive) return;
+
+        const dx = enemy.x - player.x;
+
+        if (
+            Math.abs(dx) < 130 &&
+            Math.abs(enemy.y - player.y) < 80
+        ) {
+            enemy.vx += dx > 0 ? power / 100 : -power / 100;
+
+            if (upgrades.strength >= 2) {
+                enemy.alive = false;
+            }
+        }
+    });
+}
+
+/* =========================
+   SHOP
+========================= */
+
+document.getElementById("shopButton").onclick = () => {
+    document.getElementById("shop").style.display = "block";
+    updateUI();
+};
+
+function closeShop() {
+    document.getElementById("shop").style.display = "none";
+}
+
+function buyUpgrade(type) {
+
+    let prices = {
+        special: 25 + upgrades.special * 25,
+        strength: 30 + upgrades.strength * 30,
+        speed: 35 + upgrades.speed * 35,
+        torrie: 50 + upgrades.torrie * 50
+    };
+
+    if (coins < prices[type]) {
+        alert("Je hebt niet genoeg munten!");
+        return;
+    }
+
+    coins -= prices[type];
+    upgrades[type]++;
+
+    if (type === "speed") {
+        player.maxSpeed += 1;
+    }
+
+    if (type === "torrie") {
+        lives++;
+    }
+
+    localStorage.setItem("dimitriCoins", coins);
+    localStorage.setItem("special", upgrades.special);
+    localStorage.setItem("strength", upgrades.strength);
+    localStorage.setItem("speed", upgrades.speed);
+    localStorage.setItem("torrie", upgrades.torrie);
+
+    updateUI();
+}
+
+/* =========================
+   UPDATE
+========================= */
+
+function update() {
+
+    /* Movement */
+
+    if (keys["arrowleft"] || keys["a"]) {
+        player.vx -= player.speed;
+    }
+
+    if (keys["arrowright"] || keys["d"]) {
+        player.vx += player.speed;
+    }
+
+    player.vx *= 0.82;
+
+    if (player.vx > player.maxSpeed)
+        player.vx = player.maxSpeed;
+
+    if (player.vx < -player.maxSpeed)
+        player.vx = -player.maxSpeed;
+
+    player.vy += player.gravity;
+
+    if (player.vy > 18)
+        player.vy = 18;
+
+    player.x += player.vx;
+    player.y += player.vy;
+
+    player.grounded = false;
+
+    /* Platform collision */
+
+    platforms.forEach(p => {
+
+        if (
+            player.x < p.x + p.w &&
+            player.x + player.w > p.x &&
+            player.y + player.h > p.y &&
+            player.y + player.h < p.y + p.h + 20 &&
+            player.vy >= 0
+        ) {
+            player.y = p.y - player.h;
+            player.vy = 0;
+            player.grounded = true;
+        }
+    });
+
+    /* Coins */
+
+    coinsArray.forEach(c => {
+
+        if (c.collected) return;
+
+        let dx = player.x + player.w / 2 - c.x;
+        let dy = player.y + player.h / 2 - c.y;
+
+        if (Math.sqrt(dx * dx + dy * dy) < 35) {
+            c.collected = true;
+            coins++;
+            localStorage.setItem("dimitriCoins", coins);
+            updateUI();
+        }
+    });
+
+    /* Enemies */
+
+    enemies.forEach(enemy => {
+
+        if (!enemy.alive) return;
+
+        enemy.x += enemy.vx;
+
+        if (enemy.x <= enemy.start || enemy.x >= enemy.end) {
+            enemy.vx *= -1;
+        }
+
+        if (
+            player.x < enemy.x + enemy.w &&
+            player.x + player.w > enemy.x &&
+            player.y < enemy.y + enemy.h &&
+            player.y + player.h > enemy.y
+        ) {
+
+            if (player.vy > 0 && player.y + player.h < enemy.y + 20) {
+                enemy.alive = false;
+                player.vy = -9;
+            } else {
+                loseLife();
+            }
+        }
+    });
+
+    /* Checkpoint */
+
+    checkpoints.forEach(cp => {
+
+        if (
+            player.x > cp.x &&
+            !cp.active
+        ) {
+            cp.active = true;
+            player.spawnX = cp.x;
+            player.spawnY = cp.y;
+        }
+    });
+
+    /* Attack timer */
+
+    if (player.attackTimer > 0)
+        player.attackTimer--;
+
+    /* Fall */
+
+    if (player.y > canvas.height + 200) {
+        loseLife();
+    }
+
+    /* Level end */
+
+    const lastPlatform = platforms[platforms.length - 1];
+
+    if (player.x > lastPlatform.x + lastPlatform.w - 80) {
+        nextLevel();
+    }
+
+    /* Camera */
+
+    camera.x += (player.x - camera.x - canvas.width * 0.35) * 0.08;
+
+    if (camera.x < 0)
+        camera.x = 0;
+}
+
+function loseLife() {
+
+    lives--;
+
+    if (lives <= 0) {
+        showMessage("GAME OVER<br><small>Druk op ENTER</small>");
+
+        document.addEventListener("keydown", restartGameOnce);
+    } else {
+        player.x = player.spawnX;
+        player.y = player.spawnY;
+        player.vx = 0;
+        player.vy = 0;
+    }
+
+    updateUI();
+}
+
+function restartGameOnce(e) {
+
+    if (e.key === "Enter") {
+        lives = 3 + upgrades.torrie;
+        currentLevel = 1;
+        loadLevel(currentLevel);
+        hideMessage();
+        document.removeEventListener("keydown", restartGameOnce);
+    }
+}
+
+function nextLevel() {
+
+    if (currentLevel >= 10) {
+
+        showMessage("🏆 DIMITRI HEEFT GEWONNEN! 🏆<br><small>Alle 10 levels gehaald!</small>");
+
+        return;
+    }
+
+    currentLevel++;
+    loadLevel(currentLevel);
+}
+
+/* =========================
+   CAMERA
+========================= */
+
+const camera = {
+    x: 0
+};
+
+/* =========================
+   DRAW
+========================= */
+
+function draw() {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    /* Sky */
+
+    let gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, "#4fc3ff");
+    gradient.addColorStop(1, "#d9f5ff");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.save();
+    ctx.translate(-camera.x, 0);
+
+    /* Background mountains */
+
+    ctx.fillStyle = "#8ed081";
+
+    for (let x = -500; x < 5000; x += 500) {
+
+        ctx.beginPath();
+        ctx.moveTo(x, 550);
+        ctx.lineTo(x + 250, 250);
+        ctx.lineTo(x + 500, 550);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    /* Platforms */
+
+    platforms.forEach(p => {
+
+        ctx.fillStyle = "#3c2f27";
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+
+        ctx.fillStyle = "#58b957";
+        ctx.fillRect(p.x, p.y, p.w, 9);
+    });
+
+    /* Coins */
+
+    coinsArray.forEach(c => {
+
+        if (c.collected) return;
+
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, 12, 0, Math.PI * 2);
+
+        ctx.fillStyle = "#ffd43b";
+        ctx.fill();
+
+        ctx.strokeStyle = "#a66b00";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = "#fff3a3";
+        ctx.fillRect(c.x - 3, c.y - 7, 5, 14);
+    });
+
+    /* Checkpoints */
+
+    checkpoints.forEach(cp => {
+
+        ctx.fillStyle = "#444";
+        ctx.fillRect(cp.x, cp.y, 5, 70);
+
+        ctx.fillStyle = cp.active ? "#00ff88" : "#ff4444";
+
+        ctx.beginPath();
+        ctx.moveTo(cp.x + 5, cp.y);
+        ctx.lineTo(cp.x + 40, cp.y + 15);
+        ctx.lineTo(cp.x + 5, cp.y + 30);
+        ctx.closePath();
+        ctx.fill();
+    });
+
+    /* Enemies */
+
+    enemies.forEach(enemy => {
+
+        if (!enemy.alive) return;
+
+        ctx.fillStyle = "#a855f7";
+        ctx.fillRect(enemy.x, enemy.y, enemy.w, enemy.h);
+
+        ctx.fillStyle = "white";
+        ctx.fillRect(enemy.x + 7, enemy.y + 8, 7, 7);
+        ctx.fillRect(enemy.x + 22, enemy.y + 8, 7, 7);
+
+        ctx.fillStyle = "#111";
+        ctx.fillRect(enemy.x + 9, enemy.y + 10, 3, 3);
+        ctx.fillRect(enemy.x + 24, enemy.y + 10, 3, 3);
+    });
+
+    /* Player */
+
+    ctx.fillStyle = "#ff4d6d";
+    ctx.fillRect(player.x, player.y, player.w, player.h);
+
+    /* Hair */
+
+    ctx.fillStyle = "#222";
+    ctx.fillRect(player.x + 5, player.y - 7, 32, 12);
+
+    /* Face */
+
+    ctx.fillStyle = "#ffd1a9";
+    ctx.fillRect(player.x + 7, player.y + 7, 28, 25);
+
+    /* Eyes */
+
+    ctx.fillStyle = "#111";
+    ctx.fillRect(player.x + 13, player.y + 15, 4, 5);
+    ctx.fillRect(player.x + 26, player.y + 15, 4, 5);
+
+    /* Attack effect */
+
+    if (player.attackTimer > 0) {
+
+        ctx.beginPath();
+        ctx.arc(
+            player.x + player.w / 2,
+            player.y + player.h / 2,
+            65,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.strokeStyle = "#ffe600";
+        ctx.lineWidth = 8;
+        ctx.stroke();
+    }
+
+    /* Finish flag */
+
+    const finish = platforms[platforms.length - 1];
+
+    ctx.fillStyle = "#333";
+    ctx.fillRect(
+        finish.x + finish.w - 45,
+        finish.y - 100,
+        6,
+        100
+    );
+
+    ctx.fillStyle = "#ff3366";
+
+    ctx.beginPath();
+    ctx.moveTo(
+        finish.x + finish.w - 39,
+        finish.y - 100
+    );
+
+    ctx.lineTo(
+        finish.x + finish.w - 5,
+        finish.y - 80
+    );
+
+    ctx.lineTo(
+        finish.x + finish.w - 39,
+        finish.y - 60
+    );
+
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.restore();
+}
+
+/* =========================
+   UI
+========================= */
+
+function updateUI() {
+
+    document.getElementById("lives").textContent = lives;
+    document.getElementById("coins").textContent = coins;
+    document.getElementById("level").textContent = currentLevel;
+
+    document.getElementById("shopCoins").textContent = coins;
+
+    document.getElementById("priceSpecial").textContent =
+        25 + upgrades.special * 25;
+
+    document.getElementById("priceStrength").textContent =
+        30 + upgrades.strength * 30;
+
+    document.getElementById("priceSpeed").textContent =
+        35 + upgrades.speed * 35;
+
+    document.getElementById("priceTorrie").textContent =
+        50 + upgrades.torrie * 50;
+}
+
+function showMessage(text) {
+    document.getElementById("message").innerHTML = text;
+    document.getElementById("message").style.display = "block";
+}
+
+function hideMessage() {
+    document.getElementById("message").style.display = "none";
+}
+
+/* =========================
+   GAME LOOP
+========================= */
+
+function gameLoop() {
+
+    update();
+    draw();
+
+    requestAnimationFrame(gameLoop);
+}
+
+/* =========================
+   START
+========================= */
+
+player.maxSpeed += upgrades.speed;
+
+lives = 3 + upgrades.torrie;
+
+loadLevel(currentLevel);
+updateUI();
+gameLoop();
+
+</script>
+
+</body>
 </html>
