@@ -3,168 +3,170 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Dimitri Platformer</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    user-select: none;
+*{
+    box-sizing:border-box;
+    user-select:none;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    background: #101522;
-    font-family: Arial, sans-serif;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:#111;
 }
 
-canvas {
-    display: block;
-    width: 100vw;
-    height: 100vh;
+canvas{
+    display:block;
+    width:100vw;
+    height:100vh;
 }
 
-#ui {
-    position: fixed;
-    top: 14px;
-    left: 16px;
-    color: white;
-    font-size: 19px;
-    font-weight: bold;
-    text-shadow: 2px 3px 0 #111;
-    z-index: 5;
-    background: rgba(10,15,25,.35);
-    padding: 8px 12px;
-    border-radius: 12px;
-    backdrop-filter: blur(5px);
+#ui{
+    position:fixed;
+    top:14px;
+    left:15px;
+    z-index:10;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    text-shadow:2px 3px #000;
+    background:rgba(0,0,0,.35);
+    padding:9px 13px;
+    border-radius:13px;
+    backdrop-filter:blur(5px);
 }
 
-#shopButton {
-    position: fixed;
-    right: 16px;
-    top: 14px;
-    padding: 12px 19px;
-    background: #ffd43b;
-    border: 3px solid #222;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-    z-index: 10;
-    box-shadow: 0 5px 0 #9b7500;
-    transition: .15s;
+#shopButton{
+    position:fixed;
+    right:15px;
+    top:14px;
+    z-index:20;
+    border:3px solid #222;
+    border-radius:12px;
+    background:#ffd43b;
+    padding:12px 19px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 5px #987000;
 }
 
-#shopButton:hover {
-    transform: translateY(-2px);
+#shopButton:active{
+    transform:translateY(3px);
+    box-shadow:0 2px #987000;
 }
 
-#shopButton:active {
-    transform: translateY(3px);
-    box-shadow: 0 2px 0 #9b7500;
+#shop{
+    display:none;
+    position:fixed;
+    z-index:50;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:430px;
+    max-width:92vw;
+    max-height:90vh;
+    overflow:auto;
+    padding:24px;
+    border:4px solid #ffd43b;
+    border-radius:20px;
+    background:rgba(24,30,44,.98);
+    color:white;
+    box-shadow:0 25px 80px #000;
 }
 
-#shop {
-    position: fixed;
-    display: none;
-    width: 400px;
-    max-width: 90vw;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(27,34,49,.97);
-    color: white;
-    padding: 25px;
-    border-radius: 20px;
-    border: 4px solid #ffd43b;
-    z-index: 20;
-    box-shadow: 0 20px 70px rgba(0,0,0,.7);
+#shop h2{
+    margin-top:0;
+    text-align:center;
 }
 
-#shop h2 {
-    text-align: center;
-    margin-top: 0;
-    font-size: 28px;
+.upgrade{
+    background:#30394c;
+    padding:13px;
+    margin:9px 0;
+    border-radius:12px;
+    min-height:66px;
 }
 
-.upgrade {
-    background: #303a4d;
-    margin: 11px 0;
-    padding: 14px;
-    border-radius: 12px;
-    min-height: 67px;
-    border: 1px solid rgba(255,255,255,.08);
+.upgrade small{
+    color:#c6cedb;
 }
 
-.upgrade small {
-    color: #bfc7d5;
+.upgrade button{
+    float:right;
+    padding:8px 11px;
+    border:0;
+    border-radius:8px;
+    background:#ffd43b;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.upgrade button {
-    float: right;
-    padding: 8px 12px;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    background: #ffd43b;
+.close{
+    width:100%;
+    margin-top:10px;
+    padding:12px;
+    border:0;
+    border-radius:10px;
+    background:#ff5757;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.close {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 10px;
-    background: #ff5c5c;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+#message{
+    display:none;
+    position:fixed;
+    z-index:100;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:white;
+    font-size:43px;
+    font-weight:bold;
+    text-shadow:4px 4px #000;
+    white-space:nowrap;
 }
 
-#message {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 45px;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 4px 4px #000;
-    display: none;
-    z-index: 30;
-    white-space: nowrap;
+#message small{
+    font-size:19px;
 }
 
-#message small {
-    font-size: 20px;
+#abilityBar{
+    position:fixed;
+    bottom:37px;
+    left:50%;
+    transform:translateX(-50%);
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    text-shadow:2px 2px #000;
+    background:rgba(0,0,0,.35);
+    padding:7px 12px;
+    border-radius:10px;
 }
 
-.help {
-    position: fixed;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-weight: bold;
-    text-shadow: 2px 2px #000;
-    font-size: 14px;
-    opacity: .85;
+.help{
+    position:fixed;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    color:white;
+    font-size:12px;
+    text-shadow:2px 2px #000;
+    opacity:.8;
 }
 
-@media(max-width:700px) {
-    #ui {
-        font-size: 14px;
-    }
-
-    .help {
-        font-size: 11px;
-    }
+@media(max-width:700px){
+    #ui{font-size:13px}
+    #abilityBar{font-size:11px}
+    .help{display:none}
 }
 </style>
 </head>
@@ -174,896 +176,1185 @@ canvas {
 <canvas id="game"></canvas>
 
 <div id="ui">
-    ❤️ <span id="lives">3</span>
-    &nbsp;&nbsp;
-    🪙 <span id="coins">0</span>
-    &nbsp;&nbsp;
-    ⭐ Level <span id="level">1</span>/10
+❤️ <span id="lives">3</span>
+&nbsp;&nbsp; 🪙 <span id="coins">0</span>
+&nbsp;&nbsp; ⭐ <span id="level">1</span>/10
+&nbsp;&nbsp; 🌎 <span id="theme">Bos</span>
 </div>
 
 <button id="shopButton">🛒 SHOP</button>
 
+<div id="abilityBar">
+⚡ Q Dash &nbsp; | &nbsp;
+🦘 F Double Jump &nbsp; | &nbsp;
+💥 G Ground Smash &nbsp; | &nbsp;
+🛡️ R Shield &nbsp; | &nbsp;
+🔥 E Special
+</div>
+
 <div id="shop">
 
-    <h2>🛒 Dimitri Shop</h2>
+<h2>🛒 Dimitri Shop</h2>
 
-    <p>
-        Munten: 🪙 <span id="shopCoins">0</span>
-    </p>
+<p>Munten: 🪙 <span id="shopCoins">0</span></p>
 
-    <div class="upgrade">
-        <b>Dimitri Special</b><br>
-        <small>Extra krachtige speciale aanval.</small>
-        <button onclick="buyUpgrade('special')">
-            Koop <span id="priceSpecial">15</span>
-        </button>
-    </div>
+<div class="upgrade">
+<b>Dimitri Special</b><br>
+<small>Krachtigere speciale aanval.</small>
+<button onclick="buyUpgrade('special')">
+Koop <span id="priceSpecial">15</span>
+</button>
+</div>
 
-    <div class="upgrade">
-        <b>Stroke Strenght</b><br>
-        <small>Meer kracht bij je speciale aanval.</small>
-        <button onclick="buyUpgrade('strength')">
-            Koop <span id="priceStrength">20</span>
-        </button>
-    </div>
+<div class="upgrade">
+<b>Stroke Strenght</b><br>
+<small>Meer kracht voor je aanvallen.</small>
+<button onclick="buyUpgrade('strength')">
+Koop <span id="priceStrength">20</span>
+</button>
+</div>
 
-    <div class="upgrade">
-        <b>Stroke Speed</b><br>
-        <small>Sneller bewegen.</small>
-        <button onclick="buyUpgrade('speed')">
-            Koop <span id="priceSpeed">25</span>
-        </button>
-    </div>
+<div class="upgrade">
+<b>Stroke Speed</b><br>
+<small>Sneller bewegen en dashen.</small>
+<button onclick="buyUpgrade('speed')">
+Koop <span id="priceSpeed">25</span>
+</button>
+</div>
 
-    <div class="upgrade">
-        <b>Dimitri Torrie</b><br>
-        <small>Extra leven.</small>
-        <button onclick="buyUpgrade('torrie')">
-            Koop <span id="priceTorrie">35</span>
-        </button>
-    </div>
+<div class="upgrade">
+<b>Dimitri Torrie</b><br>
+<small>Geeft een extra leven.</small>
+<button onclick="buyUpgrade('torrie')">
+Koop <span id="priceTorrie">35</span>
+</button>
+</div>
 
-    <button class="close" onclick="closeShop()">
-        SLUIT SHOP
-    </button>
+<hr>
+
+<div class="upgrade">
+<b>⚡ Dimitri Dash</b><br>
+<small>Ontgrendel een supersnelle dash.</small>
+<button onclick="buyUpgrade('dash')">
+Koop <span id="priceDash">20</span>
+</button>
+</div>
+
+<div class="upgrade">
+<b>🦘 Double Jump</b><br>
+<small>Spring nog een keer in de lucht.</small>
+<button onclick="buyUpgrade('doublejump')">
+Koop <span id="priceDouble">30</span>
+</button>
+</div>
+
+<div class="upgrade">
+<b>💥 Ground Smash</b><br>
+<small>Val hard naar beneden en vernietig vijanden.</small>
+<button onclick="buyUpgrade('smash')">
+Koop <span id="priceSmash">35</span>
+</button>
+</div>
+
+<div class="upgrade">
+<b>🛡️ Dimitri Shield</b><br>
+<small>Word tijdelijk onkwetsbaar.</small>
+<button onclick="buyUpgrade('shield')">
+Koop <span id="priceShield">40</span>
+</button>
+</div>
+
+<div class="upgrade">
+<b>🔥 Power Burst</b><br>
+<small>Een enorme explosie rondom Dimitri.</small>
+<button onclick="buyUpgrade('burst')">
+Koop <span id="priceBurst">50</span>
+</button>
+</div>
+
+<button class="close" onclick="closeShop()">
+SLUIT SHOP
+</button>
 
 </div>
 
 <div id="message"></div>
 
 <div class="help">
-    ← → / A D = bewegen &nbsp; | &nbsp; SPACE / W = springen &nbsp; | &nbsp; E = Special
+A/D of ←/→ bewegen · SPACE/W springen · Q Dash · F Double Jump · G Smash · R Shield · E Special
 </div>
 
 <script>
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+/* =====================================================
+   CANVAS
+===================================================== */
 
-let W = window.innerWidth;
-let H = window.innerHeight;
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
 
-function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+let W=innerWidth;
+let H=innerHeight;
+
+function resize(){
+    W=canvas.width=innerWidth;
+    H=canvas.height=innerHeight;
 }
 
 resize();
-window.addEventListener("resize", resize);
+addEventListener("resize",resize);
 
 
-/* =========================================================
+/* =====================================================
    INPUT
-========================================================= */
+===================================================== */
 
-const keys = {};
-const justPressed = {};
+const keys={};
+const pressed={};
 
-document.addEventListener("keydown", e => {
+addEventListener("keydown",e=>{
 
-    const key = e.key.toLowerCase();
+    const k=e.key.toLowerCase();
 
-    if (!keys[key]) {
-        justPressed[key] = true;
-    }
+    if(!keys[k]) pressed[k]=true;
 
-    keys[key] = true;
+    keys[k]=true;
 
-    if (
-        key === " " ||
-        key === "arrowup" ||
-        key === "arrowleft" ||
-        key === "arrowright"
-    ) {
+    if([" ","arrowup","arrowleft","arrowright"].includes(k))
         e.preventDefault();
-    }
-
-    if (key === "e") {
-        specialAttack();
-    }
 });
 
-document.addEventListener("keyup", e => {
-    keys[e.key.toLowerCase()] = false;
+addEventListener("keyup",e=>{
+    keys[e.key.toLowerCase()]=false;
 });
 
 
-/* =========================================================
-   GAME DATA
-========================================================= */
+/* =====================================================
+   SAVE DATA
+===================================================== */
 
-let currentLevel = 1;
+let coins=Number(localStorage.getItem("dimitriCoins"))||0;
 
-let lives = 3;
+let upgrades={
+    special:Number(localStorage.getItem("special"))||0,
+    strength:Number(localStorage.getItem("strength"))||0,
+    speed:Number(localStorage.getItem("speed"))||0,
+    torrie:Number(localStorage.getItem("torrie"))||0,
 
-let coins =
-    Number(localStorage.getItem("dimitriCoins")) || 0;
-
-let upgrades = {
-
-    special:
-        Number(localStorage.getItem("special")) || 0,
-
-    strength:
-        Number(localStorage.getItem("strength")) || 0,
-
-    speed:
-        Number(localStorage.getItem("speed")) || 0,
-
-    torrie:
-        Number(localStorage.getItem("torrie")) || 0
+    dash:Number(localStorage.getItem("dash"))||0,
+    doublejump:Number(localStorage.getItem("doublejump"))||0,
+    smash:Number(localStorage.getItem("smash"))||0,
+    shield:Number(localStorage.getItem("shield"))||0,
+    burst:Number(localStorage.getItem("burst"))||0
 };
 
-let particles = [];
-
-let screenShake = 0;
-
-let levelTransition = 0;
+let currentLevel=1;
+let lives=3+upgrades.torrie;
 
 
-/* =========================================================
-   LEVELS
-========================================================= */
+/* =====================================================
+   THEMES
+===================================================== */
 
-const levels = [
-
-[
-    [0,550,700,50],
-    [850,500,250,35],
-    [1200,440,250,35],
-    [1550,500,300,35],
-    [1950,430,250,35],
-    [2300,500,500,50]
-],
-
-[
-    [0,550,500,50],
-    [650,470,220,30],
-    [950,390,200,30],
-    [1250,470,220,30],
-    [1550,350,200,30],
-    [1850,430,300,30],
-    [2250,520,550,50]
-],
-
-[
-    [0,550,400,50],
-    [550,480,180,30],
-    [850,410,180,30],
-    [1150,330,180,30],
-    [1450,410,180,30],
-    [1750,300,180,30],
-    [2050,400,220,30],
-    [2400,500,400,50]
-],
-
-[
-    [0,550,450,50],
-    [600,450,180,30],
-    [900,520,160,30],
-    [1180,400,200,30],
-    [1500,300,160,30],
-    [1800,420,220,30],
-    [2150,350,180,30],
-    [2450,480,350,50]
-],
-
-[
-    [0,550,350,50],
-    [500,450,180,30],
-    [800,350,160,30],
-    [1080,450,180,30],
-    [1380,320,160,30],
-    [1680,250,180,30],
-    [1950,350,200,30],
-    [2250,430,180,30],
-    [2550,520,300,50]
-],
-
-[
-    [0,550,400,50],
-    [550,470,150,30],
-    [800,390,150,30],
-    [1050,310,150,30],
-    [1300,390,150,30],
-    [1550,470,150,30],
-    [1800,350,150,30],
-    [2050,280,150,30],
-    [2300,400,180,30],
-    [2600,500,300,50]
-],
-
-[
-    [0,550,300,50],
-    [450,450,150,30],
-    [700,330,150,30],
-    [950,450,150,30],
-    [1200,300,150,30],
-    [1450,420,150,30],
-    [1700,250,150,30],
-    [1950,380,150,30],
-    [2200,280,150,30],
-    [2500,430,300,50]
-],
-
-[
-    [0,550,350,50],
-    [500,400,150,30],
-    [750,280,150,30],
-    [1000,400,150,30],
-    [1250,250,150,30],
-    [1500,350,150,30],
-    [1750,220,150,30],
-    [2000,330,150,30],
-    [2250,240,150,30],
-    [2500,380,150,30],
-    [2750,500,300,50]
-],
-
-[
-    [0,550,300,50],
-    [450,430,130,30],
-    [680,300,130,30],
-    [910,420,130,30],
-    [1140,250,130,30],
-    [1370,350,130,30],
-    [1600,200,130,30],
-    [1830,330,130,30],
-    [2060,230,130,30],
-    [2290,360,130,30],
-    [2520,260,130,30],
-    [2750,450,150,30]
-],
-
-[
-    [0,550,300,50],
-    [450,450,130,30],
-    [680,350,130,30],
-    [910,250,130,30],
-    [1140,350,130,30],
-    [1370,220,130,30],
-    [1600,320,130,30],
-    [1830,200,130,30],
-    [2060,300,130,30],
-    [2290,180,130,30],
-    [2520,300,130,30],
-    [2750,430,250,50]
-]
-
+const themes=[
+    {
+        name:"Bos",
+        sky1:"#4cc9f0",
+        sky2:"#d9faff",
+        ground:"#40332a",
+        grass:"#54bd55",
+        mountain:"#70b86d"
+    },
+    {
+        name:"Woestijn",
+        sky1:"#ff9f43",
+        sky2:"#ffe5a0",
+        ground:"#80532e",
+        grass:"#d69c4c",
+        mountain:"#c98045"
+    },
+    {
+        name:"IJs",
+        sky1:"#80dfff",
+        sky2:"#edfaff",
+        ground:"#52758c",
+        grass:"#d9ffff",
+        mountain:"#bdefff"
+    },
+    {
+        name:"Vulkaan",
+        sky1:"#34111b",
+        sky2:"#e34b25",
+        ground:"#281b1b",
+        grass:"#ff692f",
+        mountain:"#531f20"
+    },
+    {
+        name:"Stad",
+        sky1:"#222b50",
+        sky2:"#6572a7",
+        ground:"#30343d",
+        grass:"#4dd0a8",
+        mountain:"#303750"
+    },
+    {
+        name:"Ruimte",
+        sky1:"#08001d",
+        sky2:"#25105e",
+        ground:"#27243d",
+        grass:"#8e70ff",
+        mountain:"#261f54"
+    },
+    {
+        name:"Kasteel",
+        sky1:"#25253b",
+        sky2:"#777895",
+        ground:"#39343e",
+        grass:"#9c78c7",
+        mountain:"#45445d"
+    },
+    {
+        name:"Storm",
+        sky1:"#172238",
+        sky2:"#4b6787",
+        ground:"#29343c",
+        grass:"#5ce1e6",
+        mountain:"#263c52"
+    },
+    {
+        name:"Spookwereld",
+        sky1:"#0b1720",
+        sky2:"#274c51",
+        ground:"#26302d",
+        grass:"#74e09a",
+        mountain:"#183536"
+    },
+    {
+        name:"Dimitri Land",
+        sky1:"#ff4d8d",
+        sky2:"#754cff",
+        ground:"#30204b",
+        grass:"#ffe044",
+        mountain:"#482d70"
+    }
 ];
 
-let platforms = [];
-let coinsArray = [];
-let enemies = [];
-let checkpoints = [];
+
+/* =====================================================
+   LEVEL GENERATOR
+===================================================== */
+
+const levels=[];
+
+function createLevel(level){
+
+    let arr=[];
+    let x=0;
+
+    arr.push([0,550,500,50]);
+
+    const count=9+level;
+
+    for(let i=0;i<count;i++){
+
+        x+=
+            180+
+            Math.random()*100+
+            level*3;
+
+        const y=
+            290+
+            Math.random()*210;
+
+        const w=
+            Math.max(
+                125,
+                210-level*7
+            );
+
+        arr.push([
+            Math.round(x),
+            Math.round(y),
+            Math.round(w),
+            32
+        ]);
+    }
+
+    x+=100;
+
+    arr.push([
+        x,
+        500,
+        450,
+        60
+    ]);
+
+    return arr;
+}
 
 
-/* =========================================================
+/*
+We maken vaste levels zodat ze iedere keer
+hetzelfde zijn.
+*/
+
+for(let i=1;i<=10;i++){
+
+    const oldRandom=Math.random;
+
+    let seed=i*928371;
+
+    Math.random=function(){
+
+        seed=(seed*9301+49297)%233280;
+
+        return seed/233280;
+    };
+
+    levels.push(createLevel(i));
+
+    Math.random=oldRandom;
+}
+
+
+/* =====================================================
+   GAME OBJECTS
+===================================================== */
+
+let platforms=[];
+let movingPlatforms=[];
+let coinsArray=[];
+let enemies=[];
+let spikes=[];
+let lava=[];
+let checkpoints=[];
+let particles=[];
+
+let camera={x:0};
+
+let screenShake=0;
+let levelTransition=0;
+
+
+/* =====================================================
    PLAYER
-========================================================= */
+===================================================== */
 
-const player = {
+const player={
 
-    x: 80,
-    y: 400,
+    x:80,
+    y:400,
 
-    w: 42,
-    h: 52,
+    w:42,
+    h:52,
 
-    vx: 0,
-    vy: 0,
+    vx:0,
+    vy:0,
 
-    maxSpeed: 6,
+    acceleration:.72,
+    friction:.80,
 
-    acceleration: 0.75,
+    maxSpeed:6,
 
-    friction: 0.82,
+    gravity:.58,
 
-    gravity: 0.62,
+    jumpPower:13.5,
 
-    jumpPower: 13.5,
+    grounded:false,
+    wasGrounded:false,
 
-    grounded: false,
+    coyote:0,
+    jumpBuffer:0,
 
-    coyoteTimer: 0,
+    jumpsLeft:0,
 
-    jumpBuffer: 0,
+    facing:1,
 
-    wasGrounded: false,
+    anim:0,
 
-    attackTimer: 0,
+    attackTimer:0,
 
-    facing: 1,
+    dashTimer:0,
+    dashCooldown:0,
 
-    spawnX: 80,
-    spawnY: 400,
+    shieldTimer:0,
 
-    anim: 0
+    smash:false,
+    burstTimer:0,
+
+    spawnX:80,
+    spawnY:400
 };
 
 
-/* =========================================================
-   CAMERA
-========================================================= */
-
-const camera = {
-    x: 0,
-    y: 0
-};
-
-
-/* =========================================================
+/* =====================================================
    PARTICLES
-========================================================= */
+===================================================== */
 
 function particle(
-    x,
-    y,
-    vx,
-    vy,
-    life,
-    size,
-    type = "normal"
-) {
+    x,y,vx,vy,life,size,type
+){
 
     particles.push({
-        x,
-        y,
-        vx,
-        vy,
+        x,y,vx,vy,
         life,
-        maxLife: life,
+        maxLife:life,
         size,
         type
     });
 }
 
 
-function dust(x, y, amount = 5) {
+function burstParticles(
+    x,y,type="normal",amount=15
+){
 
-    for (let i = 0; i < amount; i++) {
+    for(let i=0;i<amount;i++){
 
-        particle(
-            x + (Math.random() - .5) * 30,
-            y,
-            (Math.random() - .5) * 2,
-            -Math.random() * 1.5,
-            25 + Math.random() * 15,
-            3 + Math.random() * 4,
-            "dust"
-        );
-    }
-}
+        const a=
+            Math.random()*Math.PI*2;
 
-
-function coinParticles(x, y) {
-
-    for (let i = 0; i < 12; i++) {
-
-        const angle =
-            Math.random() * Math.PI * 2;
-
-        const speed =
-            1 + Math.random() * 3;
+        const speed=
+            1+Math.random()*4;
 
         particle(
             x,
             y,
-            Math.cos(angle) * speed,
-            Math.sin(angle) * speed,
-            30,
-            3,
-            "coin"
+            Math.cos(a)*speed,
+            Math.sin(a)*speed,
+            25+Math.random()*25,
+            2+Math.random()*4,
+            type
         );
     }
 }
 
 
-/* =========================================================
+function dust(x,y){
+
+    burstParticles(
+        x,y,
+        "dust",
+        8
+    );
+}
+
+
+/* =====================================================
    LOAD LEVEL
-========================================================= */
+===================================================== */
 
-function loadLevel(n) {
+function loadLevel(n){
 
-    platforms =
-        levels[n - 1].map(p => ({
-            x: p[0],
-            y: p[1],
-            w: p[2],
-            h: p[3]
+    platforms=
+        levels[n-1].map(p=>({
+            x:p[0],
+            y:p[1],
+            w:p[2],
+            h:p[3]
         }));
 
-    coinsArray = [];
-    enemies = [];
-    checkpoints = [];
+    movingPlatforms=[];
+    coinsArray=[];
+    enemies=[];
+    spikes=[];
+    lava=[];
+    checkpoints=[];
 
-    for (let i = 0; i < platforms.length; i++) {
+    /*
+       Munten
+    */
 
-        const p = platforms[i];
+    for(let i=1;i<platforms.length-1;i++){
 
-        if (i > 0 && i < platforms.length - 1) {
+        const p=platforms[i];
 
-            coinsArray.push({
-                x: p.x + p.w / 2,
-                y: p.y - 38,
-                collected: false,
-                rotation: Math.random() * 6
+        coinsArray.push({
+            x:p.x+p.w/2,
+            y:p.y-38,
+            collected:false,
+            rot:Math.random()*6
+        });
+
+        /*
+           Vijanden
+        */
+
+        if(i%3===0){
+
+            enemies.push({
+                x:p.x+20,
+                y:p.y-38,
+                w:36,
+                h:38,
+                start:p.x,
+                end:p.x+p.w-36,
+                vx:1+n*.08,
+                alive:true,
+                anim:Math.random()*10
             });
+        }
 
-            if (i % 3 === 0) {
+        /*
+           Spikes
+        */
 
-                enemies.push({
+        if(
+            n>=3 &&
+            i%4===0 &&
+            p.w>150
+        ){
 
-                    x: p.x + 30,
+            spikes.push({
+                x:p.x+p.w/2-30,
+                y:p.y-17,
+                w:60,
+                h:17
+            });
+        }
+    }
 
-                    y: p.y - 38,
 
-                    w: 35,
+    /*
+       Moving platforms vanaf level 4
+    */
 
-                    h: 38,
+    if(n>=4){
 
-                    vx: 1.1 + n * .12,
+        for(let i=0;i<3;i++){
 
-                    start: p.x,
+            const p=
+                platforms[
+                    2+i*3
+                ];
 
-                    end: p.x + p.w - 35,
+            if(p){
 
-                    alive: true,
-
-                    anim: Math.random() * 10
+                movingPlatforms.push({
+                    x:p.x,
+                    y:p.y-90,
+                    w:120,
+                    h:25,
+                    baseX:p.x,
+                    baseY:p.y-90,
+                    t:i*2,
+                    range:70+n*5
                 });
             }
         }
     }
 
-    const middle =
-        Math.floor(platforms.length / 2);
+
+    /*
+       Lava in vulkaan en latere levels
+    */
+
+    if(n===4 || n>=8){
+
+        for(let i=2;i<platforms.length-2;i+=3){
+
+            const p=platforms[i];
+
+            lava.push({
+                x:p.x-60,
+                y:610,
+                w:p.w+120,
+                h:100
+            });
+        }
+    }
+
+
+    /*
+       Checkpoint
+    */
+
+    const middle=
+        platforms[
+            Math.floor(
+                platforms.length/2
+            )
+        ];
 
     checkpoints.push({
-
-        x: platforms[middle].x,
-
-        y: platforms[middle].y - 70,
-
-        active: false
+        x:middle.x,
+        y:middle.y-70,
+        active:false
     });
 
-    player.x = 80;
-    player.y = 400;
 
-    player.vx = 0;
-    player.vy = 0;
+    /*
+       Player reset
+    */
 
-    player.spawnX = 80;
-    player.spawnY = 400;
+    player.x=80;
+    player.y=400;
 
-    camera.x = 0;
+    player.vx=0;
+    player.vy=0;
 
-    levelTransition = 35;
+    player.spawnX=80;
+    player.spawnY=400;
+
+    player.grounded=false;
+    player.jumpsLeft=
+        upgrades.doublejump>0?1:0;
+
+    camera.x=0;
+
+    levelTransition=35;
 
     updateUI();
 }
 
 
-/* =========================================================
+/* =====================================================
    JUMP
-========================================================= */
+===================================================== */
 
-function requestJump() {
+function jump(){
 
-    player.jumpBuffer = 8;
+    if(
+        player.grounded ||
+        player.coyote>0
+    ){
+
+        player.vy=
+            -player.jumpPower;
+
+        player.grounded=false;
+
+        player.coyote=0;
+
+        dust(
+            player.x+player.w/2,
+            player.y+player.h
+        );
+
+        screenShake=2;
+
+        return;
+    }
+
+
+    /*
+       Double jump
+    */
+
+    if(
+        upgrades.doublejump>0 &&
+        player.jumpsLeft>0
+    ){
+
+        player.vy=
+            -player.jumpPower*0.92;
+
+        player.jumpsLeft--;
+
+        burstParticles(
+            player.x+player.w/2,
+            player.y+player.h/2,
+            "jump",
+            10
+        );
+
+        screenShake=3;
+    }
 }
 
 
-function performJump() {
+/* =====================================================
+   SPECIAL ABILITIES
+===================================================== */
 
-    player.vy = -player.jumpPower;
+function dash(){
 
-    player.grounded = false;
+    if(
+        upgrades.dash<=0 ||
+        player.dashCooldown>0
+    )
+        return;
 
-    player.coyoteTimer = 0;
+    player.dashTimer=9;
 
-    player.jumpBuffer = 0;
+    player.dashCooldown=35;
 
-    dust(
-        player.x + player.w / 2,
-        player.y + player.h,
-        8
+    player.vx=
+        player.facing*
+        (16+upgrades.speed);
+
+    player.vy*=.15;
+
+    burstParticles(
+        player.x,
+        player.y+player.h/2,
+        "dash",
+        20
     );
 
-    screenShake = 3;
+    screenShake=5;
 }
 
 
-function updateJumpInput() {
+function groundSmash(){
 
-    if (
-        justPressed[" "] ||
-        justPressed["w"] ||
-        justPressed["arrowup"]
-    ) {
-        requestJump();
-    }
+    if(
+        upgrades.smash<=0 ||
+        player.grounded ||
+        player.smash
+    )
+        return;
 
-    if (
-        player.jumpBuffer > 0
-    ) {
-        player.jumpBuffer--;
-    }
+    player.smash=true;
 
-    if (
-        player.coyoteTimer > 0
-    ) {
-        player.coyoteTimer--;
-    }
+    player.vy=19;
 
-    if (
-        player.jumpBuffer > 0 &&
-        (
-            player.grounded ||
-            player.coyoteTimer > 0
-        )
-    ) {
-        performJump();
-    }
+    burstParticles(
+        player.x+player.w/2,
+        player.y+player.h,
+        "smash",
+        8
+    );
 }
 
 
-/* =========================================================
-   SPECIAL
-========================================================= */
+function shield(){
 
-function specialAttack() {
-
-    if (upgrades.special <= 0)
+    if(
+        upgrades.shield<=0 ||
+        player.shieldTimer>0
+    )
         return;
 
-    if (player.attackTimer > 0)
+    player.shieldTimer=
+        80+
+        upgrades.shield*20;
+
+    burstParticles(
+        player.x+player.w/2,
+        player.y+player.h/2,
+        "shield",
+        20
+    );
+}
+
+
+function powerBurst(){
+
+    if(
+        upgrades.burst<=0 ||
+        player.burstTimer>0
+    )
         return;
 
-    player.attackTimer = 20;
+    player.burstTimer=30;
 
-    const power =
-        50 + upgrades.strength * 25;
+    const range=
+        130+
+        upgrades.strength*25;
 
-    screenShake = 7;
+    enemies.forEach(enemy=>{
 
-    for (let i = 0; i < 25; i++) {
-
-        const angle =
-            Math.random() * Math.PI * 2;
-
-        particle(
-            player.x + player.w / 2,
-            player.y + player.h / 2,
-            Math.cos(angle) * 4,
-            Math.sin(angle) * 4,
-            30,
-            4,
-            "special"
-        );
-    }
-
-    enemies.forEach(enemy => {
-
-        if (!enemy.alive)
+        if(!enemy.alive)
             return;
 
-        const dx =
-            enemy.x -
-            player.x;
+        const dx=
+            enemy.x-player.x;
 
-        if (
-            Math.abs(dx) < 140 &&
-            Math.abs(enemy.y - player.y) < 90
-        ) {
+        const dy=
+            enemy.y-player.y;
 
-            enemy.vx +=
-                dx > 0
-                    ? power / 100
-                    : -power / 100;
+        if(
+            Math.abs(dx)<range &&
+            Math.abs(dy)<100
+        ){
 
-            if (upgrades.strength >= 2) {
-
-                enemy.alive = false;
-
-                coinParticles(
-                    enemy.x,
-                    enemy.y
-                );
+            if(
+                upgrades.strength>=1
+            ){
+                enemy.alive=false;
+            }else{
+                enemy.vx+=
+                    dx>0?5:-5;
             }
         }
     });
+
+    burstParticles(
+        player.x+player.w/2,
+        player.y+player.h/2,
+        "burst",
+        45
+    );
+
+    screenShake=12;
 }
 
 
-/* =========================================================
+function specialAttack(){
+
+    if(
+        upgrades.special<=0 ||
+        player.attackTimer>0
+    )
+        return;
+
+    player.attackTimer=22;
+
+    const range=
+        120+
+        upgrades.strength*25;
+
+    enemies.forEach(enemy=>{
+
+        if(!enemy.alive)
+            return;
+
+        const dx=
+            enemy.x-player.x;
+
+        const dy=
+            enemy.y-player.y;
+
+        if(
+            Math.abs(dx)<range &&
+            Math.abs(dy)<90
+        ){
+
+            enemy.vx+=
+                dx>0?5:-5;
+
+            if(upgrades.strength>=2)
+                enemy.alive=false;
+        }
+    });
+
+    burstParticles(
+        player.x+player.w/2,
+        player.y+player.h/2,
+        "special",
+        25
+    );
+
+    screenShake=7;
+}
+
+
+/* =====================================================
    SHOP
-========================================================= */
+===================================================== */
 
-document.getElementById("shopButton").onclick =
-    () => {
+document.getElementById("shopButton").onclick=()=>{
+    document.getElementById("shop").style.display="block";
+    updateUI();
+};
 
-        document.getElementById("shop").style.display =
-            "block";
-
-        updateUI();
-    };
-
-
-function closeShop() {
-
-    document.getElementById("shop").style.display =
-        "none";
+function closeShop(){
+    document.getElementById("shop").style.display="none";
 }
 
 
-function getPrices() {
+function prices(){
 
-    return {
+    return{
 
-        special:
-            15 + upgrades.special * 15,
+        special:15+upgrades.special*15,
+        strength:20+upgrades.strength*20,
+        speed:25+upgrades.speed*25,
+        torrie:35+upgrades.torrie*30,
 
-        strength:
-            20 + upgrades.strength * 20,
-
-        speed:
-            25 + upgrades.speed * 25,
-
-        torrie:
-            35 + upgrades.torrie * 30
+        dash:20+upgrades.dash*20,
+        doublejump:30+upgrades.doublejump*25,
+        smash:35+upgrades.smash*30,
+        shield:40+upgrades.shield*35,
+        burst:50+upgrades.burst*40
     };
 }
 
 
-function buyUpgrade(type) {
+function buyUpgrade(type){
 
-    const prices = getPrices();
+    const p=prices();
 
-    if (coins < prices[type]) {
+    if(coins<p[type]){
 
         alert("Je hebt niet genoeg munten!");
 
         return;
     }
 
-    coins -= prices[type];
+    coins-=p[type];
 
     upgrades[type]++;
 
-    if (type === "speed") {
-
-        player.maxSpeed =
-            6 + upgrades.speed * .8;
-    }
-
-    if (type === "torrie") {
-
+    if(type==="torrie")
         lives++;
-    }
 
     localStorage.setItem(
         "dimitriCoins",
         coins
     );
 
-    localStorage.setItem(
-        "special",
-        upgrades.special
-    );
-
-    localStorage.setItem(
-        "strength",
-        upgrades.strength
-    );
-
-    localStorage.setItem(
-        "speed",
-        upgrades.speed
-    );
-
-    localStorage.setItem(
-        "torrie",
-        upgrades.torrie
-    );
+    Object.keys(upgrades).forEach(k=>{
+        localStorage.setItem(
+            k,
+            upgrades[k]
+        );
+    });
 
     updateUI();
 }
 
 
-/* =========================================================
+/* =====================================================
    UPDATE
-========================================================= */
+===================================================== */
 
-function update() {
+function update(){
 
-    updateJumpInput();
+    /*
+       Ability keys
+    */
 
-    player.wasGrounded =
+    if(pressed[" "]||pressed["w"]||pressed["arrowup"])
+        jump();
+
+    if(pressed["q"])
+        dash();
+
+    if(pressed["g"])
+        groundSmash();
+
+    if(pressed["r"])
+        shield();
+
+    if(pressed["e"])
+        specialAttack();
+
+    if(pressed["f"] && upgrades.doublejump>0)
+        jump();
+
+    /*
+       Movement
+    */
+
+    let moving=false;
+
+    if(keys["a"]||keys["arrowleft"]){
+
+        player.vx-=player.acceleration;
+        player.facing=-1;
+        moving=true;
+    }
+
+    if(keys["d"]||keys["arrowright"]){
+
+        player.vx+=player.acceleration;
+        player.facing=1;
+        moving=true;
+    }
+
+    if(!moving)
+        player.vx*=player.friction;
+
+
+    const maxSpeed=
+        6+
+        upgrades.speed*.8;
+
+    if(player.dashTimer<=0){
+
+        player.vx=
+            Math.max(
+                -maxSpeed,
+                Math.min(
+                    maxSpeed,
+                    player.vx
+                )
+            );
+    }
+
+
+    /*
+       Gravity
+    */
+
+    player.vy+=player.gravity;
+
+    if(player.vy>18)
+        player.vy=18;
+
+
+    /*
+       Ground smash
+    */
+
+    if(player.smash)
+        player.vy=22;
+
+
+    /*
+       Position
+    */
+
+    player.x+=player.vx;
+    player.y+=player.vy;
+
+
+    player.wasGrounded=
         player.grounded;
 
-    /* MOVEMENT */
-
-    let moving = false;
-
-    if (
-        keys["arrowleft"] ||
-        keys["a"]
-    ) {
-
-        player.vx -=
-            player.acceleration;
-
-        moving = true;
-
-        player.facing = -1;
-    }
-
-    if (
-        keys["arrowright"] ||
-        keys["d"]
-    ) {
-
-        player.vx +=
-            player.acceleration;
-
-        moving = true;
-
-        player.facing = 1;
-    }
-
-    if (!moving) {
-
-        player.vx *=
-            player.friction;
-    }
-
-    const maxSpeed =
-        6 + upgrades.speed * .8;
-
-    if (player.vx > maxSpeed)
-        player.vx = maxSpeed;
-
-    if (player.vx < -maxSpeed)
-        player.vx = -maxSpeed;
+    player.grounded=false;
 
 
-    /* GRAVITY */
+    /*
+       Platforms
+    */
 
-    player.vy +=
-        player.gravity;
+    const allPlatforms=
+        platforms.concat(movingPlatforms);
 
-    if (player.vy > 17)
-        player.vy = 17;
+    allPlatforms.forEach(p=>{
 
+        const horizontal=
+            player.x+player.w>p.x &&
+            player.x<p.x+p.w;
 
-    /* POSITION */
+        const falling=
+            player.vy>=0;
 
-    player.x += player.vx;
+        const previousBottom=
+            player.y+
+            player.h-
+            player.vy;
 
-    player.y += player.vy;
-
-
-    /* GROUND */
-
-    player.grounded = false;
-
-
-    /* PLATFORM COLLISION */
-
-    platforms.forEach(p => {
-
-        const wasBelow =
-            player.y + player.h -
-            player.vy <= p.y + 5;
-
-        const horizontal =
-            player.x + player.w > p.x &&
-            player.x < p.x + p.w;
-
-        const vertical =
-            player.y + player.h >= p.y &&
-            player.y + player.h <=
-            p.y + p.h + 15;
-
-        if (
+        if(
             horizontal &&
-            vertical &&
-            player.vy >= 0 &&
-            wasBelow
-        ) {
+            falling &&
+            previousBottom<=p.y+8 &&
+            player.y+player.h>=p.y &&
+            player.y+player.h<=p.y+p.h+18
+        ){
 
-            player.y =
-                p.y - player.h;
+            player.y=
+                p.y-player.h;
 
-            player.vy = 0;
+            player.vy=0;
 
-            player.grounded = true;
+            player.grounded=true;
 
-            if (!player.wasGrounded) {
+            if(player.smash){
 
-                dust(
-                    player.x + player.w / 2,
-                    player.y + player.h,
-                    7
+                burstParticles(
+                    player.x+player.w/2,
+                    player.y+player.h,
+                    "smash",
+                    25
                 );
 
-                screenShake = 2;
+                screenShake=9;
+
+                enemies.forEach(enemy=>{
+
+                    if(
+                        Math.abs(enemy.x-player.x)<150
+                    )
+                        enemy.alive=false;
+                });
+
+                player.smash=false;
+            }
+
+            if(!player.wasGrounded){
+
+                dust(
+                    player.x+player.w/2,
+                    player.y+player.h
+                );
             }
         }
     });
 
 
-    /* COYOTE TIME */
+    /*
+       Coyote
+    */
 
-    if (
+    if(
         player.wasGrounded &&
         !player.grounded &&
-        player.vy >= 0
-    ) {
+        player.vy>=0
+    )
+        player.coyote=8;
 
-        player.coyoteTimer = 7;
+    else if(player.coyote>0)
+        player.coyote--;
+
+
+    /*
+       Double jump reset
+    */
+
+    if(
+        player.grounded
+    ){
+
+        player.jumpsLeft=
+            upgrades.doublejump>0?1:0;
     }
 
 
-    /* COINS */
+    /*
+       Moving platforms
+    */
 
-    coinsArray.forEach(c => {
+    movingPlatforms.forEach(p=>{
 
-        if (c.collected)
+        p.t+=.025;
+
+        p.x=
+            p.baseX+
+            Math.sin(p.t)*
+            p.range;
+
+        p.y=
+            p.baseY+
+            Math.sin(p.t*.7)*
+            25;
+    });
+
+
+    /*
+       Coins
+    */
+
+    coinsArray.forEach(c=>{
+
+        if(c.collected)
             return;
 
-        c.rotation += .08;
+        c.rot+=.08;
 
-        const dx =
-            player.x +
-            player.w / 2 -
-            c.x;
+        const dx=
+            player.x+player.w/2-c.x;
 
-        const dy =
-            player.y +
-            player.h / 2 -
-            c.y;
+        const dy=
+            player.y+player.h/2-c.y;
 
-        const distance =
-            Math.sqrt(
-                dx * dx +
-                dy * dy
-            );
+        if(
+            Math.sqrt(dx*dx+dy*dy)<35
+        ){
 
-        if (distance < 34) {
-
-            c.collected = true;
+            c.collected=true;
 
             coins++;
 
-            coinParticles(
+            burstParticles(
                 c.x,
-                c.y
+                c.y,
+                "coin",
+                15
             );
-
-            screenShake = 2;
 
             localStorage.setItem(
                 "dimitriCoins",
@@ -1075,58 +1366,51 @@ function update() {
     });
 
 
-    /* ENEMIES */
+    /*
+       Enemies
+    */
 
-    enemies.forEach(enemy => {
+    enemies.forEach(enemy=>{
 
-        if (!enemy.alive)
+        if(!enemy.alive)
             return;
 
-        enemy.anim += .1;
+        enemy.anim+=.1;
 
-        enemy.x += enemy.vx;
+        enemy.x+=enemy.vx;
 
-        if (
-            enemy.x <= enemy.start ||
-            enemy.x >= enemy.end
-        ) {
-
-            enemy.vx *= -1;
-        }
+        if(
+            enemy.x<=enemy.start ||
+            enemy.x>=enemy.end
+        )
+            enemy.vx*=-1;
 
 
-        /* PLAYER / ENEMY */
+        if(
+            player.x<enemy.x+enemy.w &&
+            player.x+player.w>enemy.x &&
+            player.y<enemy.y+enemy.h &&
+            player.y+player.h>enemy.y
+        ){
 
-        if (
-            player.x <
-                enemy.x + enemy.w &&
-            player.x + player.w >
-                enemy.x &&
-            player.y <
-                enemy.y + enemy.h &&
-            player.y + player.h >
-                enemy.y
-        ) {
+            if(
+                player.vy>0 &&
+                player.y+player.h<
+                enemy.y+20
+            ){
 
-            if (
-                player.vy > 0 &&
-                player.y +
-                player.h <
-                enemy.y + 18
-            ) {
+                enemy.alive=false;
 
-                enemy.alive = false;
+                player.vy=-9;
 
-                player.vy = -9;
-
-                coinParticles(
+                burstParticles(
                     enemy.x,
-                    enemy.y
+                    enemy.y,
+                    "enemy",
+                    15
                 );
 
-                screenShake = 4;
-
-            } else {
+            }else if(player.shieldTimer<=0){
 
                 loseLife();
             }
@@ -1134,223 +1418,275 @@ function update() {
     });
 
 
-    /* CHECKPOINT */
+    /*
+       Spikes
+    */
 
-    checkpoints.forEach(cp => {
+    spikes.forEach(s=>{
 
-        if (
-            player.x > cp.x &&
-            !cp.active
-        ) {
+        if(
+            player.x+player.w>s.x &&
+            player.x<s.x+s.w &&
+            player.y+player.h>s.y &&
+            player.y<s.y+s.h
+        ){
 
-            cp.active = true;
-
-            player.spawnX =
-                cp.x;
-
-            player.spawnY =
-                cp.y;
-
-            for (let i = 0; i < 15; i++) {
-
-                particle(
-                    cp.x,
-                    cp.y,
-                    (Math.random()-.5)*3,
-                    -Math.random()*3,
-                    35,
-                    4,
-                    "checkpoint"
-                );
-            }
+            if(player.shieldTimer<=0)
+                loseLife();
         }
     });
 
 
-    /* ATTACK TIMER */
+    /*
+       Lava
+    */
 
-    if (player.attackTimer > 0) {
+    lava.forEach(l=>{
 
+        if(
+            player.x+player.w>l.x &&
+            player.x<l.x+l.w &&
+            player.y+player.h>l.y
+        ){
+
+            if(player.shieldTimer<=0)
+                loseLife();
+        }
+    });
+
+
+    /*
+       Checkpoint
+    */
+
+    checkpoints.forEach(cp=>{
+
+        if(
+            player.x>cp.x &&
+            !cp.active
+        ){
+
+            cp.active=true;
+
+            player.spawnX=cp.x;
+            player.spawnY=cp.y;
+
+            burstParticles(
+                cp.x,
+                cp.y,
+                "checkpoint",
+                20
+            );
+        }
+    });
+
+
+    /*
+       Abilities timers
+    */
+
+    if(player.attackTimer>0)
         player.attackTimer--;
-    }
+
+    if(player.dashTimer>0)
+        player.dashTimer--;
+
+    if(player.dashCooldown>0)
+        player.dashCooldown--;
+
+    if(player.shieldTimer>0)
+        player.shieldTimer--;
+
+    if(player.burstTimer>0)
+        player.burstTimer--;
 
 
-    /* PLAYER ANIMATION */
+    /*
+       Animation
+    */
 
-    player.anim +=
-        Math.abs(player.vx) * .12;
+    player.anim+=
+        Math.abs(player.vx)*.12;
 
 
-    /* FALL */
+    /*
+       Fall
+    */
 
-    if (
-        player.y >
-        canvas.height + 200
-    ) {
-
+    if(
+        player.y>H+250
+    )
         loseLife();
-    }
 
 
-    /* NEXT LEVEL */
+    /*
+       End
+    */
 
-    const lastPlatform =
+    const last=
         platforms[
-            platforms.length - 1
+            platforms.length-1
         ];
 
-    if (
-        player.x >
-        lastPlatform.x +
-        lastPlatform.w - 80
-    ) {
-
+    if(
+        player.x>
+        last.x+last.w-80
+    )
         nextLevel();
-    }
 
 
-    /* CAMERA */
+    /*
+       Camera
+    */
 
-    const targetCamera =
-        player.x -
-        W * .35;
+    const target=
+        player.x-W*.35;
 
-    camera.x +=
-        (
-            targetCamera -
-            camera.x
-        ) * .10;
+    camera.x+=
+        (target-camera.x)*.1;
 
-    if (camera.x < 0)
-        camera.x = 0;
+    if(camera.x<0)
+        camera.x=0;
 
 
-    /* PARTICLES */
+    /*
+       Particles
+    */
 
-    particles.forEach(p => {
+    particles.forEach(p=>{
 
-        p.x += p.vx;
-        p.y += p.vy;
+        p.x+=p.vx;
+        p.y+=p.vy;
 
-        p.vy +=
-            p.type === "dust"
-                ? .03
-                : .08;
+        p.vy+=
+            p.type==="dust"
+            ?.025
+            :.07;
 
         p.life--;
     });
 
-    particles =
+    particles=
         particles.filter(
-            p => p.life > 0
+            p=>p.life>0
         );
 
 
-    /* SCREEN SHAKE */
+    if(screenShake>0){
 
-    if (screenShake > 0) {
+        screenShake*=.82;
 
-        screenShake *= .82;
-
-        if (screenShake < .1)
-            screenShake = 0;
+        if(screenShake<.1)
+            screenShake=0;
     }
 
-    if (levelTransition > 0)
+
+    if(levelTransition>0)
         levelTransition--;
 
-    /* CLEAR JUST PRESSED */
 
-    for (const key in justPressed) {
+    /*
+       Clear pressed keys
+    */
 
-        delete justPressed[key];
-    }
+    for(const k in pressed)
+        delete pressed[k];
 }
 
 
-/* =========================================================
+/* =====================================================
    LIFE
-========================================================= */
+===================================================== */
 
-function loseLife() {
+let deathLock=false;
+
+function loseLife(){
+
+    if(deathLock)
+        return;
+
+    deathLock=true;
 
     lives--;
 
-    screenShake = 10;
+    screenShake=12;
 
-    for (let i = 0; i < 20; i++) {
+    burstParticles(
+        player.x+player.w/2,
+        player.y+player.h/2,
+        "death",
+        25
+    );
 
-        particle(
-            player.x + player.w / 2,
-            player.y + player.h / 2,
-            (Math.random()-.5)*5,
-            (Math.random()-.5)*5,
-            35,
-            4,
-            "special"
-        );
-    }
-
-    if (lives <= 0) {
+    if(lives<=0){
 
         showMessage(
-            "GAME OVER<br><small>Druk op ENTER</small>"
+            "💀 GAME OVER<br><small>Druk op ENTER</small>"
         );
 
-        document.addEventListener(
+        addEventListener(
             "keydown",
-            restartGameOnce
+            restartOnce
         );
 
-    } else {
+    }else{
 
-        player.x =
-            player.spawnX;
+        setTimeout(()=>{
 
-        player.y =
-            player.spawnY;
+            player.x=player.spawnX;
+            player.y=player.spawnY;
 
-        player.vx = 0;
-        player.vy = 0;
+            player.vx=0;
+            player.vy=0;
+
+            player.shieldTimer=0;
+
+            deathLock=false;
+
+        },350);
     }
 
     updateUI();
 }
 
 
-function restartGameOnce(e) {
+function restartOnce(e){
 
-    if (e.key === "Enter") {
+    if(e.key==="Enter"){
 
-        lives =
-            3 + upgrades.torrie;
+        lives=
+            3+
+            upgrades.torrie;
 
-        currentLevel = 1;
+        currentLevel=1;
 
-        loadLevel(
-            currentLevel
-        );
+        loadLevel(1);
 
         hideMessage();
 
-        document.removeEventListener(
+        deathLock=false;
+
+        removeEventListener(
             "keydown",
-            restartGameOnce
+            restartOnce
         );
     }
 }
 
 
-/* =========================================================
+/* =====================================================
    NEXT LEVEL
-========================================================= */
+===================================================== */
 
-function nextLevel() {
+function nextLevel(){
 
-    if (currentLevel >= 10) {
+    if(levelTransition>0)
+        return;
+
+    if(currentLevel>=10){
 
         showMessage(
-            "🏆 DIMITRI HEEFT GEWONNEN! 🏆" +
+            "👑 DIMITRI IS DE BAAS! 👑"+
             "<br><small>Alle 10 levels gehaald!</small>"
         );
 
@@ -1365,81 +1701,113 @@ function nextLevel() {
 }
 
 
-/* =========================================================
-   DRAW BACKGROUND
-========================================================= */
+/* =====================================================
+   BACKGROUND
+===================================================== */
 
-function drawBackground() {
+function drawBackground(){
 
-    const gradient =
+    const t=
+        themes[
+            currentLevel-1
+        ];
+
+    const gradient=
         ctx.createLinearGradient(
-            0,
-            0,
-            0,
-            H
+            0,0,0,H
         );
 
     gradient.addColorStop(
         0,
-        "#43bdf5"
-    );
-
-    gradient.addColorStop(
-        .55,
-        "#8cddff"
+        t.sky1
     );
 
     gradient.addColorStop(
         1,
-        "#e2f8ff"
+        t.sky2
     );
 
-    ctx.fillStyle =
-        gradient;
+    ctx.fillStyle=gradient;
 
     ctx.fillRect(
-        0,
-        0,
-        W,
-        H
+        0,0,W,H
     );
 
 
-    /* SUN */
+    /*
+       Space stars
+    */
+
+    if(currentLevel===6){
+
+        ctx.fillStyle="white";
+
+        for(let i=0;i<100;i++){
+
+            const x=
+                ((i*173)-
+                camera.x*.05)
+                % (W+100);
+
+            const y=
+                (i*97)%H;
+
+            ctx.globalAlpha=
+                .3+
+                (i%5)/10;
+
+            ctx.fillRect(
+                x,
+                y,
+                2,
+                2
+            );
+        }
+
+        ctx.globalAlpha=1;
+    }
+
+
+    /*
+       Sun / moon
+    */
 
     ctx.beginPath();
 
     ctx.arc(
-        W - 120,
+        W-110,
         100,
-        55,
+        48,
         0,
-        Math.PI * 2
+        Math.PI*2
     );
 
-    ctx.fillStyle =
-        "rgba(255,238,120,.85)";
+    ctx.fillStyle=
+        currentLevel===6
+        ?"rgba(180,170,255,.8)"
+        :"rgba(255,240,130,.8)";
 
     ctx.fill();
 
 
-    /* FAR MOUNTAINS */
+    /*
+       Mountains
+    */
 
     ctx.save();
 
     ctx.translate(
-        -camera.x * .18,
+        -camera.x*.15,
         0
     );
 
-    ctx.fillStyle =
-        "rgba(90,180,145,.35)";
+    ctx.fillStyle=t.mountain;
 
-    for (
-        let x = -1000;
-        x < 6000;
-        x += 500
-    ) {
+    for(
+        let x=-1000;
+        x<6000;
+        x+=500
+    ){
 
         ctx.beginPath();
 
@@ -1449,12 +1817,12 @@ function drawBackground() {
         );
 
         ctx.lineTo(
-            x + 250,
+            x+250,
             260
         );
 
         ctx.lineTo(
-            x + 500,
+            x+500,
             H
         );
 
@@ -1466,118 +1834,193 @@ function drawBackground() {
     ctx.restore();
 
 
-    /* CLOUDS */
+    /*
+       City buildings
+    */
 
-    ctx.save();
+    if(currentLevel===5){
 
-    ctx.translate(
-        -camera.x * .08,
-        0
-    );
+        ctx.save();
 
-    for (
-        let x = -500;
-        x < 6000;
-        x += 700
-    ) {
-
-        const y =
-            100 +
-            Math.sin(x) * 40;
-
-        ctx.fillStyle =
-            "rgba(255,255,255,.45)";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x,
-            y,
-            30,
-            0,
-            Math.PI * 2
+        ctx.translate(
+            -camera.x*.25,
+            0
         );
 
-        ctx.arc(
-            x + 35,
-            y - 10,
-            40,
-            0,
-            Math.PI * 2
-        );
+        for(
+            let x=-500;
+            x<6000;
+            x+=170
+        ){
 
-        ctx.arc(
-            x + 75,
-            y,
-            28,
-            0,
-            Math.PI * 2
-        );
+            const height=
+                100+
+                Math.abs(
+                    Math.sin(x)
+                )*230;
 
-        ctx.fill();
+            ctx.fillStyle=
+                "#20243b";
+
+            ctx.fillRect(
+                x,
+                550-height,
+                120,
+                height
+            );
+
+            ctx.fillStyle=
+                "#ffd95a";
+
+            for(
+                let y=580-height;
+                y<530;
+                y+=35
+            ){
+
+                ctx.fillRect(
+                    x+15,
+                    y,
+                    12,
+                    17
+                );
+
+                ctx.fillRect(
+                    x+48,
+                    y,
+                    12,
+                    17
+                );
+
+                ctx.fillRect(
+                    x+81,
+                    y,
+                    12,
+                    17
+                );
+            }
+        }
+
+        ctx.restore();
     }
 
-    ctx.restore();
+
+    /*
+       Clouds
+    */
+
+    if(
+        currentLevel!==6 &&
+        currentLevel!==4
+    ){
+
+        ctx.save();
+
+        ctx.translate(
+            -camera.x*.07,
+            0
+        );
+
+        for(
+            let x=-500;
+            x<6000;
+            x+=750
+        ){
+
+            const y=
+                90+
+                Math.sin(x)*35;
+
+            ctx.fillStyle=
+                "rgba(255,255,255,.35)";
+
+            ctx.beginPath();
+
+            ctx.arc(
+                x,y,
+                28,
+                0,
+                Math.PI*2
+            );
+
+            ctx.arc(
+                x+35,y-12,
+                38,
+                0,
+                Math.PI*2
+            );
+
+            ctx.arc(
+                x+75,y,
+                28,
+                0,
+                Math.PI*2
+            );
+
+            ctx.fill();
+        }
+
+        ctx.restore();
+    }
 }
 
 
-/* =========================================================
-   DRAW GAME
-========================================================= */
+/* =====================================================
+   DRAW
+===================================================== */
 
-function draw() {
+function draw(){
 
     ctx.clearRect(
-        0,
-        0,
-        W,
-        H
+        0,0,W,H
     );
 
     drawBackground();
 
-
     ctx.save();
 
-    const shakeX =
-        screenShake > 0
-            ? (Math.random()-.5) *
-              screenShake
-            : 0;
+    const sx=
+        screenShake?
+        (Math.random()-.5)*
+        screenShake:
+        0;
 
-    const shakeY =
-        screenShake > 0
-            ? (Math.random()-.5) *
-              screenShake
-            : 0;
+    const sy=
+        screenShake?
+        (Math.random()-.5)*
+        screenShake:
+        0;
 
     ctx.translate(
-        -camera.x + shakeX,
-        shakeY
+        -camera.x+sx,
+        sy
     );
 
 
-    /* PLATFORM */
+    const t=
+        themes[
+            currentLevel-1
+        ];
 
-    platforms.forEach(p => {
 
-        /* shadow */
+    /*
+       Platforms
+    */
 
-        ctx.fillStyle =
-            "rgba(0,0,0,.15)";
+    platforms.forEach(p=>{
+
+        ctx.fillStyle=
+            "rgba(0,0,0,.18)";
 
         ctx.fillRect(
-            p.x + 5,
-            p.y + 8,
+            p.x+6,
+            p.y+8,
             p.w,
             p.h
         );
 
-
-        /* dirt */
-
-        ctx.fillStyle =
-            "#40332a";
+        ctx.fillStyle=
+            t.ground;
 
         ctx.fillRect(
             p.x,
@@ -1586,126 +2029,194 @@ function draw() {
             p.h
         );
 
-
-        /* grass */
-
-        ctx.fillStyle =
-            "#4fbd52";
+        ctx.fillStyle=
+            t.grass;
 
         ctx.fillRect(
             p.x,
             p.y,
             p.w,
-            9
-        );
-
-
-        /* grass highlight */
-
-        ctx.fillStyle =
-            "#75dc68";
-
-        ctx.fillRect(
-            p.x,
-            p.y,
-            p.w,
-            3
+            8
         );
     });
 
 
-    /* COINS */
+    /*
+       Moving platforms
+    */
 
-    coinsArray.forEach(c => {
+    movingPlatforms.forEach(p=>{
 
-        if (c.collected)
+        ctx.fillStyle=
+            "rgba(0,0,0,.2)";
+
+        ctx.fillRect(
+            p.x+5,
+            p.y+6,
+            p.w,
+            p.h
+        );
+
+        ctx.fillStyle=
+            "#a879ff";
+
+        ctx.fillRect(
+            p.x,
+            p.y,
+            p.w,
+            p.h
+        );
+    });
+
+
+    /*
+       Lava
+    */
+
+    lava.forEach(l=>{
+
+        const wave=
+            Math.sin(
+                performance.now()/150
+            )*5;
+
+        ctx.fillStyle=
+            "#ff3d1f";
+
+        ctx.fillRect(
+            l.x,
+            l.y+wave,
+            l.w,
+            l.h
+        );
+
+        ctx.fillStyle=
+            "#ffb000";
+
+        for(
+            let x=l.x;
+            x<l.x+l.w;
+            x+=35
+        ){
+
+            ctx.beginPath();
+
+            ctx.arc(
+                x,
+                l.y+wave,
+                8,
+                0,
+                Math.PI*2
+            );
+
+            ctx.fill();
+        }
+    });
+
+
+    /*
+       Spikes
+    */
+
+    spikes.forEach(s=>{
+
+        ctx.fillStyle=
+            "#d9e0e7";
+
+        for(
+            let x=s.x;
+            x<s.x+s.w;
+            x+=15
+        ){
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x,
+                s.y+s.h
+            );
+
+            ctx.lineTo(
+                x+7.5,
+                s.y
+            );
+
+            ctx.lineTo(
+                x+15,
+                s.y+s.h
+            );
+
+            ctx.closePath();
+
+            ctx.fill();
+        }
+    });
+
+
+    /*
+       Coins
+    */
+
+    coinsArray.forEach(c=>{
+
+        if(c.collected)
             return;
 
-        const bob =
-            Math.sin(
-                c.rotation
-            ) * 5;
-
-        const scale =
-            .75 +
-            Math.abs(
-                Math.cos(
-                    c.rotation
-                )
-            ) * .25;
+        const bob=
+            Math.sin(c.rot)*5;
 
         ctx.save();
 
         ctx.translate(
             c.x,
-            c.y + bob
+            c.y+bob
         );
 
-        ctx.scale(
-            scale,
-            1
-        );
+        ctx.shadowColor=
+            "#ffe44d";
 
-        /* glow */
+        ctx.shadowBlur=20;
+
+        ctx.fillStyle=
+            "#ffd43b";
 
         ctx.beginPath();
 
-        ctx.arc(
-            0,
-            0,
-            22,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fillStyle =
-            "rgba(255,220,40,.18)";
-
-        ctx.fill();
-
-
-        ctx.beginPath();
-
-        ctx.arc(
+        ctx.ellipse(
             0,
             0,
             12,
+            15,
             0,
-            Math.PI * 2
+            0,
+            Math.PI*2
         );
-
-        ctx.fillStyle =
-            "#ffd43b";
 
         ctx.fill();
 
-        ctx.strokeStyle =
-            "#a86d00";
+        ctx.shadowBlur=0;
 
-        ctx.lineWidth = 3;
-
-        ctx.stroke();
-
-        ctx.fillStyle =
-            "#fff4a6";
+        ctx.fillStyle=
+            "#fff4a3";
 
         ctx.fillRect(
             -3,
-            -7,
+            -8,
             5,
-            14
+            16
         );
 
         ctx.restore();
     });
 
 
-    /* CHECKPOINTS */
+    /*
+       Checkpoints
+    */
 
-    checkpoints.forEach(cp => {
+    checkpoints.forEach(cp=>{
 
-        ctx.fillStyle =
-            "#333";
+        ctx.fillStyle="#333";
 
         ctx.fillRect(
             cp.x,
@@ -1714,26 +2225,36 @@ function draw() {
             70
         );
 
-        ctx.fillStyle =
+        ctx.fillStyle=
             cp.active
-                ? "#00ff9d"
-                : "#ff4c4c";
+            ?" #00ff99"
+            :"#ff4747";
+
+        ctx.fillStyle=
+            cp.active
+            ?" #00ff99"
+            :"#ff4747";
+
+        ctx.fillStyle=
+            cp.active
+            ?"rgb(0,255,153)"
+            :"rgb(255,71,71)";
 
         ctx.beginPath();
 
         ctx.moveTo(
-            cp.x + 5,
+            cp.x+5,
             cp.y
         );
 
         ctx.lineTo(
-            cp.x + 42,
-            cp.y + 15
+            cp.x+42,
+            cp.y+15
         );
 
         ctx.lineTo(
-            cp.x + 5,
-            cp.y + 30
+            cp.x+5,
+            cp.y+30
         );
 
         ctx.closePath();
@@ -1742,32 +2263,32 @@ function draw() {
     });
 
 
-    /* ENEMIES */
+    /*
+       Enemies
+    */
 
-    enemies.forEach(enemy => {
+    enemies.forEach(enemy=>{
 
-        if (!enemy.alive)
+        if(!enemy.alive)
             return;
 
-        const bounce =
-            Math.sin(enemy.anim) * 2;
+        const bob=
+            Math.sin(enemy.anim)*2;
 
         ctx.save();
 
         ctx.translate(
             enemy.x,
-            enemy.y + bounce
+            enemy.y+bob
         );
 
-        /* glow */
+        ctx.shadowColor=
+            "rgba(180,60,255,.7)";
 
-        ctx.shadowColor =
-            "rgba(160,70,255,.5)";
+        ctx.shadowBlur=16;
 
-        ctx.shadowBlur = 15;
-
-        ctx.fillStyle =
-            "#9b4dff";
+        ctx.fillStyle=
+            "#984cff";
 
         ctx.fillRect(
             0,
@@ -1776,96 +2297,71 @@ function draw() {
             enemy.h
         );
 
-        ctx.shadowBlur = 0;
+        ctx.shadowBlur=0;
 
-        /* eyes */
-
-        ctx.fillStyle =
-            "white";
+        ctx.fillStyle="white";
 
         ctx.fillRect(
-            7,
-            8,
-            7,
-            7
+            7,8,7,7
         );
 
         ctx.fillRect(
-            22,
-            8,
-            7,
-            7
+            22,8,7,7
         );
 
-        ctx.fillStyle =
-            "#111";
+        ctx.fillStyle="#111";
 
         ctx.fillRect(
-            9,
-            10,
-            3,
-            3
+            9,10,3,3
         );
 
         ctx.fillRect(
-            24,
-            10,
-            3,
-            3
+            24,10,3,3
         );
 
         ctx.restore();
     });
 
 
-    /* FINISH FLAG */
+    /*
+       Finish flag
+    */
 
-    const finish =
+    const finish=
         platforms[
-            platforms.length - 1
+            platforms.length-1
         ];
 
-    ctx.fillStyle =
-        "#333";
+    ctx.fillStyle="#333";
 
     ctx.fillRect(
-        finish.x +
-        finish.w -
-        45,
-
-        finish.y - 100,
-
+        finish.x+
+        finish.w-45,
+        finish.y-110,
         6,
-        100
+        110
     );
 
-    ctx.fillStyle =
-        "#ff3366";
+    ctx.fillStyle="#ffdf3d";
 
     ctx.beginPath();
 
     ctx.moveTo(
-        finish.x +
-        finish.w -
-        39,
-
-        finish.y - 100
+        finish.x+
+        finish.w-39,
+        finish.y-110
     );
 
     ctx.lineTo(
-        finish.x +
-        finish.w -
-        5,
-
-        finish.y - 80
+        finish.x+
+        finish.w-5,
+        finish.y-88
     );
 
     ctx.lineTo(
-        finish.x +
-        finish.w -
-        39,
-
-        finish.y - 60
+        finish.x+
+        finish.w-39,
+        finish.y-66
     );
 
     ctx.closePath();
@@ -1873,25 +2369,82 @@ function draw() {
     ctx.fill();
 
 
-    /* PLAYER */
+    /*
+       Shield
+    */
 
-    const walkBounce =
+    if(player.shieldTimer>0){
+
+        ctx.beginPath();
+
+        ctx.arc(
+            player.x+player.w/2,
+            player.y+player.h/2,
+            39,
+            0,
+            Math.PI*2
+        );
+
+        ctx.strokeStyle=
+            "rgba(80,220,255,.8)";
+
+        ctx.lineWidth=5;
+
+        ctx.shadowColor="#48e7ff";
+        ctx.shadowBlur=20;
+
+        ctx.stroke();
+
+        ctx.shadowBlur=0;
+    }
+
+
+    /*
+       Burst ring
+    */
+
+    if(player.burstTimer>0){
+
+        const progress=
+            1-
+            player.burstTimer/30;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            player.x+player.w/2,
+            player.y+player.h/2,
+            40+progress*100,
+            0,
+            Math.PI*2
+        );
+
+        ctx.strokeStyle=
+            `rgba(255,110,30,${1-progress})`;
+
+        ctx.lineWidth=8;
+
+        ctx.stroke();
+    }
+
+
+    /*
+       Player
+    */
+
+    const bounce=
         player.grounded &&
-        Math.abs(player.vx) > .2
-            ? Math.sin(
-                player.anim
-            ) * 2
-            : 0;
+        Math.abs(player.vx)>.2
+        ?Math.sin(player.anim)*2
+        :0;
 
     ctx.save();
 
     ctx.translate(
-        player.x +
-        player.w / 2,
-
-        player.y +
-        walkBounce +
-        player.h / 2
+        player.x+player.w/2,
+        player.y+
+        player.h/2+
+        bounce
     );
 
     ctx.scale(
@@ -1900,37 +2453,42 @@ function draw() {
     );
 
 
-    /* attack ring */
+    /*
+       Attack
+    */
 
-    if (player.attackTimer > 0) {
-
-        const progress =
-            player.attackTimer / 20;
+    if(player.attackTimer>0){
 
         ctx.beginPath();
 
         ctx.arc(
             0,
             0,
-            65 + (1-progress)*15,
+            60+
+            (1-player.attackTimer/22)*25,
             0,
-            Math.PI * 2
+            Math.PI*2
         );
 
-        ctx.strokeStyle =
-            "rgba(255,230,0," +
-            progress +
-            ")";
+        ctx.strokeStyle=
+            "rgba(255,230,0,.9)";
 
-        ctx.lineWidth = 8;
+        ctx.lineWidth=8;
 
         ctx.stroke();
     }
 
 
-    /* body */
+    /*
+       Body
+    */
 
-    ctx.fillStyle =
+    ctx.shadowColor=
+        "rgba(255,50,100,.35)";
+
+    ctx.shadowBlur=12;
+
+    ctx.fillStyle=
         "#ff4d6d";
 
     ctx.fillRect(
@@ -1940,10 +2498,14 @@ function draw() {
         52
     );
 
+    ctx.shadowBlur=0;
 
-    /* head */
 
-    ctx.fillStyle =
+    /*
+       Head
+    */
+
+    ctx.fillStyle=
         "#ffd1a9";
 
     ctx.fillRect(
@@ -1954,10 +2516,11 @@ function draw() {
     );
 
 
-    /* hair */
+    /*
+       Hair
+    */
 
-    ctx.fillStyle =
-        "#222";
+    ctx.fillStyle="#222";
 
     ctx.fillRect(
         -16,
@@ -1967,10 +2530,11 @@ function draw() {
     );
 
 
-    /* eyes */
+    /*
+       Eyes
+    */
 
-    ctx.fillStyle =
-        "#111";
+    ctx.fillStyle="#111";
 
     ctx.fillRect(
         -8,
@@ -1987,10 +2551,11 @@ function draw() {
     );
 
 
-    /* shoes */
+    /*
+       Shoes
+    */
 
-    ctx.fillStyle =
-        "#222";
+    ctx.fillStyle="#222";
 
     ctx.fillRect(
         -18,
@@ -2009,41 +2574,54 @@ function draw() {
     ctx.restore();
 
 
-    /* PARTICLES */
+    /*
+       Particles
+    */
 
-    particles.forEach(p => {
+    particles.forEach(p=>{
 
-        const alpha =
-            p.life /
-            p.maxLife;
+        ctx.globalAlpha=
+            Math.max(
+                0,
+                p.life/p.maxLife
+            );
 
-        ctx.globalAlpha =
-            alpha;
+        let color="#fff";
 
-        if (p.type === "coin") {
+        if(p.type==="coin")
+            color="#ffd43b";
 
-            ctx.fillStyle =
-                "#ffd43b";
+        if(p.type==="dash")
+            color="#53e8ff";
 
-        } else if (
-            p.type === "special"
-        ) {
+        if(p.type==="special")
+            color="#ffe600";
 
-            ctx.fillStyle =
-                "#ffe600";
+        if(p.type==="smash")
+            color="#ff7043";
 
-        } else if (
-            p.type === "checkpoint"
-        ) {
+        if(p.type==="shield")
+            color="#4de7ff";
 
-            ctx.fillStyle =
-                "#00ff9d";
+        if(p.type==="burst")
+            color="#ff5722";
 
-        } else {
+        if(p.type==="jump")
+            color="#ffffff";
 
-            ctx.fillStyle =
-                "#d8c6a4";
-        }
+        if(p.type==="checkpoint")
+            color="#00ff9d";
+
+        if(p.type==="enemy")
+            color="#c17cff";
+
+        if(p.type==="death")
+            color="#ff416c";
+
+        if(p.type==="dust")
+            color="#d5c1a0";
+
+        ctx.fillStyle=color;
 
         ctx.beginPath();
 
@@ -2052,158 +2630,128 @@ function draw() {
             p.y,
             p.size,
             0,
-            Math.PI * 2
+            Math.PI*2
         );
 
         ctx.fill();
 
-        ctx.globalAlpha = 1;
+        ctx.globalAlpha=1;
     });
 
 
     ctx.restore();
 
 
-    /* LEVEL TRANSITION */
+    /*
+       Transition
+    */
 
-    if (levelTransition > 0) {
+    if(levelTransition>0){
 
-        ctx.fillStyle =
-            "rgba(0,0,0," +
-            levelTransition / 35 +
-            ")";
+        ctx.fillStyle=
+            `rgba(0,0,0,${
+                levelTransition/35
+            })`;
 
         ctx.fillRect(
-            0,
-            0,
-            W,
-            H
+            0,0,W,H
         );
     }
 }
 
 
-/* =========================================================
+/* =====================================================
    UI
-========================================================= */
+===================================================== */
 
-function updateUI() {
+function updateUI(){
 
-    document.getElementById(
-        "lives"
-    ).textContent = lives;
+    document.getElementById("lives")
+        .textContent=lives;
 
-    document.getElementById(
-        "coins"
-    ).textContent = coins;
+    document.getElementById("coins")
+        .textContent=coins;
 
-    document.getElementById(
-        "level"
-    ).textContent =
-        currentLevel;
+    document.getElementById("level")
+        .textContent=currentLevel;
 
-    document.getElementById(
-        "shopCoins"
-    ).textContent =
-        coins;
+    document.getElementById("theme")
+        .textContent=
+        themes[currentLevel-1].name;
 
+    document.getElementById("shopCoins")
+        .textContent=coins;
 
-    const prices =
-        getPrices();
+    const p=prices();
 
-    document.getElementById(
-        "priceSpecial"
-    ).textContent =
-        prices.special;
+    document.getElementById("priceSpecial")
+        .textContent=p.special;
 
-    document.getElementById(
-        "priceStrength"
-    ).textContent =
-        prices.strength;
+    document.getElementById("priceStrength")
+        .textContent=p.strength;
 
-    document.getElementById(
-        "priceSpeed"
-    ).textContent =
-        prices.speed;
+    document.getElementById("priceSpeed")
+        .textContent=p.speed;
 
-    document.getElementById(
-        "priceTorrie"
-    ).textContent =
-        prices.torrie;
+    document.getElementById("priceTorrie")
+        .textContent=p.torrie;
+
+    document.getElementById("priceDash")
+        .textContent=p.dash;
+
+    document.getElementById("priceDouble")
+        .textContent=p.doublejump;
+
+    document.getElementById("priceSmash")
+        .textContent=p.smash;
+
+    document.getElementById("priceShield")
+        .textContent=p.shield;
+
+    document.getElementById("priceBurst")
+        .textContent=p.burst;
 }
 
 
-/* =========================================================
+/* =====================================================
    MESSAGE
-========================================================= */
+===================================================== */
 
-function showMessage(text) {
+function showMessage(text){
 
-    document.getElementById(
-        "message"
-    ).innerHTML = text;
+    document.getElementById("message")
+        .innerHTML=text;
 
-    document.getElementById(
-        "message"
-    ).style.display =
-        "block";
+    document.getElementById("message")
+        .style.display="block";
 }
 
 
-function hideMessage() {
+function hideMessage(){
 
-    document.getElementById(
-        "message"
-    ).style.display =
-        "none";
+    document.getElementById("message")
+        .style.display="none";
 }
 
 
-/* =========================================================
-   GAME LOOP
-========================================================= */
+/* =====================================================
+   START
+===================================================== */
 
-let lastTime = performance.now();
+loadLevel(1);
 
-function gameLoop(time) {
+updateUI();
 
-    const delta =
-        Math.min(
-            (time - lastTime) / 16.67,
-            2
-        );
-
-    lastTime = time;
+function loop(){
 
     update();
 
     draw();
 
-    requestAnimationFrame(
-        gameLoop
-    );
+    requestAnimationFrame(loop);
 }
 
-
-/* =========================================================
-   START
-========================================================= */
-
-player.maxSpeed =
-    6 + upgrades.speed * .8;
-
-lives =
-    3 + upgrades.torrie;
-
-loadLevel(
-    currentLevel
-);
-
-updateUI();
-
-requestAnimationFrame(
-    gameLoop
-);
+loop();
 
 </script>
 
