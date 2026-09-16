@@ -6,9 +6,7 @@
 <title>???</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 html,body{
     margin:0;
@@ -18,9 +16,9 @@ html,body{
 
 body{
     background:#777;
+    color:#111;
     font-family:"Comic Sans MS",Arial,sans-serif;
     overflow-x:hidden;
-    color:#111;
 }
 
 #page{
@@ -40,23 +38,12 @@ body{
     position:relative;
 }
 
-.box:nth-child(2n){
-    background:#ffaaaa;
-}
+.box:nth-child(2n){background:#ffaaaa}
+.box:nth-child(3n){background:#aaffaa}
+.box:nth-child(4n){background:#aaaaff}
+.box:nth-child(5n){background:#ffff66}
 
-.box:nth-child(3n){
-    background:#aaffaa;
-}
-
-.box:nth-child(4n){
-    background:#aaaaff;
-}
-
-.box:nth-child(5n){
-    background:#ffff66;
-}
-
-.box h2{
+h2{
     margin:0 0 7px 0;
     font-size:21px;
     text-decoration:underline;
@@ -107,6 +94,7 @@ canvas{
     background:white;
     border:4px solid black;
     max-width:100%;
+    touch-action:none;
 }
 
 img{
@@ -137,10 +125,12 @@ img{
         opacity:1;
     }
     100%{
-        transform:translate(
-            calc(var(--dx) * 1px),
-            calc(var(--dy) * 1px)
-        ) rotate(720deg);
+        transform:
+            translate(
+                calc(var(--dx) * 1px),
+                calc(var(--dy) * 1px)
+            )
+            rotate(720deg);
         opacity:0;
     }
 }
@@ -190,7 +180,7 @@ img{
 #terminalBox{
     height:170px;
     overflow:auto;
-    background:black;
+    background:#000;
     color:#00ff00;
     padding:7px;
     font-family:monospace;
@@ -206,6 +196,95 @@ img{
     50%{transform:translate(-4px,4px)}
     75%{transform:translate(3px,2px)}
     100%{transform:translate(0)}
+}
+
+.gameArea{
+    text-align:center;
+}
+
+#memoryGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:4px;
+}
+
+.memoryCard{
+    height:48px;
+    font-size:22px;
+    padding:0;
+}
+
+#reactionButton{
+    width:100%;
+    height:70px;
+    background:#888;
+    color:white;
+    font-size:20px;
+}
+
+#reactionButton.ready{
+    background:#20a020;
+}
+
+#reactionButton.waiting{
+    background:#a02020;
+}
+
+#targetGame{
+    position:relative;
+    width:250px;
+    height:170px;
+    background:white;
+    border:4px solid black;
+    overflow:hidden;
+}
+
+.target{
+    position:absolute;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    background:red;
+    cursor:pointer;
+}
+
+#maze{
+    position:relative;
+    width:250px;
+    height:170px;
+    background:white;
+    border:4px solid black;
+}
+
+.wall{
+    position:absolute;
+    background:black;
+}
+
+#mazePlayer{
+    position:absolute;
+    width:15px;
+    height:15px;
+    background:red;
+    left:10px;
+    top:10px;
+}
+
+.rainbow{
+    animation:rainbow .4s infinite;
+}
+
+@keyframes rainbow{
+    0%{filter:hue-rotate(0deg)}
+    100%{filter:hue-rotate(360deg)}
+}
+
+.spin{
+    animation:spin .4s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
 }
 </style>
 </head>
@@ -226,12 +305,10 @@ img{
    BASIS
 ========================= */
 
-const pageElement = document.getElementById("page");
-const floatingElement = document.getElementById("floating");
-const whiteOverlay = document.getElementById("whiteOverlay");
-const whiteText = document.getElementById("whiteText");
+const pageElement=document.getElementById("page");
+const floatingElement=document.getElementById("floating");
 
-const weirdWords = [
+const weirdWords=[
     "AAAA",
     "???",
     "404",
@@ -255,21 +332,21 @@ const weirdWords = [
     "plop"
 ];
 
-const whiteNames = [
+const whiteNames=[
     "Lucas",
     "Sieb",
     "Roel",
     "Torrie"
 ];
 
-function pickRandom(list){
+function randomItem(list){
     return list[Math.floor(Math.random()*list.length)];
 }
 
 function createBox(content){
-    const box = document.createElement("div");
-    box.className = "box";
-    box.innerHTML = content;
+    const box=document.createElement("div");
+    box.className="box";
+    box.innerHTML=content;
     pageElement.appendChild(box);
     return box;
 }
@@ -281,36 +358,43 @@ function createBox(content){
 
 createBox(`
 <h2>rekenmachine</h2>
-
 <input id="calculatorInput" placeholder="2+2">
-
 <button onclick="calculateNumber()">=</button>
 <button onclick="clearCalculator()">wissen</button>
-
 <div class="output" id="calculatorOutput">0</div>
 `);
 
 function calculateNumber(){
 
-    const input =
-        document.getElementById("calculatorInput").value;
+    const input=
+        document.getElementById("calculatorInput").value.trim();
 
-    const output =
+    const output=
         document.getElementById("calculatorOutput");
 
-    if(!/^[0-9+\\-*/(). %]+$/.test(input)){
+    if(input===""){
+        output.textContent="0";
+        return;
+    }
+
+    if(!/^[0-9+\\-*\\/(). %]+$/.test(input)){
         output.textContent="fout";
         return;
     }
 
     try{
-        const result = Function(
-            '"use strict";return (' + input + ')'
+
+        const result=Function(
+            '"use strict";return ('+input+')'
         )();
 
-        output.textContent = result;
-    }
-    catch{
+        if(!Number.isFinite(result)){
+            output.textContent="fout";
+        }else{
+            output.textContent=result;
+        }
+
+    }catch(error){
         output.textContent="fout";
     }
 }
@@ -328,64 +412,70 @@ function clearCalculator(){
 createBox(`
 <h2>Snake</h2>
 
-<canvas id="snakeCanvas"
-width="240"
-height="180"></canvas>
+<div class="gameArea">
+<canvas id="snakeCanvas" width="240" height="180"></canvas>
+</div>
 
 <button onclick="startSnakeGame()">start</button>
 
 <div class="output">
-score:
-<span id="snakeScore">0</span>
+score: <span id="snakeScore">0</span>
 </div>
 `);
 
-const snakeCanvas =
+const snakeCanvas=
     document.getElementById("snakeCanvas");
 
-const snakeContext =
+const snakeContext=
     snakeCanvas.getContext("2d");
 
-let snakeBody = [];
-let snakeDirection = {x:1,y:0};
-let snakeFood = {x:5,y:5};
-let snakeInterval = null;
-let snakePoints = 0;
+let snakeBody=[];
+let snakeDirection={x:1,y:0};
+let snakeFood={x:5,y:5};
+let snakeInterval=null;
+let snakePoints=0;
 
 function startSnakeGame(){
 
     clearInterval(snakeInterval);
 
-    snakeBody = [
+    snakeBody=[
         {x:5,y:5},
         {x:4,y:5},
         {x:3,y:5}
     ];
 
-    snakeDirection = {x:1,y:0};
-    snakePoints = 0;
+    snakeDirection={x:1,y:0};
+    snakePoints=0;
 
-    document.getElementById("snakeScore").textContent=0;
+    document.getElementById("snakeScore").textContent="0";
 
     placeSnakeFood();
 
-    snakeInterval =
-        setInterval(updateSnakeGame,120);
+    snakeInterval=setInterval(updateSnakeGame,120);
 }
 
 function placeSnakeFood(){
 
-    snakeFood = {
-        x:Math.floor(Math.random()*12),
-        y:Math.floor(Math.random()*9)
-    };
+    do{
+        snakeFood={
+            x:Math.floor(Math.random()*12),
+            y:Math.floor(Math.random()*9)
+        };
+    }while(
+        snakeBody.some(
+            part=>
+            part.x===snakeFood.x &&
+            part.y===snakeFood.y
+        )
+    );
 }
 
 function updateSnakeGame(){
 
-    const head = {
-        x:snakeBody[0].x + snakeDirection.x,
-        y:snakeBody[0].y + snakeDirection.y
+    const head={
+        x:snakeBody[0].x+snakeDirection.x,
+        y:snakeBody[0].y+snakeDirection.y
     };
 
     if(
@@ -394,11 +484,12 @@ function updateSnakeGame(){
         head.x>=12 ||
         head.y>=9 ||
         snakeBody.some(
-            part =>
+            part=>
             part.x===head.x &&
             part.y===head.y
         )
     ){
+
         clearInterval(snakeInterval);
         return;
     }
@@ -409,6 +500,7 @@ function updateSnakeGame(){
         head.x===snakeFood.x &&
         head.y===snakeFood.y
     ){
+
         snakePoints++;
 
         document.getElementById(
@@ -416,8 +508,8 @@ function updateSnakeGame(){
         ).textContent=snakePoints;
 
         placeSnakeFood();
-    }
-    else{
+
+    }else{
         snakeBody.pop();
     }
 
@@ -451,31 +543,19 @@ function updateSnakeGame(){
 
 document.addEventListener("keydown",function(event){
 
-    if(
-        event.key==="ArrowUp" &&
-        snakeDirection.y!==1
-    ){
+    if(event.key==="ArrowUp" && snakeDirection.y!==1){
         snakeDirection={x:0,y:-1};
     }
 
-    if(
-        event.key==="ArrowDown" &&
-        snakeDirection.y!==-1
-    ){
+    if(event.key==="ArrowDown" && snakeDirection.y!==-1){
         snakeDirection={x:0,y:1};
     }
 
-    if(
-        event.key==="ArrowLeft" &&
-        snakeDirection.x!==1
-    ){
+    if(event.key==="ArrowLeft" && snakeDirection.x!==1){
         snakeDirection={x:-1,y:0};
     }
 
-    if(
-        event.key==="ArrowRight" &&
-        snakeDirection.x!==-1
-    ){
+    if(event.key==="ArrowRight" && snakeDirection.x!==-1){
         snakeDirection={x:1,y:0};
     }
 });
@@ -487,15 +567,11 @@ document.addEventListener("keydown",function(event){
 
 createBox(`
 <h2>klik</h2>
-
 <div class="big" id="clickNumber">0</div>
-
-<button onclick="increaseClickNumber()">
-KLIK
-</button>
+<button onclick="increaseClickNumber()">KLIK</button>
 `);
 
-let clickNumber = 0;
+let clickNumber=0;
 
 function increaseClickNumber(){
 
@@ -513,24 +589,29 @@ function increaseClickNumber(){
 
 createBox(`
 <h2>getal</h2>
-
 <input id="randomMin" value="1">
 <input id="randomMax" value="100">
-
 <button onclick="makeRandomNumber()">doe</button>
-
 <div class="big" id="randomNumber">?</div>
 `);
 
 function makeRandomNumber(){
 
-    const min =
-        Number(document.getElementById("randomMin").value);
+    let min=Number(
+        document.getElementById("randomMin").value
+    );
 
-    const max =
-        Number(document.getElementById("randomMax").value);
+    let max=Number(
+        document.getElementById("randomMax").value
+    );
 
-    const result =
+    if(min>max){
+        const temp=min;
+        min=max;
+        max=temp;
+    }
+
+    const result=
         Math.floor(Math.random()*(max-min+1))+min;
 
     document.getElementById(
@@ -545,69 +626,72 @@ function makeRandomNumber(){
 
 createBox(`
 <h2>tekenen</h2>
-
-<canvas
-id="paintCanvas"
-width="250"
-height="160">
-</canvas>
-
+<canvas id="paintCanvas" width="250" height="160"></canvas>
 <button onclick="clearDrawing()">weg</button>
 `);
 
-const paintCanvas =
+const paintCanvas=
     document.getElementById("paintCanvas");
 
-const paintContext =
+const paintContext=
     paintCanvas.getContext("2d");
 
-let painting = false;
+let painting=false;
 
 paintCanvas.addEventListener(
-    "mousedown",
-    ()=>painting=true
-);
-
-paintCanvas.addEventListener(
-    "mouseup",
-    ()=>painting=false
-);
-
-paintCanvas.addEventListener(
-    "mouseleave",
-    ()=>painting=false
-);
-
-paintCanvas.addEventListener(
-    "mousemove",
-    function(event){
-
-        if(!painting)return;
-
-        const rect =
-            paintCanvas.getBoundingClientRect();
-
-        paintContext.fillStyle =
-            pickRandom([
-                "red",
-                "blue",
-                "lime",
-                "yellow",
-                "purple",
-                "black",
-                "orange"
-            ]);
-
-        paintContext.fillRect(
-            event.clientX-rect.left,
-            event.clientY-rect.top,
-            8,
-            8
-        );
+    "pointerdown",
+    function(e){
+        painting=true;
+        drawOnCanvas(e);
     }
 );
 
+paintCanvas.addEventListener(
+    "pointerup",
+    function(){
+        painting=false;
+    }
+);
+
+paintCanvas.addEventListener(
+    "pointerleave",
+    function(){
+        painting=false;
+    }
+);
+
+paintCanvas.addEventListener(
+    "pointermove",
+    drawOnCanvas
+);
+
+function drawOnCanvas(event){
+
+    if(!painting)return;
+
+    const rect=
+        paintCanvas.getBoundingClientRect();
+
+    paintContext.fillStyle=randomItem([
+        "red",
+        "blue",
+        "lime",
+        "yellow",
+        "purple",
+        "black",
+        "orange"
+    ]);
+
+    paintContext.fillRect(
+        event.clientX-rect.left,
+        event.clientY-rect.top,
+        8,
+        8
+    );
+}
+
 function clearDrawing(){
+
     paintContext.clearRect(
         0,
         0,
@@ -618,62 +702,33 @@ function clearDrawing(){
 
 
 /* =========================
-   AFBEELDING 1
+   AFBEELDINGEN
 ========================= */
 
 createBox(`
 <h2>meme</h2>
-
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10">
-
-<div class="big">
-${pickRandom(weirdWords)}
-</div>
+<div class="big">${randomItem(weirdWords)}</div>
 `);
-
-
-/* =========================
-   AFBEELDING 2
-========================= */
 
 createBox(`
 <h2>???</h2>
-
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcRkr0KewwnwmGmoQQi8ltA_TarFWQ93IoZRQ4X_cx3DQQ&s=10">
-
 <button onclick="shakeWholePage()">druk</button>
 `);
 
-
-/* =========================
-   AFBEELDING 3
-========================= */
-
 createBox(`
 <h2>foto</h2>
-
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTbCfXlQ-LQkHbRKhK02aoikfgs_JSKMVi7TifRxL1M4w&s=10">
 `);
 
-
-/* =========================
-   AFBEELDING 4
-========================= */
-
 createBox(`
 <h2>hmm</h2>
-
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTn4U34c6mnHOmr5faLm3lho2fPdcmvFc1tmqcpVXVWRA&s">
 `);
 
-
-/* =========================
-   AFBEELDING 5
-========================= */
-
 createBox(`
 <h2>dit</h2>
-
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSfJMgE_4SOeA74h1kj1XYzVcKbhlYxjiS9j_ZUoxN2vA&s=10">
 `);
 
@@ -684,32 +739,39 @@ createBox(`
 
 createBox(`
 <h2>timer</h2>
-
 <input id="timerSeconds" value="10">
-
 <button onclick="startSimpleTimer()">start</button>
-
 <div class="big" id="timerDisplay">10</div>
 `);
 
-let timerInterval = null;
+let timerInterval=null;
 
 function startSimpleTimer(){
 
     clearInterval(timerInterval);
 
-    let seconds =
-        Number(document.getElementById("timerSeconds").value);
+    let seconds=
+        Number(
+            document.getElementById("timerSeconds").value
+        );
+
+    if(!Number.isFinite(seconds)||seconds<0){
+        seconds=10;
+    }
+
+    document.getElementById(
+        "timerDisplay"
+    ).textContent=seconds;
 
     timerInterval=setInterval(function(){
+
+        seconds--;
 
         document.getElementById(
             "timerDisplay"
         ).textContent=seconds;
 
-        seconds--;
-
-        if(seconds<0){
+        if(seconds<=0){
 
             clearInterval(timerInterval);
 
@@ -728,37 +790,34 @@ function startSimpleTimer(){
 
 createBox(`
 <h2>steen</h2>
-
 <button onclick="playRps('steen')">steen</button>
 <button onclick="playRps('papier')">papier</button>
 <button onclick="playRps('schaar')">schaar</button>
-
 <div class="output" id="rpsResult">...</div>
 `);
 
 function playRps(player){
 
-    const computer =
-        pickRandom([
-            "steen",
-            "papier",
-            "schaar"
-        ]);
+    const computer=randomItem([
+        "steen",
+        "papier",
+        "schaar"
+    ]);
 
-    let result="gelijk";
+    let result;
 
-    if(player!==computer){
-
-        if(
-            (player==="steen" && computer==="schaar") ||
-            (player==="papier" && computer==="steen") ||
-            (player==="schaar" && computer==="papier")
-        ){
-            result="gewonnen";
-        }
-        else{
-            result="verloren";
-        }
+    if(player===computer){
+        result="gelijk";
+    }
+    else if(
+        (player==="steen" && computer==="schaar") ||
+        (player==="papier" && computer==="steen") ||
+        (player==="schaar" && computer==="papier")
+    ){
+        result="gewonnen";
+    }
+    else{
+        result="verloren";
     }
 
     document.getElementById(
@@ -769,16 +828,282 @@ function playRps(player){
 
 
 /* =========================
-   TEKST
+   MEMORY
+========================= */
+
+createBox(`
+<h2>memory</h2>
+<div id="memoryGrid"></div>
+<div class="output" id="memoryStatus">0 paren</div>
+<button onclick="startMemory()">nieuw</button>
+`);
+
+let memoryCards=[];
+let memoryOpen=[];
+let memoryLocked=false;
+let memoryPairs=0;
+
+function startMemory(){
+
+    const values=[
+        "🐔","🐔",
+        "🧀","🧀",
+        "🍌","🍌",
+        "🦆","🦆",
+        "🤨","🤨",
+        "🚽","🚽",
+        "⭐","⭐",
+        "💀","💀"
+    ];
+
+    values.sort(()=>Math.random()-.5);
+
+    const grid=
+        document.getElementById("memoryGrid");
+
+    grid.innerHTML="";
+
+    memoryCards=[];
+    memoryOpen=[];
+    memoryLocked=false;
+    memoryPairs=0;
+
+    document.getElementById(
+        "memoryStatus"
+    ).textContent="0 paren";
+
+    values.forEach((value,index)=>{
+
+        const button=
+            document.createElement("button");
+
+        button.className="memoryCard";
+        button.textContent="?";
+
+        button.onclick=function(){
+            memoryClick(button,value,index);
+        };
+
+        grid.appendChild(button);
+
+        memoryCards.push({
+            button,
+            value,
+            matched:false
+        });
+    });
+}
+
+function memoryClick(button,value,index){
+
+    if(memoryLocked)return;
+    if(memoryCards[index].matched)return;
+    if(memoryOpen.some(x=>x.index===index))return;
+
+    button.textContent=value;
+
+    memoryOpen.push({
+        button,
+        value,
+        index
+    });
+
+    if(memoryOpen.length<2)return;
+
+    memoryLocked=true;
+
+    const first=memoryOpen[0];
+    const second=memoryOpen[1];
+
+    if(first.value===second.value){
+
+        memoryCards[first.index].matched=true;
+        memoryCards[second.index].matched=true;
+
+        memoryPairs++;
+
+        document.getElementById(
+            "memoryStatus"
+        ).textContent=
+            memoryPairs+" paren";
+
+        memoryOpen=[];
+        memoryLocked=false;
+
+    }else{
+
+        setTimeout(function(){
+
+            first.button.textContent="?";
+            second.button.textContent="?";
+
+            memoryOpen=[];
+            memoryLocked=false;
+
+        },600);
+    }
+}
+
+startMemory();
+
+
+/* =========================
+   REACTIE
+========================= */
+
+createBox(`
+<h2>reactie</h2>
+<button id="reactionButton" onclick="reactionClick()">
+klik om te beginnen
+</button>
+<div class="output" id="reactionResult">---</div>
+`);
+
+let reactionStart=0;
+let reactionTimeout=null;
+let reactionWaiting=false;
+
+function startReactionGame(){
+
+    const button=
+        document.getElementById("reactionButton");
+
+    button.className="waiting";
+    button.textContent="WACHT...";
+
+    reactionWaiting=true;
+
+    reactionTimeout=setTimeout(function(){
+
+        button.className="ready";
+        button.textContent="NU!!!";
+
+        reactionStart=performance.now();
+        reactionWaiting=false;
+
+    },1000+Math.random()*3000);
+}
+
+function reactionClick(){
+
+    const button=
+        document.getElementById("reactionButton");
+
+    const result=
+        document.getElementById("reactionResult");
+
+    if(!reactionStart && !reactionWaiting){
+
+        startReactionGame();
+        return;
+    }
+
+    if(reactionWaiting){
+
+        clearTimeout(reactionTimeout);
+
+        reactionWaiting=false;
+        reactionStart=0;
+
+        button.className="";
+        button.textContent="te vroeg";
+
+        result.textContent="te vroeg";
+
+        setTimeout(startReactionGame,1000);
+
+        return;
+    }
+
+    const time=
+        Math.round(performance.now()-reactionStart);
+
+    result.textContent=time+" ms";
+
+    reactionStart=0;
+
+    button.className="";
+    button.textContent="nog een keer";
+
+    setTimeout(startReactionGame,1000);
+}
+
+
+/* =========================
+   TARGET GAME
+========================= */
+
+createBox(`
+<h2>klik erop</h2>
+<div id="targetGame"></div>
+<div class="output">
+score: <span id="targetScore">0</span>
+</div>
+<button onclick="startTargetGame()">start</button>
+`);
+
+let targetScore=0;
+let targetTimeout=null;
+
+function startTargetGame(){
+
+    targetScore=0;
+
+    document.getElementById(
+        "targetScore"
+    ).textContent="0";
+
+    spawnTarget();
+}
+
+function spawnTarget(){
+
+    const area=
+        document.getElementById("targetGame");
+
+    area.innerHTML="";
+
+    const target=
+        document.createElement("div");
+
+    target.className="target";
+
+    target.style.left=
+        Math.random()*220+"px";
+
+    target.style.top=
+        Math.random()*140+"px";
+
+    target.onclick=function(){
+
+        targetScore++;
+
+        document.getElementById(
+            "targetScore"
+        ).textContent=targetScore;
+
+        spawnTarget();
+    };
+
+    area.appendChild(target);
+
+    clearTimeout(targetTimeout);
+
+    targetTimeout=setTimeout(function(){
+
+        area.innerHTML="";
+
+    },3000);
+}
+
+
+/* =========================
+   RANDOM TEKST
 ========================= */
 
 createBox(`
 <h2>tekst</h2>
-
-<div class="big" id="randomWord">
-???
-</div>
-
+<div class="big" id="randomWord">???</div>
 <button onclick="changeRandomWord()">klik</button>
 `);
 
@@ -786,7 +1111,7 @@ function changeRandomWord(){
 
     document.getElementById(
         "randomWord"
-    ).textContent=pickRandom(weirdWords);
+    ).textContent=randomItem(weirdWords);
 }
 
 
@@ -796,9 +1121,7 @@ function changeRandomWord(){
 
 createBox(`
 <h2>nummer</h2>
-
 <div class="big" id="counterNumber">0</div>
-
 <button onclick="changeCounter(1)">+</button>
 <button onclick="changeCounter(-1)">-</button>
 <button onclick="changeCounter(100)">100</button>
@@ -813,35 +1136,6 @@ function changeCounter(amount){
     document.getElementById(
         "counterNumber"
     ).textContent=counterValue;
-}
-
-
-/* =========================
-   REACTIE
-========================= */
-
-createBox(`
-<h2>reactie</h2>
-
-<div class="big" id="reactionText">
-wacht
-</div>
-
-<button onclick="startReaction()">start</button>
-`);
-
-function startReaction(){
-
-    const element =
-        document.getElementById("reactionText");
-
-    element.textContent="wacht...";
-
-    setTimeout(function(){
-
-        element.textContent="NU";
-
-    },1000+Math.random()*3000);
 }
 
 
@@ -866,17 +1160,17 @@ function terminalCommand(event){
 
     if(event.key!=="Enter")return;
 
-    const input =
+    const input=
         document.getElementById("terminalInput");
 
-    const terminal =
+    const terminal=
         document.getElementById("terminalBox");
 
-    terminal.innerHTML +=
+    terminal.innerHTML+=
         "<br>&gt; "+
         input.value+
         "<br>"+
-        pickRandom(weirdWords);
+        randomItem(weirdWords);
 
     input.value="";
 
@@ -886,7 +1180,7 @@ function terminalCommand(event){
 
 
 /* =========================
-   SLIDER
+   SCHUIF
 ========================= */
 
 createBox(`
@@ -959,19 +1253,25 @@ let audioContext=null;
 function makeBeep(frequency){
 
     if(!audioContext){
-        audioContext =
-            new (window.AudioContext ||
-                 window.webkitAudioContext)();
+
+        audioContext=
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
     }
 
-    const oscillator =
+    if(audioContext.state==="suspended"){
+        audioContext.resume();
+    }
+
+    const oscillator=
         audioContext.createOscillator();
 
-    const gain =
+    const gain=
         audioContext.createGain();
 
     oscillator.frequency.value=frequency;
-
     gain.gain.value=.05;
 
     oscillator.connect(gain);
@@ -1001,7 +1301,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 
 /* =========================
-   MEER RANDOM BLOKKEN
+   EXTRA ROMMEL
 ========================= */
 
 for(let i=0;i<15;i++){
@@ -1018,20 +1318,31 @@ for(let i=0;i<15;i++){
         "huh"
     ];
 
-    createBox(`
-        <h2>${pickRandom(titles)}</h2>
+    const box=createBox(`
+        <h2>${randomItem(titles)}</h2>
 
-        <button onclick="
-            this.parentElement.style.transform =
-            'rotate('+(Math.random()*40-20)+'deg)';
-        ">
-            ${pickRandom(weirdWords)}
+        <button class="randomBoxButton">
+            ${randomItem(weirdWords)}
         </button>
 
         <div class="output">
-            ${pickRandom(weirdWords)}
+            ${randomItem(weirdWords)}
         </div>
     `);
+
+    const button=
+        box.querySelector(".randomBoxButton");
+
+    button.onclick=function(){
+
+        box.style.transform=
+            "rotate("+
+            (Math.random()*40-20)+
+            "deg)";
+
+        box.style.marginLeft=
+            (Math.random()*50-25)+"px";
+    };
 }
 
 
@@ -1052,18 +1363,18 @@ function shakeWholePage(){
 
 
 /* =========================
-   RANDOM LETTERS
+   FLOATING DINGEN
 ========================= */
 
 function createFloatingThing(){
 
-    const element =
+    const element=
         document.createElement("div");
 
     element.className="floatThing";
 
     element.textContent=
-        pickRandom(weirdWords);
+        randomItem(weirdWords);
 
     element.style.left=
         Math.random()*100+"vw";
@@ -1096,7 +1407,7 @@ function createFloatingThing(){
 
 setInterval(function(){
 
-    const amount =
+    const amount=
         Math.floor(Math.random()*4)+1;
 
     for(let i=0;i<amount;i++){
@@ -1116,15 +1427,17 @@ document.addEventListener(
 
         if(Math.random()>0.96){
 
-            const element =
+            const element=
                 document.createElement("div");
 
             element.textContent=
-                pickRandom(weirdWords);
+                randomItem(weirdWords);
 
             element.style.position="fixed";
+
             element.style.left=
                 event.clientX+"px";
+
             element.style.top=
                 event.clientY+"px";
 
@@ -1145,7 +1458,7 @@ document.addEventListener(
 
 
 /* =========================
-   KLIK ROMMEL
+   KLIK EXPLOSIE
 ========================= */
 
 document.addEventListener(
@@ -1154,11 +1467,11 @@ document.addEventListener(
 
         for(let i=0;i<2;i++){
 
-            const element =
+            const element=
                 document.createElement("div");
 
             element.textContent=
-                pickRandom(weirdWords);
+                randomItem(weirdWords);
 
             element.style.position="fixed";
 
@@ -1214,16 +1527,14 @@ document.addEventListener(
 
 setInterval(function(){
 
-    const boxes =
+    const boxes=
         document.querySelectorAll(".box");
 
-    if(boxes.length===0)return;
+    if(!boxes.length)return;
 
-    const box =
+    const box=
         boxes[
-            Math.floor(
-                Math.random()*boxes.length
-            )
+            Math.floor(Math.random()*boxes.length)
         ];
 
     box.style.transform=
@@ -1235,15 +1546,15 @@ setInterval(function(){
 
 
 /* =========================
-   RANDOM BODY KLEUR
+   RANDOM ACHTERGROND
 ========================= */
 
 setInterval(function(){
 
-    if(Math.random()<0.12){
+    if(Math.random()<.08){
 
         document.body.style.background=
-            pickRandom([
+            randomItem([
                 "red",
                 "blue",
                 "lime",
@@ -1261,18 +1572,18 @@ setInterval(function(){
 
 
 /* =========================
-   GIGANTISCHE LETTER
+   GIGANTISCHE LETTERS
 ========================= */
 
 setInterval(function(){
 
-    if(Math.random()>0.8){
+    if(Math.random()>.8){
 
-        const element =
+        const element=
             document.createElement("div");
 
         element.textContent=
-            pickRandom([
+            randomItem([
                 "A",
                 "X",
                 "?",
@@ -1334,6 +1645,12 @@ setInterval(function(){
    WIT SCHERM
 ========================= */
 
+const whiteOverlay=
+    document.getElementById("whiteOverlay");
+
+const whiteText=
+    document.getElementById("whiteText");
+
 let whiteScreenRunning=false;
 
 function showWhiteScreen(){
@@ -1343,13 +1660,14 @@ function showWhiteScreen(){
     whiteScreenRunning=true;
 
     whiteText.textContent=
-        pickRandom(whiteNames);
+        randomItem(whiteNames);
 
     whiteOverlay.style.display="flex";
 
     setTimeout(function(){
 
         whiteOverlay.style.display="none";
+
         whiteScreenRunning=false;
 
     },2500+Math.random()*2500);
@@ -1357,7 +1675,7 @@ function showWhiteScreen(){
 
 setInterval(function(){
 
-    if(Math.random()<0.35){
+    if(Math.random()<.3){
         showWhiteScreen();
     }
 
@@ -1370,9 +1688,9 @@ setInterval(function(){
 
 setInterval(function(){
 
-    if(Math.random()<0.07){
+    if(Math.random()<.05){
 
-        const flash =
+        const flash=
             document.createElement("div");
 
         flash.style.position="fixed";
@@ -1392,13 +1710,13 @@ setInterval(function(){
 
 
 /* =========================
-   TITEL
+   PAGINA TITEL
 ========================= */
 
 setInterval(function(){
 
     document.title=
-        pickRandom([
+        randomItem([
             "site",
             "???",
             "AAAA",
@@ -1413,7 +1731,7 @@ setInterval(function(){
 
 
 /* =========================
-   START
+   START EFFECT
 ========================= */
 
 setTimeout(function(){
