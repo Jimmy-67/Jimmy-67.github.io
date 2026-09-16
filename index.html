@@ -2,36 +2,41 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>site</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>???</title>
 
 <style>
 *{
     box-sizing:border-box;
 }
 
-body{
+html,body{
     margin:0;
-    background:#777;
-    color:#111;
-    font-family:"Comic Sans MS",Arial,sans-serif;
-    overflow-x:hidden;
+    padding:0;
+    min-height:100%;
 }
 
-#main{
-    padding:7px;
+body{
+    background:#777;
+    font-family:"Comic Sans MS",Arial,sans-serif;
+    overflow-x:hidden;
+    color:#111;
+}
+
+#page{
+    padding:8px;
     display:flex;
     flex-wrap:wrap;
-    gap:8px;
     align-items:flex-start;
+    gap:9px;
 }
 
 .box{
-    background:#ddd;
-    border:4px ridge #555;
-    padding:8px;
     width:270px;
     min-height:100px;
+    padding:8px;
+    border:4px ridge #555;
+    background:#ddd;
     position:relative;
 }
 
@@ -48,23 +53,22 @@ body{
 }
 
 .box:nth-child(5n){
-    background:#ffff77;
+    background:#ffff66;
 }
 
-h2{
+.box h2{
+    margin:0 0 7px 0;
     font-size:21px;
-    margin:0 0 8px 0;
-    color:#111;
     text-decoration:underline;
 }
 
 button{
-    background:#ccc;
-    border:3px outset #eee;
     padding:6px 10px;
     margin:2px;
     font-family:inherit;
     cursor:pointer;
+    background:#ccc;
+    border:3px outset #eee;
 }
 
 button:active{
@@ -74,28 +78,35 @@ button:active{
 input,textarea{
     width:100%;
     padding:7px;
+    margin:2px 0;
     border:3px inset #aaa;
-    background:#fff;
-    color:#000;
-    font-family:Arial;
+    background:white;
+    font-family:Arial,sans-serif;
 }
 
 textarea{
     height:90px;
+    resize:vertical;
 }
 
 .output{
-    background:white;
-    border:2px inset #999;
+    margin-top:5px;
     padding:6px;
     min-height:28px;
-    margin-top:5px;
+    background:white;
+    border:2px inset #999;
 }
 
 .big{
-    font-size:35px;
+    font-size:34px;
     font-weight:bold;
     text-align:center;
+}
+
+canvas{
+    background:white;
+    border:4px solid black;
+    max-width:100%;
 }
 
 img{
@@ -103,175 +114,140 @@ img{
     max-height:230px;
     display:block;
     margin:3px auto;
-    border:5px solid #000;
+    border:5px solid black;
 }
 
-canvas{
-    background:white;
-    border:4px solid #222;
-    max-width:100%;
-}
-
-#mess{
+#floating{
     position:fixed;
     inset:0;
     pointer-events:none;
-    z-index:9000;
     overflow:hidden;
+    z-index:9000;
 }
 
-.random{
+.floatThing{
     position:absolute;
     font-weight:bold;
-    font-size:30px;
-    animation:moveRandom 1.4s linear forwards;
+    animation:flyAway 1.4s linear forwards;
 }
 
-@keyframes moveRandom{
+@keyframes flyAway{
     0%{
         transform:translate(0,0) rotate(0deg);
         opacity:1;
     }
-    50%{
-        transform:translate(300px,-100px) rotate(180deg);
-    }
     100%{
-        transform:translate(-400px,300px) rotate(700deg);
+        transform:translate(
+            calc(var(--dx) * 1px),
+            calc(var(--dy) * 1px)
+        ) rotate(720deg);
         opacity:0;
     }
 }
 
-#whiteScreen{
+#whiteOverlay{
+    display:none;
     position:fixed;
     inset:0;
-    background:white;
     z-index:99999;
-    display:none;
-    color:black;
+    background:white;
     align-items:center;
     justify-content:center;
+    color:black;
     font-family:Arial,sans-serif;
-    font-size:70px;
+    font-size:75px;
     font-weight:bold;
 }
 
-#whiteName{
-    animation:nameWiggle .08s infinite;
+#whiteText{
+    animation:wiggle .08s infinite;
 }
 
-@keyframes nameWiggle{
+@keyframes wiggle{
     0%{transform:translate(0,0)}
-    25%{transform:translate(7px,-3px)}
-    50%{transform:translate(-5px,5px)}
-    75%{transform:translate(4px,2px)}
+    25%{transform:translate(7px,-4px)}
+    50%{transform:translate(-6px,5px)}
+    75%{transform:translate(5px,2px)}
     100%{transform:translate(0,0)}
 }
 
-.flash{
-    position:fixed;
-    inset:0;
-    background:white;
-    z-index:9500;
-    pointer-events:none;
-}
-
-.spin{
-    animation:spin .3s linear infinite;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
-}
-
-.shake{
-    animation:shake .1s infinite;
-}
-
-@keyframes shake{
-    0%{transform:translate(0)}
-    25%{transform:translate(5px,-3px)}
-    50%{transform:translate(-4px,4px)}
-    75%{transform:translate(3px,2px)}
-    100%{transform:translate(0)}
-}
-
-#terminal{
-    background:#000;
-    color:#00ff00;
-    height:170px;
-    overflow:auto;
-    padding:8px;
-    font-family:monospace;
-}
-
-.memeText{
-    font-size:28px;
-    font-weight:bold;
-    text-align:center;
-    background:#fff;
-    color:#000;
-    padding:5px;
-}
-
 .marquee{
+    width:100%;
     overflow:hidden;
     white-space:nowrap;
 }
 
 .marquee span{
     display:inline-block;
-    animation:marquee 3s linear infinite;
+    animation:goMarquee 3s linear infinite;
 }
 
-@keyframes marquee{
+@keyframes goMarquee{
     from{transform:translateX(100%)}
     to{transform:translateX(-100%)}
+}
+
+#terminalBox{
+    height:170px;
+    overflow:auto;
+    background:black;
+    color:#00ff00;
+    padding:7px;
+    font-family:monospace;
+}
+
+.shakePage{
+    animation:pageShake .08s infinite;
+}
+
+@keyframes pageShake{
+    0%{transform:translate(0)}
+    25%{transform:translate(5px,-3px)}
+    50%{transform:translate(-4px,4px)}
+    75%{transform:translate(3px,2px)}
+    100%{transform:translate(0)}
 }
 </style>
 </head>
 
 <body>
 
-<div id="main"></div>
-<div id="mess"></div>
+<div id="page"></div>
 
-<div id="whiteScreen">
-    <div id="whiteName">Lucas</div>
+<div id="floating"></div>
+
+<div id="whiteOverlay">
+    <div id="whiteText">Lucas</div>
 </div>
 
 <script>
 
-const main=document.getElementById("main");
-const mess=document.getElementById("mess");
+/* =========================
+   BASIS
+========================= */
 
-const names=[
-    "Lucas",
-    "Sieb",
-    "Roel",
-    "Torrie"
-];
+const pageElement = document.getElementById("page");
+const floatingElement = document.getElementById("floating");
+const whiteOverlay = document.getElementById("whiteOverlay");
+const whiteText = document.getElementById("whiteText");
 
-const nonsense=[
+const weirdWords = [
     "AAAA",
     "???",
     "404",
-    "BANANA",
+    "BRUH",
     "KIP",
-    "LOL",
     "42",
+    "LOL",
     "NEE",
     "JA",
-    "WAAROM",
     "OOOO",
-    "HAHA",
     "X",
     "000",
     "ERROR",
     "🤨",
     "🦆",
     "🧀",
-    "BRUH",
-    "????!!!!",
     "TURBO",
     "KWAARK",
     "stoel",
@@ -279,648 +255,995 @@ const nonsense=[
     "plop"
 ];
 
-function random(a){
-    return a[Math.floor(Math.random()*a.length)];
+const whiteNames = [
+    "Lucas",
+    "Sieb",
+    "Roel",
+    "Torrie"
+];
+
+function pickRandom(list){
+    return list[Math.floor(Math.random()*list.length)];
 }
 
-function addBox(html){
-    let d=document.createElement("div");
-    d.className="box";
-    d.innerHTML=html;
-    main.appendChild(d);
-    return d;
+function createBox(content){
+    const box = document.createElement("div");
+    box.className = "box";
+    box.innerHTML = content;
+    pageElement.appendChild(box);
+    return box;
 }
 
 
-/* REKENMACHINE */
+/* =========================
+   REKENMACHINE
+========================= */
 
-addBox(`
+createBox(`
 <h2>rekenmachine</h2>
-<input id="calc">
-<button onclick="calc()">=</button>
-<button onclick="document.getElementById('calc').value=''">wissen</button>
-<div class="output" id="calcOut">0</div>
+
+<input id="calculatorInput" placeholder="2+2">
+
+<button onclick="calculateNumber()">=</button>
+<button onclick="clearCalculator()">wissen</button>
+
+<div class="output" id="calculatorOutput">0</div>
 `);
 
-function calc(){
-    let x=document.getElementById("calc").value;
+function calculateNumber(){
+
+    const input =
+        document.getElementById("calculatorInput").value;
+
+    const output =
+        document.getElementById("calculatorOutput");
+
+    if(!/^[0-9+\\-*/(). %]+$/.test(input)){
+        output.textContent="fout";
+        return;
+    }
 
     try{
-        if(!/^[0-9+\\-*/(). %]+$/.test(x)) throw 1;
-        document.getElementById("calcOut").textContent=
-            Function("return "+x)();
-    }catch{
-        document.getElementById("calcOut").textContent="fout";
+        const result = Function(
+            '"use strict";return (' + input + ')'
+        )();
+
+        output.textContent = result;
+    }
+    catch{
+        output.textContent="fout";
     }
 }
 
+function clearCalculator(){
+    document.getElementById("calculatorInput").value="";
+    document.getElementById("calculatorOutput").textContent="0";
+}
 
-/* SNAKE */
 
-addBox(`
+/* =========================
+   SNAKE
+========================= */
+
+createBox(`
 <h2>Snake</h2>
-<canvas id="snake" width="250" height="180"></canvas>
-<button onclick="startSnake()">start</button>
-<div class="output" id="snakeScore">0</div>
+
+<canvas id="snakeCanvas"
+width="240"
+height="180"></canvas>
+
+<button onclick="startSnakeGame()">start</button>
+
+<div class="output">
+score:
+<span id="snakeScore">0</span>
+</div>
 `);
 
-const sc=document.getElementById("snake");
-const sx=sc.getContext("2d");
+const snakeCanvas =
+    document.getElementById("snakeCanvas");
 
-let snake=[];
-let food={x:5,y:5};
-let dir={x:1,y:0};
-let snakeTimer;
-let snakeScore=0;
+const snakeContext =
+    snakeCanvas.getContext("2d");
 
-function startSnake(){
+let snakeBody = [];
+let snakeDirection = {x:1,y:0};
+let snakeFood = {x:5,y:5};
+let snakeInterval = null;
+let snakePoints = 0;
 
-    clearInterval(snakeTimer);
+function startSnakeGame(){
 
-    snake=[
+    clearInterval(snakeInterval);
+
+    snakeBody = [
         {x:5,y:5},
         {x:4,y:5},
         {x:3,y:5}
     ];
 
-    dir={x:1,y:0};
-    snakeScore=0;
-    food={
+    snakeDirection = {x:1,y:0};
+    snakePoints = 0;
+
+    document.getElementById("snakeScore").textContent=0;
+
+    placeSnakeFood();
+
+    snakeInterval =
+        setInterval(updateSnakeGame,120);
+}
+
+function placeSnakeFood(){
+
+    snakeFood = {
         x:Math.floor(Math.random()*12),
         y:Math.floor(Math.random()*9)
     };
-
-    snakeTimer=setInterval(updateSnake,130);
 }
 
-function updateSnake(){
+function updateSnakeGame(){
 
-    let head={
-        x:snake[0].x+dir.x,
-        y:snake[0].y+dir.y
+    const head = {
+        x:snakeBody[0].x + snakeDirection.x,
+        y:snakeBody[0].y + snakeDirection.y
     };
 
     if(
-        head.x<0||
-        head.y<0||
-        head.x>=12||
-        head.y>=9||
-        snake.some(x=>x.x===head.x&&x.y===head.y)
+        head.x<0 ||
+        head.y<0 ||
+        head.x>=12 ||
+        head.y>=9 ||
+        snakeBody.some(
+            part =>
+            part.x===head.x &&
+            part.y===head.y
+        )
     ){
-        clearInterval(snakeTimer);
+        clearInterval(snakeInterval);
         return;
     }
 
-    snake.unshift(head);
+    snakeBody.unshift(head);
 
-    if(head.x===food.x&&head.y===food.y){
+    if(
+        head.x===snakeFood.x &&
+        head.y===snakeFood.y
+    ){
+        snakePoints++;
 
-        snakeScore++;
+        document.getElementById(
+            "snakeScore"
+        ).textContent=snakePoints;
 
-        document.getElementById("snakeScore").textContent=
-            snakeScore;
-
-        food={
-            x:Math.floor(Math.random()*12),
-            y:Math.floor(Math.random()*9)
-        };
-
-    }else{
-        snake.pop();
+        placeSnakeFood();
+    }
+    else{
+        snakeBody.pop();
     }
 
-    sx.clearRect(0,0,250,180);
+    snakeContext.clearRect(
+        0,
+        0,
+        snakeCanvas.width,
+        snakeCanvas.height
+    );
 
-    sx.fillStyle="red";
-    sx.fillRect(food.x*20,food.y*20,18,18);
+    snakeContext.fillStyle="red";
 
-    sx.fillStyle="lime";
+    snakeContext.fillRect(
+        snakeFood.x*20,
+        snakeFood.y*20,
+        18,
+        18
+    );
 
-    snake.forEach(x=>{
-        sx.fillRect(x.x*20,x.y*20,18,18);
+    snakeContext.fillStyle="lime";
+
+    snakeBody.forEach(part=>{
+        snakeContext.fillRect(
+            part.x*20,
+            part.y*20,
+            18,
+            18
+        );
     });
 }
 
-document.addEventListener("keydown",e=>{
+document.addEventListener("keydown",function(event){
 
-    if(e.key==="ArrowUp"&&dir.y!==1)
-        dir={x:0,y:-1};
+    if(
+        event.key==="ArrowUp" &&
+        snakeDirection.y!==1
+    ){
+        snakeDirection={x:0,y:-1};
+    }
 
-    if(e.key==="ArrowDown"&&dir.y!==-1)
-        dir={x:0,y:1};
+    if(
+        event.key==="ArrowDown" &&
+        snakeDirection.y!==-1
+    ){
+        snakeDirection={x:0,y:1};
+    }
 
-    if(e.key==="ArrowLeft"&&dir.x!==1)
-        dir={x:-1,y:0};
+    if(
+        event.key==="ArrowLeft" &&
+        snakeDirection.x!==1
+    ){
+        snakeDirection={x:-1,y:0};
+    }
 
-    if(e.key==="ArrowRight"&&dir.x!==-1)
-        dir={x:1,y:0};
+    if(
+        event.key==="ArrowRight" &&
+        snakeDirection.x!==-1
+    ){
+        snakeDirection={x:1,y:0};
+    }
 });
 
 
-/* KLIK GAME */
+/* =========================
+   KLIK
+========================= */
 
-addBox(`
+createBox(`
 <h2>klik</h2>
-<div class="big" id="clickScore">0</div>
-<button onclick="clickGame()">KLIK</button>
+
+<div class="big" id="clickNumber">0</div>
+
+<button onclick="increaseClickNumber()">
+KLIK
+</button>
 `);
 
-let clickScore=0;
+let clickNumber = 0;
 
-function clickGame(){
-    clickScore++;
-    document.getElementById("clickScore").textContent=clickScore;
+function increaseClickNumber(){
+
+    clickNumber++;
+
+    document.getElementById(
+        "clickNumber"
+    ).textContent=clickNumber;
 }
 
 
-/* RANDOM GETAL */
+/* =========================
+   RANDOM GETAL
+========================= */
 
-addBox(`
+createBox(`
 <h2>getal</h2>
-<input id="min" value="1">
-<input id="max" value="100">
-<button onclick="randomNumber()">doe</button>
-<div class="big" id="number">?</div>
+
+<input id="randomMin" value="1">
+<input id="randomMax" value="100">
+
+<button onclick="makeRandomNumber()">doe</button>
+
+<div class="big" id="randomNumber">?</div>
 `);
 
-function randomNumber(){
+function makeRandomNumber(){
 
-    let a=Number(document.getElementById("min").value);
-    let b=Number(document.getElementById("max").value);
+    const min =
+        Number(document.getElementById("randomMin").value);
 
-    document.getElementById("number").textContent=
-        Math.floor(Math.random()*(b-a+1))+a;
+    const max =
+        Number(document.getElementById("randomMax").value);
+
+    const result =
+        Math.floor(Math.random()*(max-min+1))+min;
+
+    document.getElementById(
+        "randomNumber"
+    ).textContent=result;
 }
 
 
-/* TEKENEN */
+/* =========================
+   TEKENEN
+========================= */
 
-addBox(`
+createBox(`
 <h2>tekenen</h2>
-<canvas id="paint" width="250" height="160"></canvas>
-<button onclick="clearPaint()">weg</button>
+
+<canvas
+id="paintCanvas"
+width="250"
+height="160">
+</canvas>
+
+<button onclick="clearDrawing()">weg</button>
 `);
 
-const paint=document.getElementById("paint");
-const pc=paint.getContext("2d");
-let drawing=false;
+const paintCanvas =
+    document.getElementById("paintCanvas");
 
-paint.onmousedown=()=>drawing=true;
-paint.onmouseup=()=>drawing=false;
-paint.onmouseleave=()=>drawing=false;
+const paintContext =
+    paintCanvas.getContext("2d");
 
-paint.onmousemove=e=>{
+let painting = false;
 
-    if(!drawing)return;
+paintCanvas.addEventListener(
+    "mousedown",
+    ()=>painting=true
+);
 
-    let r=paint.getBoundingClientRect();
+paintCanvas.addEventListener(
+    "mouseup",
+    ()=>painting=false
+);
 
-    pc.fillStyle=random([
-        "red","blue","lime","yellow",
-        "purple","black","orange"
-    ]);
+paintCanvas.addEventListener(
+    "mouseleave",
+    ()=>painting=false
+);
 
-    pc.fillRect(
-        e.clientX-r.left,
-        e.clientY-r.top,
-        8,
-        8
+paintCanvas.addEventListener(
+    "mousemove",
+    function(event){
+
+        if(!painting)return;
+
+        const rect =
+            paintCanvas.getBoundingClientRect();
+
+        paintContext.fillStyle =
+            pickRandom([
+                "red",
+                "blue",
+                "lime",
+                "yellow",
+                "purple",
+                "black",
+                "orange"
+            ]);
+
+        paintContext.fillRect(
+            event.clientX-rect.left,
+            event.clientY-rect.top,
+            8,
+            8
+        );
+    }
+);
+
+function clearDrawing(){
+    paintContext.clearRect(
+        0,
+        0,
+        paintCanvas.width,
+        paintCanvas.height
     );
-};
-
-function clearPaint(){
-    pc.clearRect(0,0,250,160);
 }
 
 
-/* MEME */
+/* =========================
+   AFBEELDING 1
+========================= */
 
-addBox(`
+createBox(`
 <h2>meme</h2>
+
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10">
-<div class="memeText">${random(nonsense)}</div>
+
+<div class="big">
+${pickRandom(weirdWords)}
+</div>
 `);
 
 
-/* NOG EEN MEME */
+/* =========================
+   AFBEELDING 2
+========================= */
 
-addBox(`
+createBox(`
 <h2>???</h2>
+
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcRkr0KewwnwmGmoQQi8ltA_TarFWQ93IoZRQ4X_cx3DQQ&s=10">
-<button onclick="document.body.classList.toggle('shake')">druk</button>
+
+<button onclick="shakeWholePage()">druk</button>
 `);
 
 
-/* RANDOM AFBEELDING */
+/* =========================
+   AFBEELDING 3
+========================= */
 
-addBox(`
+createBox(`
 <h2>foto</h2>
+
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTbCfXlQ-LQkHbRKhK02aoikfgs_JSKMVi7TifRxL1M4w&s=10">
 `);
 
 
-/* FOTO */
+/* =========================
+   AFBEELDING 4
+========================= */
 
-addBox(`
+createBox(`
 <h2>hmm</h2>
+
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTn4U34c6mnHOmr5faLm3lho2fPdcmvFc1tmqcpVXVWRA&s">
 `);
 
 
-/* FOTO 2 */
+/* =========================
+   AFBEELDING 5
+========================= */
 
-addBox(`
-<h2>dit ook</h2>
+createBox(`
+<h2>dit</h2>
+
 <img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSfJMgE_4SOeA74h1kj1XYzVcKbhlYxjiS9j_ZUoxN2vA&s=10">
 `);
 
 
-/* RANDOM MEME TEKST */
+/* =========================
+   TIMER
+========================= */
 
-addBox(`
-<h2>tekst</h2>
-<div class="memeText" id="memeText">BRUH</div>
-<button onclick="newMeme()">nieuw</button>
-`);
-
-function newMeme(){
-    document.getElementById("memeText").textContent=
-        random(nonsense);
-}
-
-
-/* TIMER */
-
-addBox(`
+createBox(`
 <h2>timer</h2>
-<input id="timerInput" value="10">
-<button onclick="startTimer()">start</button>
-<div class="big" id="timerOut">10</div>
+
+<input id="timerSeconds" value="10">
+
+<button onclick="startSimpleTimer()">start</button>
+
+<div class="big" id="timerDisplay">10</div>
 `);
 
-let timerID;
+let timerInterval = null;
 
-function startTimer(){
+function startSimpleTimer(){
 
-    clearInterval(timerID);
+    clearInterval(timerInterval);
 
-    let n=Number(
-        document.getElementById("timerInput").value
-    );
+    let seconds =
+        Number(document.getElementById("timerSeconds").value);
 
-    timerID=setInterval(()=>{
+    timerInterval=setInterval(function(){
 
-        document.getElementById("timerOut").textContent=n;
+        document.getElementById(
+            "timerDisplay"
+        ).textContent=seconds;
 
-        n--;
+        seconds--;
 
-        if(n<0){
-            clearInterval(timerID);
-            document.getElementById("timerOut").textContent="BOEM";
+        if(seconds<0){
+
+            clearInterval(timerInterval);
+
+            document.getElementById(
+                "timerDisplay"
+            ).textContent="BOEM";
         }
 
     },1000);
 }
 
 
-/* STEEN PAPIER SCHAAR */
+/* =========================
+   STEEN PAPIER SCHAAR
+========================= */
 
-addBox(`
+createBox(`
 <h2>steen</h2>
-<button onclick="rps('steen')">steen</button>
-<button onclick="rps('papier')">papier</button>
-<button onclick="rps('schaar')">schaar</button>
-<div class="output" id="rps">...</div>
+
+<button onclick="playRps('steen')">steen</button>
+<button onclick="playRps('papier')">papier</button>
+<button onclick="playRps('schaar')">schaar</button>
+
+<div class="output" id="rpsResult">...</div>
 `);
 
-function rps(x){
+function playRps(player){
 
-    let c=random(["steen","papier","schaar"]);
-
-    document.getElementById("rps").textContent=
-        x+" tegen "+c+" = "+random([
-            "gewonnen",
-            "verloren",
-            "gelijk",
-            "wat"
+    const computer =
+        pickRandom([
+            "steen",
+            "papier",
+            "schaar"
         ]);
+
+    let result="gelijk";
+
+    if(player!==computer){
+
+        if(
+            (player==="steen" && computer==="schaar") ||
+            (player==="papier" && computer==="steen") ||
+            (player==="schaar" && computer==="papier")
+        ){
+            result="gewonnen";
+        }
+        else{
+            result="verloren";
+        }
+    }
+
+    document.getElementById(
+        "rpsResult"
+    ).textContent=
+        player+" tegen "+computer+" = "+result;
 }
 
 
-/* RANDOM TEKST */
+/* =========================
+   TEKST
+========================= */
 
-addBox(`
-<h2>ding</h2>
-<div class="big" id="randomText">???</div>
-<button onclick="randomText()">klik</button>
+createBox(`
+<h2>tekst</h2>
+
+<div class="big" id="randomWord">
+???
+</div>
+
+<button onclick="changeRandomWord()">klik</button>
 `);
 
-function randomText(){
-    document.getElementById("randomText").textContent=
-        random(nonsense);
+function changeRandomWord(){
+
+    document.getElementById(
+        "randomWord"
+    ).textContent=pickRandom(weirdWords);
 }
 
 
-/* COUNTER */
+/* =========================
+   COUNTER
+========================= */
 
-addBox(`
+createBox(`
 <h2>nummer</h2>
-<div class="big" id="counter">0</div>
-<button onclick="counter(1)">+</button>
-<button onclick="counter(-1)">-</button>
-<button onclick="counter(100)">100</button>
+
+<div class="big" id="counterNumber">0</div>
+
+<button onclick="changeCounter(1)">+</button>
+<button onclick="changeCounter(-1)">-</button>
+<button onclick="changeCounter(100)">100</button>
 `);
 
-let count=0;
+let counterValue=0;
 
-function counter(x){
-    count+=x;
-    document.getElementById("counter").textContent=count;
+function changeCounter(amount){
+
+    counterValue+=amount;
+
+    document.getElementById(
+        "counterNumber"
+    ).textContent=counterValue;
 }
 
 
-/* REACTIE */
+/* =========================
+   REACTIE
+========================= */
 
-addBox(`
+createBox(`
 <h2>reactie</h2>
-<div class="big" id="reaction">wacht</div>
-<button onclick="reaction()">start</button>
+
+<div class="big" id="reactionText">
+wacht
+</div>
+
+<button onclick="startReaction()">start</button>
 `);
 
-function reaction(){
+function startReaction(){
 
-    let e=document.getElementById("reaction");
+    const element =
+        document.getElementById("reactionText");
 
-    e.textContent="wacht...";
+    element.textContent="wacht...";
 
-    setTimeout(()=>{
-        e.textContent="NU";
+    setTimeout(function(){
+
+        element.textContent="NU";
+
     },1000+Math.random()*3000);
 }
 
 
-/* TERMINAL */
+/* =========================
+   TERMINAL
+========================= */
 
-addBox(`
+createBox(`
 <h2>computer</h2>
-<div id="terminal">> welkom<br></div>
-<input id="terminalInput" placeholder="typ iets"
-onkeydown="terminal(event)">
+
+<div id="terminalBox">
+&gt; welkom<br>
+</div>
+
+<input
+id="terminalInput"
+placeholder="typ iets"
+onkeydown="terminalCommand(event)">
 `);
 
-function terminal(e){
+function terminalCommand(event){
 
-    if(e.key!=="Enter")return;
+    if(event.key!=="Enter")return;
 
-    let input=document.getElementById("terminalInput");
-    let t=document.getElementById("terminal");
+    const input =
+        document.getElementById("terminalInput");
 
-    t.innerHTML+=
-        "<br>> "+input.value+
-        "<br>"+random(nonsense);
+    const terminal =
+        document.getElementById("terminalBox");
+
+    terminal.innerHTML +=
+        "<br>&gt; "+
+        input.value+
+        "<br>"+
+        pickRandom(weirdWords);
 
     input.value="";
-    t.scrollTop=t.scrollHeight;
+
+    terminal.scrollTop=
+        terminal.scrollHeight;
 }
 
 
-/* SLIDER */
+/* =========================
+   SLIDER
+========================= */
 
-addBox(`
+createBox(`
 <h2>schuif</h2>
-<input type="range" min="0" max="100" value="50"
-oninput="slider(this.value)">
-<div class="big" id="slider">50</div>
-`);
 
-function slider(x){
-    document.getElementById("slider").textContent=x;
-}
+<input
+type="range"
+min="0"
+max="100"
+value="50"
+oninput="showSliderValue(this.value)">
 
-
-/* DANSENDE TEKST */
-
-addBox(`
-<h2>lol</h2>
-<div class="marquee">
-<span>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span>
+<div class="big" id="sliderValue">
+50
 </div>
 `);
 
+function showSliderValue(value){
 
-/* KLEUR */
+    document.getElementById(
+        "sliderValue"
+    ).textContent=value;
+}
 
-addBox(`
+
+/* =========================
+   KLEUR
+========================= */
+
+createBox(`
 <h2>kleur</h2>
-<div id="color"
-style="height:80px;background:red;border:5px solid black">
+
+<div
+id="colorSquare"
+style="
+height:80px;
+background:red;
+border:5px solid black;
+">
 </div>
-<button onclick="color()">andere</button>
+
+<button onclick="changeSquareColor()">
+andere
+</button>
 `);
 
-function color(){
+function changeSquareColor(){
 
-    document.getElementById("color").style.background=
-        `hsl(${Math.random()*360},100%,50%)`;
+    document.getElementById(
+        "colorSquare"
+    ).style.background=
+        "hsl("+Math.random()*360+",100%,50%)";
 }
 
 
-/* GELUID */
+/* =========================
+   GELUID
+========================= */
 
-addBox(`
+createBox(`
 <h2>geluid</h2>
-<button onclick="beep(100)">laag</button>
-<button onclick="beep(500)">normaal</button>
-<button onclick="beep(1500)">hoog</button>
+
+<button onclick="makeBeep(100)">laag</button>
+<button onclick="makeBeep(500)">normaal</button>
+<button onclick="makeBeep(1500)">hoog</button>
 `);
 
-let audio;
+let audioContext=null;
 
-function beep(freq){
+function makeBeep(frequency){
 
-    audio=audio||new AudioContext();
+    if(!audioContext){
+        audioContext =
+            new (window.AudioContext ||
+                 window.webkitAudioContext)();
+    }
 
-    let osc=audio.createOscillator();
-    let gain=audio.createGain();
+    const oscillator =
+        audioContext.createOscillator();
 
-    osc.frequency.value=freq;
+    const gain =
+        audioContext.createGain();
 
-    osc.connect(gain);
-    gain.connect(audio.destination);
+    oscillator.frequency.value=frequency;
 
     gain.gain.value=.05;
 
-    osc.start();
-    osc.stop(audio.currentTime+.15);
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audioContext.currentTime+.15
+    );
 }
 
 
-/* AFBEELDING MET RANDOM TEKST */
+/* =========================
+   MARQUEE
+========================= */
 
-addBox(`
-<h2>???</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10">
-<div class="memeText">WAT GEBEURT HIER</div>
+createBox(`
+<h2>lol</h2>
+
+<div class="marquee">
+<span>
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</span>
+</div>
 `);
 
 
-/* EXTRA ROMMEL */
+/* =========================
+   MEER RANDOM BLOKKEN
+========================= */
 
-for(let i=0;i<12;i++){
+for(let i=0;i<15;i++){
 
-    addBox(`
-    <h2>${random([
+    const titles=[
         "ding",
         "iets",
         "???",
         "tool",
         "haha",
         "nummer",
-        "knop"
-    ])}</h2>
+        "knop",
+        "wat",
+        "huh"
+    ];
 
-    <button onclick="
-        this.parentElement.style.transform=
-        'rotate('+(${Math.random()*40-20})+'deg)'
-    ">
-        ${random(nonsense)}
-    </button>
+    createBox(`
+        <h2>${pickRandom(titles)}</h2>
 
-    <div class="output">
-        ${random(nonsense)}
-    </div>
+        <button onclick="
+            this.parentElement.style.transform =
+            'rotate('+(Math.random()*40-20)+'deg)';
+        ">
+            ${pickRandom(weirdWords)}
+        </button>
+
+        <div class="output">
+            ${pickRandom(weirdWords)}
+        </div>
     `);
 }
 
 
-/* ============================
+/* =========================
+   SCHUDDEN
+========================= */
+
+function shakeWholePage(){
+
+    document.body.classList.add("shakePage");
+
+    setTimeout(function(){
+
+        document.body.classList.remove("shakePage");
+
+    },1000);
+}
+
+
+/* =========================
    RANDOM LETTERS
-============================ */
+========================= */
 
-function spawnRandom(){
+function createFloatingThing(){
 
-    let d=document.createElement("div");
+    const element =
+        document.createElement("div");
 
-    d.className="random";
+    element.className="floatThing";
 
-    d.textContent=random(nonsense);
+    element.textContent=
+        pickRandom(weirdWords);
 
-    d.style.left=Math.random()*100+"vw";
-    d.style.top=Math.random()*100+"vh";
+    element.style.left=
+        Math.random()*100+"vw";
 
-    d.style.color=
-        `hsl(${Math.random()*360},100%,50%)`;
+    element.style.top=
+        Math.random()*100+"vh";
 
-    d.style.fontSize=
-        10+Math.random()*80+"px";
+    element.style.color=
+        "hsl("+Math.random()*360+",100%,50%)";
 
-    mess.appendChild(d);
+    element.style.fontSize=
+        (15+Math.random()*70)+"px";
 
-    setTimeout(()=>{
-        d.remove();
+    element.style.setProperty(
+        "--dx",
+        Math.random()*800-400
+    );
+
+    element.style.setProperty(
+        "--dy",
+        Math.random()*600-300
+    );
+
+    floatingElement.appendChild(element);
+
+    setTimeout(function(){
+        element.remove();
     },1500);
 }
 
-setInterval(()=>{
+setInterval(function(){
 
-    for(let i=0;i<Math.floor(Math.random()*5)+1;i++)
-        spawnRandom();
+    const amount =
+        Math.floor(Math.random()*4)+1;
 
-},250);
-
-
-/* ============================
-   WIT SCHERM
-============================ */
-
-let whiteBusy=false;
-
-function whiteScreen(){
-
-    if(whiteBusy)return;
-
-    whiteBusy=true;
-
-    let screen=document.getElementById("whiteScreen");
-    let name=document.getElementById("whiteName");
-
-    name.textContent=random(names);
-
-    screen.style.display="flex";
-
-    setTimeout(()=>{
-
-        screen.style.display="none";
-        whiteBusy=false;
-
-    },2500+Math.random()*2500);
-}
-
-
-/* om de zoveel tijd */
-
-setInterval(()=>{
-
-    if(Math.random()<0.35){
-        whiteScreen();
+    for(let i=0;i<amount;i++){
+        createFloatingThing();
     }
 
-},18000);
+},350);
 
 
-/* ============================
-   RANDOM FLASH
-============================ */
+/* =========================
+   MUIS
+========================= */
 
-setInterval(()=>{
+document.addEventListener(
+    "mousemove",
+    function(event){
 
-    if(Math.random()<0.08){
+        if(Math.random()>0.96){
 
-        let f=document.createElement("div");
+            const element =
+                document.createElement("div");
 
-        f.className="flash";
+            element.textContent=
+                pickRandom(weirdWords);
 
-        document.body.appendChild(f);
+            element.style.position="fixed";
+            element.style.left=
+                event.clientX+"px";
+            element.style.top=
+                event.clientY+"px";
 
-        setTimeout(()=>{
-            f.remove();
-        },100);
+            element.style.pointerEvents="none";
+            element.style.zIndex="100001";
+
+            element.style.color=
+                "hsl("+Math.random()*360+",100%,50%)";
+
+            document.body.appendChild(element);
+
+            setTimeout(function(){
+                element.remove();
+            },500);
+        }
     }
+);
 
-},700);
+
+/* =========================
+   KLIK ROMMEL
+========================= */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        for(let i=0;i<2;i++){
+
+            const element =
+                document.createElement("div");
+
+            element.textContent=
+                pickRandom(weirdWords);
+
+            element.style.position="fixed";
+
+            element.style.left=
+                event.clientX+"px";
+
+            element.style.top=
+                event.clientY+"px";
+
+            element.style.zIndex="100001";
+            element.style.pointerEvents="none";
+
+            element.style.color=
+                "hsl("+Math.random()*360+",100%,50%)";
+
+            document.body.appendChild(element);
+
+            const x=
+                Math.random()*200-100;
+
+            const y=
+                Math.random()*200-100;
+
+            element.animate(
+                [
+                    {
+                        transform:"translate(0,0)",
+                        opacity:1
+                    },
+                    {
+                        transform:
+                            "translate("+x+"px,"+
+                            y+"px) rotate(500deg) scale(0)",
+                        opacity:0
+                    }
+                ],
+                {
+                    duration:600
+                }
+            );
+
+            setTimeout(function(){
+                element.remove();
+            },650);
+        }
+    }
+);
 
 
-/* ============================
-   RANDOM ROTATIE
-============================ */
+/* =========================
+   RANDOM ROTATIES
+========================= */
 
-setInterval(()=>{
+setInterval(function(){
 
-    let boxes=document.querySelectorAll(".box");
+    const boxes =
+        document.querySelectorAll(".box");
 
-    if(boxes.length){
+    if(boxes.length===0)return;
 
-        let b=boxes[
-            Math.floor(Math.random()*boxes.length)
+    const box =
+        boxes[
+            Math.floor(
+                Math.random()*boxes.length
+            )
         ];
 
-        b.style.transform=
-            `rotate(${Math.random()*16-8}deg)`;
-    }
+    box.style.transform=
+        "rotate("+
+        (Math.random()*14-7)+
+        "deg)";
 
 },900);
 
 
-/* ============================
-   RANDOM PAGINA KLEUR
-============================ */
+/* =========================
+   RANDOM BODY KLEUR
+========================= */
 
-setInterval(()=>{
+setInterval(function(){
 
     if(Math.random()<0.12){
 
         document.body.style.background=
-            random([
+            pickRandom([
                 "red",
                 "blue",
                 "lime",
@@ -937,168 +1260,168 @@ setInterval(()=>{
 },1200);
 
 
-/* ============================
-   MUIS LETTERS
-============================ */
+/* =========================
+   GIGANTISCHE LETTER
+========================= */
 
-document.addEventListener("mousemove",e=>{
+setInterval(function(){
 
-    if(Math.random()<0.04){
+    if(Math.random()>0.8){
 
-        let d=document.createElement("div");
+        const element =
+            document.createElement("div");
 
-        d.textContent=random(nonsense);
+        element.textContent=
+            pickRandom([
+                "A",
+                "X",
+                "?",
+                "!",
+                "42",
+                "🐔"
+            ]);
 
-        d.style.position="fixed";
-        d.style.left=e.clientX+"px";
-        d.style.top=e.clientY+"px";
-        d.style.color=random([
-            "red",
-            "blue",
-            "lime",
-            "purple",
-            "orange"
-        ]);
-        d.style.fontSize="20px";
-        d.style.zIndex=100001;
-        d.style.pointerEvents="none";
+        element.style.position="fixed";
 
-        document.body.appendChild(d);
+        element.style.left=
+            Math.random()*90+"vw";
 
-        setTimeout(()=>d.remove(),500);
-    }
-});
+        element.style.top=
+            Math.random()*90+"vh";
 
+        element.style.fontSize=
+            (100+Math.random()*180)+"px";
 
-/* ============================
-   KLIK EXPLOSIE
-============================ */
+        element.style.fontWeight="bold";
 
-document.addEventListener("click",e=>{
+        element.style.color=
+            "hsl("+Math.random()*360+",100%,50%)";
 
-    for(let i=0;i<3;i++){
+        element.style.zIndex="8999";
+        element.style.pointerEvents="none";
 
-        let d=document.createElement("div");
+        document.body.appendChild(element);
 
-        d.textContent=random(nonsense);
-
-        d.style.position="fixed";
-        d.style.left=e.clientX+"px";
-        d.style.top=e.clientY+"px";
-        d.style.zIndex=100001;
-        d.style.pointerEvents="none";
-        d.style.color=
-            `hsl(${Math.random()*360},100%,50%)`;
-
-        document.body.appendChild(d);
-
-        let x=Math.random()*200-100;
-        let y=Math.random()*200-100;
-
-        d.animate([
+        element.animate(
+            [
+                {
+                    transform:"scale(0) rotate(0)",
+                    opacity:0
+                },
+                {
+                    transform:"scale(1) rotate(180deg)",
+                    opacity:1
+                },
+                {
+                    transform:"scale(3) rotate(600deg)",
+                    opacity:0
+                }
+            ],
             {
-                transform:"translate(0,0)",
-                opacity:1
-            },
-            {
-                transform:
-                    `translate(${x}px,${y}px)
-                     rotate(500deg)
-                     scale(0)`,
-                opacity:0
+                duration:1000
             }
-        ],{
-            duration:600
-        });
+        );
 
-        setTimeout(()=>d.remove(),650);
-    }
-});
-
-
-/* ============================
-   GIGANTISCHE LETTERS
-============================ */
-
-setInterval(()=>{
-
-    if(Math.random()<0.2){
-
-        let d=document.createElement("div");
-
-        d.textContent=random([
-            "A",
-            "X",
-            "?",
-            "!",
-            "42",
-            "🐔"
-        ]);
-
-        d.style.position="fixed";
-        d.style.left=Math.random()*100+"vw";
-        d.style.top=Math.random()*100+"vh";
-        d.style.fontSize=
-            100+Math.random()*250+"px";
-        d.style.fontWeight="bold";
-        d.style.color=
-            `hsl(${Math.random()*360},100%,50%)`;
-        d.style.zIndex=8999;
-        d.style.pointerEvents="none";
-
-        document.body.appendChild(d);
-
-        d.animate([
-            {
-                transform:"scale(0) rotate(0)",
-                opacity:0
-            },
-            {
-                transform:"scale(1) rotate(180deg)",
-                opacity:1
-            },
-            {
-                transform:"scale(3) rotate(600deg)",
-                opacity:0
-            }
-        ],{
-            duration:1000
-        });
-
-        setTimeout(()=>d.remove(),1100);
+        setTimeout(function(){
+            element.remove();
+        },1100);
     }
 
 },1000);
 
 
-/* ============================
-   TITEL WISSELEN
-============================ */
+/* =========================
+   WIT SCHERM
+========================= */
 
-setInterval(()=>{
+let whiteScreenRunning=false;
 
-    document.title=random([
-        "site",
-        "???",
-        "AAAA",
-        "42",
-        "banana",
-        "lol",
-        "404",
-        "kip"
-    ]);
+function showWhiteScreen(){
+
+    if(whiteScreenRunning)return;
+
+    whiteScreenRunning=true;
+
+    whiteText.textContent=
+        pickRandom(whiteNames);
+
+    whiteOverlay.style.display="flex";
+
+    setTimeout(function(){
+
+        whiteOverlay.style.display="none";
+        whiteScreenRunning=false;
+
+    },2500+Math.random()*2500);
+}
+
+setInterval(function(){
+
+    if(Math.random()<0.35){
+        showWhiteScreen();
+    }
+
+},18000);
+
+
+/* =========================
+   RANDOM FLASH
+========================= */
+
+setInterval(function(){
+
+    if(Math.random()<0.07){
+
+        const flash =
+            document.createElement("div");
+
+        flash.style.position="fixed";
+        flash.style.inset="0";
+        flash.style.background="white";
+        flash.style.zIndex="9500";
+        flash.style.pointerEvents="none";
+
+        document.body.appendChild(flash);
+
+        setTimeout(function(){
+            flash.remove();
+        },80);
+    }
+
+},700);
+
+
+/* =========================
+   TITEL
+========================= */
+
+setInterval(function(){
+
+    document.title=
+        pickRandom([
+            "site",
+            "???",
+            "AAAA",
+            "42",
+            "banana",
+            "lol",
+            "404",
+            "kip"
+        ]);
 
 },300);
 
 
-/* ============================
-   START ROMMEL
-============================ */
+/* =========================
+   START
+========================= */
 
-setTimeout(()=>{
-    for(let i=0;i<15;i++){
-        spawnRandom();
+setTimeout(function(){
+
+    for(let i=0;i<12;i++){
+        createFloatingThing();
     }
+
 },500);
 
 </script>
