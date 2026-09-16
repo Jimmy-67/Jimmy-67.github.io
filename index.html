@@ -2,18 +2,15 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>???</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>67</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 html,body{
     margin:0;
     padding:0;
-    min-height:100%;
 }
 
 body{
@@ -26,212 +23,245 @@ body{
 #site{
     display:flex;
     flex-wrap:wrap;
+    gap:3px;
+    padding:3px;
     align-items:flex-start;
-    gap:7px;
-    padding:8px;
 }
 
 .box{
-    width:260px;
-    min-height:100px;
-    padding:7px;
-    border:5px ridge #444;
-    background:#ddd;
+    width:250px;
+    min-height:90px;
+    padding:5px;
+    border:7px ridge #222;
+    position:relative;
+    overflow:hidden;
 }
 
-.box:nth-child(2n){
-    background:#ff9999;
-}
-
-.box:nth-child(3n){
-    background:#99ff99;
-}
-
-.box:nth-child(4n){
-    background:#9999ff;
-}
-
-.box:nth-child(5n){
-    background:#ffff55;
-}
-
-.box:nth-child(6n){
-    background:#ff99ff;
-}
+.box:nth-child(7n+1){background:#ff00ff}
+.box:nth-child(7n+2){background:#00ffff}
+.box:nth-child(7n+3){background:#ffff00}
+.box:nth-child(7n+4){background:#ff4444}
+.box:nth-child(7n+5){background:#44ff44}
+.box:nth-child(7n+6){background:#5555ff}
+.box:nth-child(7n){background:#ff9900}
 
 h2{
-    margin:0 0 5px 0;
-    font-size:21px;
+    margin:0;
+    font-size:22px;
     text-decoration:underline;
 }
 
 button{
-    font-family:inherit;
-    font-size:14px;
+    font-family:"Comic Sans MS",Arial;
+    background:#aaa;
+    border:5px outset #eee;
+    padding:4px 8px;
     margin:2px;
-    padding:6px 9px;
-    border:3px outset #eee;
-    background:#ccc;
     cursor:pointer;
 }
 
 button:active{
-    border:3px inset #eee;
+    border:5px inset #eee;
 }
 
 input,textarea{
     width:100%;
-    padding:6px;
+    padding:5px;
+    border:4px inset #888;
     margin:2px 0;
-    border:3px inset #999;
-    font-family:Arial,sans-serif;
 }
 
-textarea{
-    height:80px;
-}
+textarea{height:70px}
 
 .output{
-    background:white;
-    border:3px inset #aaa;
-    min-height:28px;
-    margin-top:4px;
+    background:#fff;
+    border:4px inset #777;
     padding:5px;
+    min-height:25px;
+    margin-top:3px;
 }
 
 .big{
     text-align:center;
-    font-size:35px;
+    font-size:38px;
     font-weight:bold;
-}
-
-img{
-    display:block;
-    width:auto;
-    max-width:100%;
-    max-height:200px;
-    margin:4px auto;
-    border:5px solid black;
 }
 
 canvas{
     display:block;
+    background:#fff;
+    border:6px double #000;
     max-width:100%;
+}
+
+img{
+    width:100%;
+    height:180px;
+    object-fit:contain;
     background:white;
-    border:4px solid black;
+    border:7px dashed black;
+    display:block;
+}
+
+.imageFallback{
+    width:100%;
+    height:180px;
+    background:white;
+    border:7px dashed red;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:Arial Black,Arial;
+    font-size:24px;
 }
 
 #floating{
     position:fixed;
     inset:0;
-    pointer-events:none;
     overflow:hidden;
+    pointer-events:none;
     z-index:5000;
 }
 
 .float{
     position:absolute;
-    font-weight:bold;
+    font-family:Arial Black,Arial;
+    font-weight:900;
+    text-shadow:3px 3px white;
+    white-space:nowrap;
+}
+
+#nameLayer{
+    position:fixed;
+    inset:0;
     pointer-events:none;
+    overflow:hidden;
+    z-index:6500;
+}
+
+.randomName{
+    position:absolute;
+    font-family:Arial Black,Arial;
+    font-size:48px;
+    font-weight:900;
+    color:red;
+    text-shadow:
+        5px 5px yellow,
+        -4px -4px blue,
+        3px -3px lime;
+    transform:rotate(-12deg);
+    animation:nameMove .8s linear forwards;
+}
+
+@keyframes nameMove{
+    0%{
+        transform:scale(.3) rotate(-30deg);
+        opacity:0;
+    }
+    20%{opacity:1}
+    100%{
+        transform:scale(1.4) rotate(25deg) translate(120px,80px);
+        opacity:0;
+    }
 }
 
 #whiteScreen{
     display:none;
     position:fixed;
     inset:0;
-    z-index:99999;
     background:white;
-    align-items:center;
+    z-index:99999;
     justify-content:center;
-    font-family:Arial,sans-serif;
-    font-size:90px;
-    font-weight:bold;
+    align-items:center;
 }
 
 #whiteName{
-    animation:wobble .07s infinite;
+    font-family:Arial Black,Arial;
+    font-size:100px;
+    color:#000;
+    animation:whiteShake .08s infinite;
 }
 
-@keyframes wobble{
+@keyframes whiteShake{
     0%{transform:translate(0)}
-    25%{transform:translate(8px,-5px)}
-    50%{transform:translate(-7px,6px)}
-    75%{transform:translate(6px,2px)}
+    25%{transform:translate(10px,-5px)}
+    50%{transform:translate(-8px,8px)}
+    75%{transform:translate(7px,3px)}
     100%{transform:translate(0)}
-}
-
-#terminal{
-    height:150px;
-    overflow:auto;
-    background:#000;
-    color:#00ff00;
-    font-family:monospace;
-    padding:7px;
 }
 
 #memory{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:3px;
+    gap:2px;
 }
 
 .memoryButton{
-    height:43px;
+    height:42px;
     padding:0;
     font-size:20px;
 }
 
 #targetArea{
-    position:relative;
-    width:240px;
-    height:160px;
-    max-width:100%;
+    width:235px;
+    height:150px;
     background:white;
-    border:4px solid black;
+    border:6px solid black;
+    position:relative;
     overflow:hidden;
 }
 
 .target{
-    position:absolute;
-    width:25px;
-    height:25px;
+    width:27px;
+    height:27px;
     border-radius:50%;
     background:red;
+    position:absolute;
     cursor:pointer;
 }
 
+#terminal{
+    height:130px;
+    background:#000;
+    color:#00ff00;
+    overflow:auto;
+    padding:5px;
+    font-family:monospace;
+}
+
 #maze{
-    position:relative;
-    width:240px;
-    height:160px;
+    width:235px;
+    height:155px;
     background:white;
-    border:4px solid black;
+    border:5px solid black;
+    position:relative;
     overflow:hidden;
 }
 
 .wall{
     position:absolute;
-    background:black;
+    background:#000;
 }
 
 #mazePlayer{
-    position:absolute;
     width:15px;
     height:15px;
     background:red;
-    left:8px;
-    top:8px;
+    position:absolute;
+    left:7px;
+    top:7px;
 }
 
 .shake{
-    animation:shake .07s infinite;
+    animation:shake .06s infinite;
 }
 
 @keyframes shake{
     0%{transform:translate(0)}
-    25%{transform:translate(5px,-3px)}
-    50%{transform:translate(-4px,4px)}
-    75%{transform:translate(3px,2px)}
+    25%{transform:translate(6px,-3px)}
+    50%{transform:translate(-5px,4px)}
+    75%{transform:translate(4px,2px)}
     100%{transform:translate(0)}
 }
 
@@ -243,46 +273,52 @@ canvas{
     to{transform:rotate(360deg)}
 }
 
-.marquee{
+.rainbow{
+    animation:hue .4s linear infinite;
+}
+
+@keyframes hue{
+    to{filter:hue-rotate(360deg)}
+}
+
+#ticker{
+    width:100%;
+    background:#000;
+    color:#00ff00;
+    height:32px;
     overflow:hidden;
     white-space:nowrap;
-    background:#000;
-    color:#0f0;
-    padding:5px;
+    font-family:Arial Black,Arial;
+    font-size:22px;
 }
 
-.marquee span{
+#ticker span{
     display:inline-block;
-    animation:marquee 2s linear infinite;
+    animation:scroll 4s linear infinite;
 }
 
-@keyframes marquee{
-    from{transform:translateX(100%)}
+@keyframes scroll{
+    from{transform:translateX(100vw)}
     to{transform:translateX(-100%)}
-}
-
-.rainbow{
-    animation:rainbow .5s linear infinite;
-}
-
-@keyframes rainbow{
-    from{filter:hue-rotate(0deg)}
-    to{filter:hue-rotate(360deg)}
 }
 </style>
 </head>
 
 <body>
 
+<div id="ticker">
+<span>CHARLIE KIRK&nbsp;&nbsp;&nbsp; 67&nbsp;&nbsp;&nbsp; GOON&nbsp;&nbsp;&nbsp; AURA&nbsp;&nbsp;&nbsp; SIGMA&nbsp;&nbsp;&nbsp; RIZZ&nbsp;&nbsp;&nbsp; SKIBIDI&nbsp;&nbsp;&nbsp; LOCK IN&nbsp;&nbsp;&nbsp; FANUM TAX&nbsp;&nbsp;&nbsp; COOKED&nbsp;&nbsp;&nbsp; NPC</span>
+</div>
+
 <div id="site">
 
 <!-- REKENMACHINE -->
 <div class="box">
 <h2>rekenmachine</h2>
-<input id="calcInput" placeholder="bijv. 25*4">
+<input id="calc" placeholder="2+2">
 <button onclick="calculate()">=</button>
-<button onclick="clearCalc()">wissen</button>
-<div class="output" id="calcOutput">0</div>
+<button onclick="document.getElementById('calc').value=''">wissen</button>
+<div class="output" id="calcOut">0</div>
 </div>
 
 <!-- SNAKE -->
@@ -290,9 +326,7 @@ canvas{
 <h2>Snake</h2>
 <canvas id="snake" width="240" height="180"></canvas>
 <button onclick="startSnake()">start</button>
-<div class="output">
-score: <span id="snakeScore">0</span>
-</div>
+<div class="output">score: <span id="snakeScore">0</span></div>
 </div>
 
 <!-- MEMORY -->
@@ -300,36 +334,36 @@ score: <span id="snakeScore">0</span>
 <h2>memory</h2>
 <div id="memory"></div>
 <button onclick="newMemory()">nieuw</button>
-<div class="output" id="memoryScore">0 paren</div>
+<div class="output" id="memoryScore">0</div>
 </div>
 
 <!-- KLIK -->
 <div class="box">
 <h2>klik</h2>
 <div class="big" id="clickScore">0</div>
-<button onclick="clickGame()">KLIK</button>
-<button onclick="resetClicks()">reset</button>
+<button onclick="clickGame()">GOON</button>
+<button onclick="clickScore=0;document.getElementById('clickScore').textContent=0">reset</button>
 </div>
 
-<!-- GETAL -->
+<!-- RAAD -->
 <div class="box">
 <h2>raad</h2>
-<input id="guessInput" type="number" placeholder="1 t/m 100">
-<button onclick="guessNumber()">raad</button>
+<input id="guess" type="number" placeholder="1 - 100">
+<button onclick="guess()">raad</button>
 <button onclick="newGuess()">nieuw</button>
-<div class="output" id="guessResult">er is een getal...</div>
+<div class="output" id="guessOut">67?</div>
 </div>
 
-<!-- STEEN -->
+<!-- RPS -->
 <div class="box">
 <h2>steen papier schaar</h2>
 <button onclick="rps('steen')">steen</button>
 <button onclick="rps('papier')">papier</button>
 <button onclick="rps('schaar')">schaar</button>
-<div class="output" id="rpsResult">...</div>
+<div class="output" id="rpsOut">rizz</div>
 </div>
 
-<!-- TEKENEN -->
+<!-- TEKEN -->
 <div class="box">
 <h2>tekenen</h2>
 <canvas id="paint" width="240" height="150"></canvas>
@@ -341,215 +375,212 @@ score: <span id="snakeScore">0</span>
 <h2>timer</h2>
 <input id="timerInput" type="number" value="10">
 <button onclick="startTimer()">start</button>
-<div class="big" id="timerDisplay">10</div>
+<div class="big" id="timer">10</div>
 </div>
 
 <!-- RANDOM -->
 <div class="box">
-<h2>getal</h2>
-<input id="minNumber" type="number" value="1">
-<input id="maxNumber" type="number" value="999">
-<button onclick="randomNumber()">doe</button>
-<div class="big" id="randomOutput">?</div>
+<h2>random</h2>
+<input id="min" type="number" value="1">
+<input id="max" type="number" value="100">
+<button onclick="randomNum()">DO IT</button>
+<div class="big" id="randomOut">67</div>
 </div>
 
 <!-- TARGET -->
 <div class="box">
-<h2>klik erop</h2>
+<h2>target</h2>
 <div id="targetArea"></div>
 <button onclick="startTarget()">start</button>
-<div class="output">
-score: <span id="targetScore">0</span>
-</div>
+<div class="output">score: <span id="targetScore">0</span></div>
 </div>
 
 <!-- REACTIE -->
 <div class="box">
 <h2>reactie</h2>
-<button id="reactionButton" onclick="reactionClick()">
-start
-</button>
-<div class="output" id="reactionResult">---</div>
+<button id="reaction" onclick="reaction()">START</button>
+<div class="output" id="reactionOut">---</div>
 </div>
 
 <!-- GELUID -->
 <div class="box">
 <h2>geluid</h2>
-<button onclick="beep(100)">laag</button>
-<button onclick="beep(500)">normaal</button>
-<button onclick="beep(1500)">hoog</button>
-<button onclick="beep(2500)">AAAA</button>
+<button onclick="beep(100)">low aura</button>
+<button onclick="beep(500)">rizz</button>
+<button onclick="beep(1200)">67</button>
+<button onclick="beep(2500)">GOON</button>
 </div>
 
 <!-- TEKST -->
 <div class="box">
-<h2>tekst</h2>
-<div class="big" id="randomText">???</div>
-<button onclick="randomText()">anders</button>
+<h2>brainrot</h2>
+<div class="big" id="brainrot">67</div>
+<button onclick="brainrot()">anders</button>
 </div>
 
 <!-- KLEUR -->
 <div class="box">
-<h2>kleur</h2>
-<div id="colorBox"
-style="height:70px;background:red;border:5px solid black">
-</div>
-<button onclick="randomColor()">andere</button>
+<h2>aura</h2>
+<div id="colorBox" style="height:70px;background:red;border:5px solid black"></div>
+<button onclick="randomColor()">aura check</button>
 </div>
 
 <!-- TERMINAL -->
 <div class="box">
-<h2>computer</h2>
+<h2>terminal</h2>
 <div id="terminal">
-&gt; welkom<br>
-&gt; typ iets
+&gt; system online<br>
+&gt; aura detected<br>
+&gt; 67
 </div>
-<input id="terminalInput"
-placeholder="typ en druk enter"
-onkeydown="terminalInput(event)">
+<input id="terminalInput" placeholder="typ iets" onkeydown="terminalKey(event)">
 </div>
 
-<!-- SCHUIF -->
+<!-- SLIDER -->
 <div class="box">
-<h2>schuif</h2>
-<input
-type="range"
-min="0"
-max="100"
-value="50"
-oninput="slider(this.value)">
-<div class="big" id="sliderValue">50</div>
+<h2>sigma meter</h2>
+<input type="range" min="0" max="100" value="67"
+oninput="document.getElementById('slider').textContent=this.value">
+<div class="big" id="slider">67</div>
 </div>
 
 <!-- AFBEELDING 1 -->
 <div class="box">
 <h2>meme</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10"
-onerror="this.style.display='none'">
-<div class="big">BRUH</div>
+<img
+src="https://wsrv.nl/?url=encrypted-tbn0.gstatic.com%2Fimages%3Fq%3DANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ%26s%3D10"
+data-original="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10"
+onerror="imageFail(this,'AFBEELDING 1')">
 </div>
 
 <!-- AFBEELDING 2 -->
 <div class="box">
-<h2>???</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcRkr0KewwnwmGmoQQi8ltA_TarFWQ93IoZRQ4X_cx3DQQ&s=10"
-onerror="this.style.display='none'">
-<button onclick="shake()">druk</button>
+<h2>charlie kirk</h2>
+<img
+src="https://wsrv.nl/?url=encrypted-tbn0.gstatic.com%2Fimages%3Fq%3DANd9GcRkr0KewwnwmGmoQQi8ltA_TarFWQ93IoZRQ4X_cx3DQQ%26s%3D10"
+data-original="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcRkr0KewwnwmGmoQQi8ltA_TarFWQ93IoZRQ4X_cx3DQQ&s=10"
+onerror="imageFail(this,'AFBEELDING 2')">
 </div>
 
 <!-- AFBEELDING 3 -->
 <div class="box">
-<h2>foto</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTbCfXlQ-LQkHbRKhK02aoikfgs_JSKMVi7TifRxL1M4w&s=10"
-onerror="this.style.display='none'">
+<h2>67</h2>
+<img
+src="https://wsrv.nl/?url=encrypted-tbn0.gstatic.com%2Fimages%3Fq%3DANd9GcTbCfXlQ-LQkHbRKhK02aoikfgs_JSKMVi7TifRxL1M4w%26s%3D10"
+data-original="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTbCfXlQ-LQkHbRKhK02aoikfgs_JSKMVi7TifRxL1M4w&s=10"
+onerror="imageFail(this,'AFBEELDING 3')">
 </div>
 
 <!-- AFBEELDING 4 -->
 <div class="box">
-<h2>hmm</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTn4U34c6mnHOmr5faLm3lho2fPdcmvFc1tmqcpVXVWRA&s"
-onerror="this.style.display='none'">
+<h2>goon</h2>
+<img
+src="https://wsrv.nl/?url=encrypted-tbn0.gstatic.com%2Fimages%3Fq%3DANd9GcTn4U34c6mnHOmr5faLm3lho2fPdcmvFc1tmqcpVXVWRA"
+data-original="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTn4U34c6mnHOmr5faLm3lho2fPdcmvFc1tmqcpVXVWRA&s"
+onerror="imageFail(this,'AFBEELDING 4')">
 </div>
 
 <!-- AFBEELDING 5 -->
 <div class="box">
-<h2>dit</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSfJMgE_4SOeA74h1kj1XYzVcKbhlYxjiS9j_ZUoxN2vA&s=10"
-onerror="this.style.display='none'">
-</div>
-
-<!-- MARQUEE -->
-<div class="box">
-<h2>lol</h2>
-<div class="marquee">
-<span>
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 🐔 🐔 🐔
-</span>
-</div>
+<h2>aura</h2>
+<img
+src="https://wsrv.nl/?url=encrypted-tbn0.gstatic.com%2Fimages%3Fq%3DANd9GcSfJMgE_4SOeA74h1kj1XYzVcKbhlYxjiS9j_ZUoxN2vA%26s%3D10"
+data-original="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSfJMgE_4SOeA74h1kj1XYzVcKbhlYxjiS9j_ZUoxN2vA&s=10"
+onerror="imageFail(this,'AFBEELDING 5')">
 </div>
 
 <!-- MAZE -->
 <div class="box">
 <h2>maze</h2>
 <div id="maze">
-<div class="wall" style="left:50px;top:0;width:15px;height:110px"></div>
-<div class="wall" style="left:110px;top:50px;width:15px;height:110px"></div>
-<div class="wall" style="left:170px;top:0;width:15px;height:110px"></div>
-<div class="wall" style="left:50px;top:110px;width:75px;height:15px"></div>
+<div class="wall" style="left:45px;top:0;width:15px;height:105px"></div>
+<div class="wall" style="left:105px;top:50px;width:15px;height:105px"></div>
+<div class="wall" style="left:170px;top:0;width:15px;height:105px"></div>
+<div class="wall" style="left:45px;top:105px;width:75px;height:15px"></div>
 <div id="mazePlayer"></div>
 </div>
-<p>pijltjestoetsen</p>
+<div>⬆️⬇️⬅️➡️</div>
 </div>
 
-<!-- MEER ROMMEL -->
+<!-- MEME -->
 <div class="box">
-<h2>???</h2>
-<div class="big">🦆</div>
-<button onclick="this.innerHTML='🍌'">druk</button>
+<h2>npc</h2>
+<div class="big">💀</div>
+<button onclick="this.innerHTML='🗿'">druk</button>
 </div>
 
 <div class="box">
-<h2>42</h2>
-<div class="big">42</div>
+<h2>rizz</h2>
+<div class="big" id="rizz">0</div>
+<button onclick="document.getElementById('rizz').textContent=Math.floor(Math.random()*101)">
+RIZZ
+</button>
+</div>
+
+<div class="box">
+<h2>fanum tax</h2>
+<button onclick="fanum()">belasting</button>
+<div class="output" id="fanum">€67</div>
+</div>
+
+<div class="box">
+<h2>lock in</h2>
+<button onclick="lockIn()">LOCK IN</button>
+<div class="output" id="lock">nog niet</div>
+</div>
+
+<div class="box">
+<h2>cooked</h2>
+<div class="big" id="cooked">?</div>
+<button onclick="cooked()">ben ik cooked?</button>
+</div>
+
+<div class="box">
+<h2>skibidi</h2>
+<button onclick="skibidi()">🚽</button>
+<div id="skibidiOut"></div>
+</div>
+
+<div class="box">
+<h2>sigma</h2>
+<input id="sigmaInput" placeholder="voer sigma in">
+<button onclick="sigma()">bereken</button>
+<div class="output" id="sigmaOut">...</div>
+</div>
+
+<div class="box">
+<h2>charlie kirk</h2>
+<div class="big">67</div>
 <button onclick="this.parentElement.classList.toggle('spin')">draai</button>
 </div>
 
 <div class="box">
-<h2>stoel</h2>
-<textarea placeholder="waarom bestaat dit"></textarea>
+<h2>goon</h2>
+<div class="big">🗿</div>
+<button onclick="goon()">GOON</button>
+<div class="output" id="goonOut">...</div>
 </div>
 
 <div class="box">
-<h2>AAAA</h2>
-<button onclick="document.body.classList.toggle('rainbow')">
-AAAA
+<h2>aura points</h2>
+<button onclick="aura()">+ aura</button>
+<div class="big" id="aura">0</div>
+</div>
+
+<div class="box">
+<h2>brainrot</h2>
+<textarea placeholder="schrijf iets"></textarea>
+<button onclick="this.previousElementSibling.value='67'">
+67
 </button>
 </div>
 
-<div class="box">
-<h2>knop</h2>
-<button onclick="randomMess(this)">NIET DRUKKEN</button>
-</div>
-
-<div class="box">
-<h2>mayo</h2>
-<input placeholder="mayo">
-<button onclick="this.parentElement.style.background='white'">
-wit
-</button>
-</div>
-
-<div class="box">
-<h2>huh</h2>
-<div id="huh">huh</div>
-<button onclick="huh()">huh</button>
-</div>
-
-<div class="box">
-<h2>000</h2>
-<div class="big" id="randomEmoji">🐔</div>
-<button onclick="emoji()">?</button>
-</div>
-
-<div class="box">
-<h2>plop</h2>
-<button onclick="plop()">PLOP</button>
-<div id="plop"></div>
-</div>
-
-<div class="box">
-<h2>wat</h2>
-<button onclick="this.innerHTML=Math.random()">wat</button>
-<button onclick="this.innerHTML='NEE'">nee</button>
-</div>
-
 </div>
 
 
-<!-- FLOATING ROMMEL -->
 <div id="floating"></div>
+<div id="nameLayer"></div>
 
-<!-- WIT SCHERM -->
 <div id="whiteScreen">
     <div id="whiteName">Lucas</div>
 </div>
@@ -557,60 +588,101 @@ wit
 
 <script>
 
-/* =========================
+/* ================================
+   BASIS
+================================ */
+
+const phrases=[
+    "67",
+    "GOON",
+    "AURA",
+    "SIGMA",
+    "RIZZ",
+    "SKIBIDI",
+    "FANUM TAX",
+    "COOKED",
+    "LOCK IN",
+    "NPC",
+    "BRAINROT",
+    "CHARLIE KIRK",
+    "LUCAS",
+    "SIEB",
+    "ROEL",
+    "TORRIE"
+];
+
+const names=[
+    "Lucas",
+    "Sieb",
+    "Roel",
+    "Torrie"
+];
+
+
+/* ================================
+   AFBEELDING FALLBACK
+================================ */
+
+function imageFail(img,text){
+
+    const fallback=document.createElement("div");
+
+    fallback.className="imageFallback";
+
+    fallback.innerHTML=
+        text+
+        "<br><br>IMAGE FAILED<br>💀";
+
+    img.replaceWith(fallback);
+}
+
+
+/* ================================
    REKENMACHINE
-========================= */
+================================ */
 
 function calculate(){
 
-    const input=document.getElementById("calcInput");
-    const output=document.getElementById("calcOutput");
+    const input=document.getElementById("calc").value.trim();
+    const output=document.getElementById("calcOut");
 
-    const value=input.value.trim();
-
-    if(value===""){
+    if(!input){
         output.textContent="0";
         return;
     }
 
-    if(!/^[0-9+\-*/(). %]+$/.test(value)){
-        output.textContent="fout";
+    if(!/^[0-9+\-*/(). %]+$/.test(input)){
+        output.textContent="ERROR";
         return;
     }
 
     try{
 
-        const answer=Function(
-            '"use strict"; return ('+value+')'
+        const result=Function(
+            '"use strict";return('+input+')'
         )();
 
-        if(typeof answer!=="number" || !isFinite(answer)){
-            output.textContent="fout";
-        }else{
-            output.textContent=answer;
-        }
+        output.textContent=
+            Number.isFinite(result)
+            ? result
+            : "ERROR";
 
     }catch(e){
-        output.textContent="fout";
+        output.textContent="ERROR";
     }
 }
 
-function clearCalc(){
-    document.getElementById("calcInput").value="";
-    document.getElementById("calcOutput").textContent="0";
-}
 
-
-/* =========================
+/* ================================
    SNAKE
-========================= */
+================================ */
 
 const snakeCanvas=document.getElementById("snake");
 const snakeCtx=snakeCanvas.getContext("2d");
 
 let snake=[];
 let snakeDir={x:1,y:0};
-let snakeFood={x:5,y:5};
+let snakeFood={x:7,y:5};
 let snakeLoop=null;
 let snakePoints=0;
 
@@ -629,17 +701,12 @@ function startSnake(){
 
     document.getElementById("snakeScore").textContent="0";
 
-    newSnakeFood();
-
-    snakeLoop=setInterval(moveSnake,120);
-}
-
-function newSnakeFood(){
-
     snakeFood={
         x:Math.floor(Math.random()*12),
         y:Math.floor(Math.random()*9)
     };
+
+    snakeLoop=setInterval(moveSnake,120);
 }
 
 function moveSnake(){
@@ -650,15 +717,14 @@ function moveSnake(){
     };
 
     if(
-        head.x<0 ||
-        head.y<0 ||
-        head.x>=12 ||
-        head.y>=9 ||
+        head.x<0||
+        head.y<0||
+        head.x>=12||
+        head.y>=9||
         snake.some(
-            p=>p.x===head.x && p.y===head.y
+            p=>p.x===head.x&&p.y===head.y
         )
     ){
-
         clearInterval(snakeLoop);
         return;
     }
@@ -666,7 +732,7 @@ function moveSnake(){
     snake.unshift(head);
 
     if(
-        head.x===snakeFood.x &&
+        head.x===snakeFood.x&&
         head.y===snakeFood.y
     ){
 
@@ -676,7 +742,10 @@ function moveSnake(){
             "snakeScore"
         ).textContent=snakePoints;
 
-        newSnakeFood();
+        snakeFood={
+            x:Math.floor(Math.random()*12),
+            y:Math.floor(Math.random()*9)
+        };
 
     }else{
         snake.pop();
@@ -693,7 +762,8 @@ function moveSnake(){
     snakeCtx.fillRect(
         snakeFood.x*20,
         snakeFood.y*20,
-        18,18
+        18,
+        18
     );
 
     snakeCtx.fillStyle="lime";
@@ -702,36 +772,33 @@ function moveSnake(){
         snakeCtx.fillRect(
             p.x*20,
             p.y*20,
-            18,18
+            18,
+            18
         );
     });
 }
 
 document.addEventListener("keydown",function(e){
 
-    if(e.key==="ArrowUp" && snakeDir.y!==1){
+    if(e.key==="ArrowUp"&&snakeDir.y!==1)
         snakeDir={x:0,y:-1};
-    }
 
-    if(e.key==="ArrowDown" && snakeDir.y!==-1){
+    if(e.key==="ArrowDown"&&snakeDir.y!==-1)
         snakeDir={x:0,y:1};
-    }
 
-    if(e.key==="ArrowLeft" && snakeDir.x!==1){
+    if(e.key==="ArrowLeft"&&snakeDir.x!==1)
         snakeDir={x:-1,y:0};
-    }
 
-    if(e.key==="ArrowRight" && snakeDir.x!==-1){
+    if(e.key==="ArrowRight"&&snakeDir.x!==-1)
         snakeDir={x:1,y:0};
-    }
 
     moveMaze(e.key);
 });
 
 
-/* =========================
+/* ================================
    KLIK
-========================= */
+================================ */
 
 let clickScore=0;
 
@@ -742,75 +809,59 @@ function clickGame(){
     document.getElementById(
         "clickScore"
     ).textContent=clickScore;
-}
 
-function resetClicks(){
-
-    clickScore=0;
-
-    document.getElementById(
-        "clickScore"
-    ).textContent="0";
+    if(clickScore%10===0){
+        spawnName();
+    }
 }
 
 
-/* =========================
-   RAAD GETAL
-========================= */
+/* ================================
+   RAAD
+================================ */
 
-let secretNumber=
+let secret=
     Math.floor(Math.random()*100)+1;
 
 function newGuess(){
 
-    secretNumber=
+    secret=
         Math.floor(Math.random()*100)+1;
 
     document.getElementById(
-        "guessResult"
-    ).textContent="nieuw getal";
-
-    document.getElementById(
-        "guessInput"
-    ).value="";
+        "guessOut"
+    ).textContent="nieuw";
 }
 
-function guessNumber(){
+function guess(){
 
-    const guess=
+    const value=
         Number(
-            document.getElementById(
-                "guessInput"
-            ).value
+            document.getElementById("guess").value
         );
 
-    const result=
-        document.getElementById(
-            "guessResult"
-        );
+    const out=
+        document.getElementById("guessOut");
 
-    if(!guess){
-        result.textContent="voer een getal in";
+    if(!value){
+        out.textContent="voer iets in";
         return;
     }
 
-    if(guess===secretNumber){
-        result.textContent="GOED";
+    if(value===secret){
+        out.textContent="GOED 67 AURA";
         newGuess();
-        return;
-    }
-
-    if(guess<secretNumber){
-        result.textContent="hoger";
+    }else if(value<secret){
+        out.textContent="hoger";
     }else{
-        result.textContent="lager";
+        out.textContent="lager";
     }
 }
 
 
-/* =========================
-   STEEN PAPIER SCHAAR
-========================= */
+/* ================================
+   RPS
+================================ */
 
 function rps(player){
 
@@ -830,70 +881,59 @@ function rps(player){
     if(player===computer){
         result="gelijk";
     }else if(
-        (player==="steen" && computer==="schaar") ||
-        (player==="papier" && computer==="steen") ||
-        (player==="schaar" && computer==="papier")
+        (player==="steen"&&computer==="schaar")||
+        (player==="papier"&&computer==="steen")||
+        (player==="schaar"&&computer==="papier")
     ){
-        result="gewonnen";
+        result="W";
     }else{
-        result="verloren";
+        result="L";
     }
 
     document.getElementById(
-        "rpsResult"
+        "rpsOut"
     ).textContent=
         player+" vs "+computer+" = "+result;
 }
 
 
-/* =========================
+/* ================================
    TEKENEN
-========================= */
+================================ */
 
 const paint=document.getElementById("paint");
 const paintCtx=paint.getContext("2d");
-
 let drawing=false;
 
-paint.addEventListener(
-    "pointerdown",
-    function(e){
-        drawing=true;
-        draw(e);
-    }
-);
+paint.addEventListener("pointerdown",e=>{
+    drawing=true;
+    draw(e);
+});
 
-paint.addEventListener(
-    "pointerup",
-    function(){
-        drawing=false;
-    }
-);
+paint.addEventListener("pointerup",()=>{
+    drawing=false;
+});
 
-paint.addEventListener(
-    "pointerleave",
-    function(){
-        drawing=false;
-    }
-);
+paint.addEventListener("pointerleave",()=>{
+    drawing=false;
+});
 
-paint.addEventListener(
-    "pointermove",
-    draw
-);
+paint.addEventListener("pointermove",draw);
 
 function draw(e){
 
     if(!drawing)return;
 
-    const rect=paint.getBoundingClientRect();
+    const r=paint.getBoundingClientRect();
 
     paintCtx.fillStyle=
-        "hsl("+Math.random()*360+",100%,50%)";
+        "hsl("+
+        Math.random()*360+
+        ",100%,50%)";
 
     paintCtx.fillRect(
-        e.clientX-rect.left,
-        e.clientY-rect.top,
+        e.clientX-r.left,
+        e.clientY-r.top,
         8,
         8
     );
@@ -902,16 +942,17 @@ function draw(e){
 function clearPaint(){
 
     paintCtx.clearRect(
-        0,0,
+        0,
+        0,
         paint.width,
         paint.height
     );
 }
 
 
-/* =========================
+/* ================================
    TIMER
-========================= */
+================================ */
 
 let timerLoop=null;
 
@@ -926,20 +967,19 @@ function startTimer(){
             ).value
         );
 
-    if(!isFinite(time)||time<0){
+    if(!Number.isFinite(time))
         time=10;
-    }
 
     document.getElementById(
-        "timerDisplay"
+        "timer"
     ).textContent=time;
 
-    timerLoop=setInterval(function(){
+    timerLoop=setInterval(()=>{
 
         time--;
 
         document.getElementById(
-            "timerDisplay"
+            "timer"
         ).textContent=time;
 
         if(time<=0){
@@ -947,64 +987,52 @@ function startTimer(){
             clearInterval(timerLoop);
 
             document.getElementById(
-                "timerDisplay"
-            ).textContent="BOEM";
+                "timer"
+            ).textContent="67";
         }
 
     },1000);
 }
 
 
-/* =========================
-   RANDOM GETAL
-========================= */
+/* ================================
+   RANDOM
+================================ */
 
-function randomNumber(){
+function randomNum(){
 
     let min=
-        Number(
-            document.getElementById(
-                "minNumber"
-            ).value
-        );
+        Number(document.getElementById("min").value);
 
     let max=
-        Number(
-            document.getElementById(
-                "maxNumber"
-            ).value
-        );
+        Number(document.getElementById("max").value);
 
     if(min>max){
-        const temp=min;
-        min=max;
-        max=temp;
+        [min,max]=[max,min];
     }
 
-    const value=
+    document.getElementById(
+        "randomOut"
+    ).textContent=
         Math.floor(
             Math.random()*(max-min+1)
         )+min;
-
-    document.getElementById(
-        "randomOutput"
-    ).textContent=value;
 }
 
 
-/* =========================
+/* ================================
    TARGET
-========================= */
+================================ */
 
-let targetPoints=0;
+let targetScore=0;
 
 function startTarget(){
 
-    targetPoints=0;
+    targetScore=0;
 
     document.getElementById(
         "targetScore"
-    ).textContent="0";
+    ).textContent=0;
 
     spawnTarget();
 }
@@ -1024,18 +1052,18 @@ function spawnTarget(){
     target.className="target";
 
     target.style.left=
-        Math.random()*210+"px";
+        Math.random()*205+"px";
 
     target.style.top=
-        Math.random()*130+"px";
+        Math.random()*120+"px";
 
-    target.onclick=function(){
+    target.onclick=()=>{
 
-        targetPoints++;
+        targetScore++;
 
         document.getElementById(
             "targetScore"
-        ).textContent=targetPoints;
+        ).textContent=targetScore;
 
         spawnTarget();
     };
@@ -1044,38 +1072,33 @@ function spawnTarget(){
 }
 
 
-/* =========================
-   REACTIESPEL
-========================= */
+/* ================================
+   REACTIE
+================================ */
 
 let reactionReady=false;
 let reactionWaiting=false;
-let reactionTime=0;
-let reactionTimeout=null;
+let reactionStart=0;
+let reactionTimer=null;
 
-function reactionClick(){
+function reaction(){
 
     const button=
-        document.getElementById(
-            "reactionButton"
-        );
+        document.getElementById("reaction");
 
-    const result=
-        document.getElementById(
-            "reactionResult"
-        );
+    const out=
+        document.getElementById("reactionOut");
 
     if(reactionReady){
 
         const time=
             Math.round(
-                performance.now()-reactionTime
+                performance.now()-reactionStart
             );
 
-        result.textContent=time+" ms";
+        out.textContent=time+" ms";
 
         reactionReady=false;
-        button.textContent="opnieuw";
 
         setTimeout(startReaction,800);
 
@@ -1084,13 +1107,11 @@ function reactionClick(){
 
     if(reactionWaiting){
 
-        clearTimeout(reactionTimeout);
+        clearTimeout(reactionTimer);
 
         reactionWaiting=false;
 
-        button.textContent="TE VROEG";
-
-        result.textContent="te vroeg";
+        out.textContent="TE VROEG";
 
         setTimeout(startReaction,1000);
 
@@ -1103,127 +1124,103 @@ function reactionClick(){
 function startReaction(){
 
     const button=
-        document.getElementById(
-            "reactionButton"
-        );
+        document.getElementById("reaction");
 
     reactionReady=false;
     reactionWaiting=true;
 
-    button.textContent="WACHT...";
+    button.textContent="WACHT";
 
-    reactionTimeout=setTimeout(function(){
+    reactionTimer=setTimeout(()=>{
 
         reactionWaiting=false;
         reactionReady=true;
 
-        reactionTime=performance.now();
+        reactionStart=performance.now();
 
-        button.textContent="NU!!!";
+        button.textContent="NU";
 
-    },1000+Math.random()*3000);
+    },1000+Math.random()*2500);
 }
 
 
-/* =========================
+/* ================================
    GELUID
-========================= */
+================================ */
 
-let audio=null;
+let audioContext=null;
 
 function beep(freq){
 
-    if(!audio){
+    if(!audioContext){
 
-        audio=
-            new (
-                window.AudioContext ||
+        audioContext=
+            new(
+                window.AudioContext||
                 window.webkitAudioContext
             )();
     }
 
-    if(audio.state==="suspended"){
-        audio.resume();
+    if(audioContext.state==="suspended"){
+        audioContext.resume();
     }
 
-    const oscillator=
-        audio.createOscillator();
+    const osc=
+        audioContext.createOscillator();
 
     const gain=
-        audio.createGain();
+        audioContext.createGain();
 
-    oscillator.frequency.value=freq;
+    osc.frequency.value=freq;
     gain.gain.value=.05;
 
-    oscillator.connect(gain);
-    gain.connect(audio.destination);
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
 
-    oscillator.start();
-
-    oscillator.stop(
-        audio.currentTime+.15
-    );
+    osc.start();
+    osc.stop(audioContext.currentTime+.15);
 }
 
 
-/* =========================
-   RANDOM TEKST
-========================= */
+/* ================================
+   BRAINROT
+================================ */
 
-const words=[
-    "AAAA",
-    "BRUH",
-    "KIP",
-    "42",
-    "???",
-    "NEE",
-    "JA",
-    "PLAK",
-    "TURBO",
-    "MAYO",
-    "STOEL",
-    "ERROR",
-    "BANANA",
-    "🦆",
-    "🐔",
-    "🧀",
-    "OOOO",
-    "404"
-];
-
-function randomText(){
+function brainrot(){
 
     document.getElementById(
-        "randomText"
+        "brainrot"
     ).textContent=
-        words[
+        phrases[
             Math.floor(
-                Math.random()*words.length
+                Math.random()*phrases.length
             )
         ];
 }
 
 
-/* =========================
+/* ================================
    KLEUR
-========================= */
+================================ */
 
 function randomColor(){
 
     document.getElementById(
         "colorBox"
     ).style.background=
-        "hsl("+Math.random()*360+",100%,50%)";
+        "hsl("+
+        Math.random()*360+
+        ",100%,50%)";
 }
 
 
-/* =========================
+/* ================================
    TERMINAL
-========================= */
+================================ */
 
-function terminalInput(event){
+function terminalKey(e){
 
-    if(event.key!=="Enter")return;
+    if(e.key!=="Enter")return;
 
     const input=
         document.getElementById(
@@ -1235,13 +1232,17 @@ function terminalInput(event){
             "terminal"
         );
 
+    const text=
+        input.value
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+
     terminal.innerHTML+=
+        "<br>&gt; "+text+
         "<br>&gt; "+
-        escapeHtml(input.value)+
-        "<br>&gt; "+
-        words[
+        phrases[
             Math.floor(
-                Math.random()*words.length
+                Math.random()*phrases.length
             )
         ];
 
@@ -1251,133 +1252,152 @@ function terminalInput(event){
         terminal.scrollHeight;
 }
 
-function escapeHtml(text){
 
-    const div=document.createElement("div");
+/* ================================
+   MAZE
+================================ */
 
-    div.textContent=text;
+let mazeX=7;
+let mazeY=7;
 
-    return div.innerHTML;
+function moveMaze(key){
+
+    let x=mazeX;
+    let y=mazeY;
+
+    if(key==="ArrowUp")y-=5;
+    if(key==="ArrowDown")y+=5;
+    if(key==="ArrowLeft")x-=5;
+    if(key==="ArrowRight")x+=5;
+
+    x=Math.max(0,Math.min(220,x));
+    y=Math.max(0,Math.min(140,y));
+
+    mazeX=x;
+    mazeY=y;
+
+    const p=
+        document.getElementById(
+            "mazePlayer"
+        );
+
+    p.style.left=x+"px";
+    p.style.top=y+"px";
 }
 
 
-/* =========================
-   SLIDER
-========================= */
+/* ================================
+   MEME KNOPPEN
+================================ */
 
-function slider(value){
+function fanum(){
 
     document.getElementById(
-        "sliderValue"
-    ).textContent=value;
+        "fanum"
+    ).textContent=
+        "€"+
+        Math.floor(
+            Math.random()*1000
+        );
 }
 
+function lockIn(){
 
-/* =========================
-   SHAKEN
-========================= */
-
-function shake(){
-
-    document.body.classList.add("shake");
-
-    setTimeout(function(){
-
-        document.body.classList.remove("shake");
-
-    },1000);
-}
-
-
-/* =========================
-   RANDOM ROMMEL
-========================= */
-
-function randomMess(button){
-
-    button.textContent=
-        words[
-            Math.floor(
-                Math.random()*words.length
-            )
-        ];
-
-    button.style.transform=
-        "rotate("+
-        (Math.random()*60-30)+
-        "deg)";
-
-    button.style.fontSize=
-        (10+Math.random()*30)+"px";
-}
-
-function huh(){
-
-    const choices=[
-        "huh",
-        "wat",
-        "nee",
-        "waarom",
-        "geen idee",
-        "42",
-        "🐔",
-        "AAAAAAAA"
+    const messages=[
+        "LOCKED IN",
+        "AURA +67",
+        "SIGMA MODE",
+        "NOT COOKED",
+        "ABSOLUTE RIZZ",
+        "NPC MODE OFF"
     ];
 
     document.getElementById(
-        "huh"
+        "lock"
     ).textContent=
-        choices[
+        messages[
             Math.floor(
-                Math.random()*choices.length
+                Math.random()*messages.length
             )
         ];
 }
 
-function emoji(){
+function cooked(){
 
-    const emojis=[
-        "🐔",
-        "🦆",
-        "🧀",
-        "🍌",
-        "🚽",
-        "🤨",
-        "💀",
-        "🐸",
-        "🍕",
-        "🗿",
-        "🦖"
+    const answers=[
+        "COOKED 💀",
+        "NIET COOKED",
+        "67% COOKED",
+        "BRO IS DONE",
+        "LOCK IN",
+        "AURA LOST"
     ];
 
     document.getElementById(
-        "randomEmoji"
+        "cooked"
     ).textContent=
-        emojis[
+        answers[
             Math.floor(
-                Math.random()*emojis.length
+                Math.random()*answers.length
             )
         ];
 }
 
-function plop(){
+function skibidi(){
 
     document.getElementById(
-        "plop"
-    ).innerHTML+=
-        "<div>"+
-        words[
+        "skibidiOut"
+    ).textContent=
+        "🚽 ".repeat(
+            Math.floor(Math.random()*10)+1
+        );
+}
+
+function sigma(){
+
+    const value=
+        document.getElementById(
+            "sigmaInput"
+        ).value;
+
+    document.getElementById(
+        "sigmaOut"
+    ).textContent=
+        value
+        ? "SIGMA "+value
+        : "67";
+}
+
+function goon(){
+
+    document.getElementById(
+        "goonOut"
+    ).textContent=
+        phrases[
             Math.floor(
-                Math.random()*words.length
+                Math.random()*phrases.length
             )
-        ]+
-        "</div>";
+        ];
+}
+
+let auraPoints=0;
+
+function aura(){
+
+    auraPoints+=
+        Math.floor(
+            Math.random()*101
+        )+1;
+
+    document.getElementById(
+        "aura"
+    ).textContent=auraPoints;
 }
 
 
-/* =========================
+/* ================================
    MEMORY
-========================= */
+================================ */
 
 let memoryData=[];
 let memoryOpen=[];
@@ -1387,14 +1407,14 @@ let memoryPairs=0;
 function newMemory(){
 
     const values=[
-        "🐔","🐔",
-        "🦆","🦆",
-        "🧀","🧀",
-        "🍌","🍌",
+        "67","67",
+        "🗿","🗿",
         "🚽","🚽",
+        "💀","💀",
         "⭐","⭐",
-        "🤨","🤨",
-        "🗿","🗿"
+        "🔥","🔥",
+        "😎","😎",
+        "🍕","🍕"
     ];
 
     values.sort(
@@ -1407,16 +1427,14 @@ function newMemory(){
     memoryLocked=false;
 
     const grid=
-        document.getElementById("memory");
+        document.getElementById(
+            "memory"
+        );
 
     grid.innerHTML="";
 
-    document.getElementById(
-        "memoryScore"
-    ).textContent="0 paren";
-
     values.forEach(
-        function(value,index){
+        (value,index)=>{
 
             const button=
                 document.createElement("button");
@@ -1426,12 +1444,60 @@ function newMemory(){
 
             button.textContent="?";
 
-            button.onclick=function(){
+            button.onclick=()=>{
 
-                memoryClick(
-                    index,
-                    button
-                );
+                if(memoryLocked)return;
+
+                if(memoryData[index].matched)return;
+
+                if(
+                    memoryOpen.some(
+                        x=>x.index===index
+                    )
+                )return;
+
+                button.textContent=value;
+
+                memoryOpen.push({
+                    index:index,
+                    button:button,
+                    value:value
+                });
+
+                if(memoryOpen.length!==2)return;
+
+                memoryLocked=true;
+
+                const a=memoryOpen[0];
+                const b=memoryOpen[1];
+
+                if(a.value===b.value){
+
+                    memoryData[a.index].matched=true;
+                    memoryData[b.index].matched=true;
+
+                    memoryPairs++;
+
+                    document.getElementById(
+                        "memoryScore"
+                    ).textContent=
+                        memoryPairs+" paren";
+
+                    memoryOpen=[];
+                    memoryLocked=false;
+
+                }else{
+
+                    setTimeout(()=>{
+
+                        a.button.textContent="?";
+                        b.button.textContent="?";
+
+                        memoryOpen=[];
+                        memoryLocked=false;
+
+                    },650);
+                }
             };
 
             grid.appendChild(button);
@@ -1445,120 +1511,65 @@ function newMemory(){
     );
 }
 
-function memoryClick(index,button){
 
-    if(memoryLocked)return;
-    if(memoryData[index].matched)return;
+/* ================================
+   NAMEN
+================================ */
 
-    if(
-        memoryOpen.some(
-            x=>x.index===index
-        )
-    )return;
+function spawnName(){
 
-    button.textContent=
-        memoryData[index].value;
-
-    memoryOpen.push({
-        index:index,
-        button:button,
-        value:memoryData[index].value
-    });
-
-    if(memoryOpen.length!==2)return;
-
-    memoryLocked=true;
-
-    const first=memoryOpen[0];
-    const second=memoryOpen[1];
-
-    if(first.value===second.value){
-
-        memoryData[first.index].matched=true;
-        memoryData[second.index].matched=true;
-
-        memoryPairs++;
-
+    const layer=
         document.getElementById(
-            "memoryScore"
-        ).textContent=
-            memoryPairs+" paren";
-
-        memoryOpen=[];
-        memoryLocked=false;
-
-    }else{
-
-        setTimeout(function(){
-
-            first.button.textContent="?";
-            second.button.textContent="?";
-
-            memoryOpen=[];
-            memoryLocked=false;
-
-        },650);
-    }
-}
-
-newMemory();
-
-
-/* =========================
-   MAZE
-========================= */
-
-let mazeX=8;
-let mazeY=8;
-
-function moveMaze(key){
-
-    let nx=mazeX;
-    let ny=mazeY;
-
-    if(key==="ArrowUp")ny-=5;
-    if(key==="ArrowDown")ny+=5;
-    if(key==="ArrowLeft")nx-=5;
-    if(key==="ArrowRight")nx+=5;
-
-    if(nx<0)nx=0;
-    if(ny<0)ny=0;
-    if(nx>225)nx=225;
-    if(ny>145)ny=145;
-
-    mazeX=nx;
-    mazeY=ny;
-
-    const player=
-        document.getElementById(
-            "mazePlayer"
+            "nameLayer"
         );
 
-    player.style.left=mazeX+"px";
-    player.style.top=mazeY+"px";
+    const name=
+        document.createElement("div");
+
+    name.className="randomName";
+
+    name.textContent=
+        names[
+            Math.floor(
+                Math.random()*names.length
+            )
+        ];
+
+    name.style.left=
+        Math.random()*85+"vw";
+
+    name.style.top=
+        Math.random()*85+"vh";
+
+    name.style.fontSize=
+        (30+Math.random()*65)+"px";
+
+    name.style.color=
+        "hsl("+
+        Math.random()*360+
+        ",100%,50%)";
+
+    layer.appendChild(name);
+
+    setTimeout(()=>{
+        name.remove();
+    },900);
 }
 
 
-/* =========================
-   WIT SCHERM
-========================= */
+/* ================================
+   WIT SCHERM MET NAMEN
+================================ */
 
-const names=[
-    "Lucas",
-    "Sieb",
-    "Roel",
-    "Torrie"
-];
-
-let whiteActive=false;
+let whiteShowing=false;
 
 function whiteFlash(){
 
-    if(whiteActive)return;
+    if(whiteShowing)return;
 
-    whiteActive=true;
+    whiteShowing=true;
 
-    const overlay=
+    const screen=
         document.getElementById(
             "whiteScreen"
         );
@@ -1575,55 +1586,98 @@ function whiteFlash(){
             )
         ];
 
-    overlay.style.display="flex";
+    screen.style.display="flex";
 
-    setTimeout(function(){
+    setTimeout(()=>{
 
-        overlay.style.display="none";
-        whiteActive=false;
+        screen.style.display="none";
+        whiteShowing=false;
 
-    },2000+Math.random()*2500);
+    },1200+Math.random()*1800);
 }
 
 
-/* =========================
-   FLOATING LETTERS
-========================= */
+/* ================================
+   ZEER FREQUENTE NAMEN
+================================ */
 
-function floatingThing(){
+/*
+   Om de paar honderd milliseconden
+   verschijnt ergens een naam.
+*/
 
-    const thing=
+setInterval(()=>{
+
+    spawnName();
+
+},900);
+
+
+/*
+   Soms meerdere tegelijk.
+*/
+
+setInterval(()=>{
+
+    spawnName();
+    spawnName();
+
+},3500);
+
+
+/*
+   Regelmatig wit scherm.
+*/
+
+setInterval(()=>{
+
+    if(Math.random()<.55){
+        whiteFlash();
+    }
+
+},8000);
+
+
+/* ================================
+   FLOATING TIKTOK WOORDEN
+================================ */
+
+function floatingText(){
+
+    const el=
         document.createElement("div");
 
-    thing.className="float";
+    el.className="float";
 
-    thing.textContent=
-        words[
+    el.textContent=
+        phrases[
             Math.floor(
-                Math.random()*words.length
+                Math.random()*phrases.length
             )
         ];
 
-    thing.style.left=
-        Math.random()*100+"vw";
+    el.style.left=
+        Math.random()*95+"vw";
 
-    thing.style.top=
-        Math.random()*100+"vh";
+    el.style.top=
+        Math.random()*95+"vh";
 
-    thing.style.fontSize=
-        (15+Math.random()*65)+"px";
+    el.style.fontSize=
+        (15+Math.random()*60)+"px";
 
-    thing.style.color=
-        "hsl("+Math.random()*360+",100%,50%)";
+    el.style.color=
+        "hsl("+
+        Math.random()*360+
+        ",100%,50%)";
 
-    thing.style.transform=
+    el.style.transform=
         "rotate("+
-        (Math.random()*90-45)+
+        (Math.random()*80-40)+
         "deg)";
 
     document.getElementById(
         "floating"
-    ).appendChild(thing);
+    ).appendChild(el);
 
     const x=
         Math.random()*600-300;
@@ -1631,7 +1685,7 @@ function floatingThing(){
     const y=
         Math.random()*500-250;
 
-    thing.animate(
+    el.animate(
         [
             {
                 transform:"scale(1) rotate(0deg)",
@@ -1639,8 +1693,9 @@ function floatingThing(){
             },
             {
                 transform:
-                    "translate("+x+"px,"+
-                    y+"px) scale(0) rotate(700deg)",
+                    "translate("+
+                    x+"px,"+
+                    y+"px) scale(0) rotate(600deg)",
                 opacity:0
             }
         ],
@@ -1649,17 +1704,34 @@ function floatingThing(){
         }
     );
 
-    setTimeout(function(){
-        thing.remove();
+    setTimeout(()=>{
+        el.remove();
     },1250);
 }
 
 
-/* =========================
-   RANDOM ROTATIES
-========================= */
+/* ================================
+   RANDOM ROMMEL
+================================ */
 
-setInterval(function(){
+setInterval(()=>{
+
+    for(
+        let i=0;
+        i<Math.floor(Math.random()*3)+1;
+        i++
+    ){
+        floatingText();
+    }
+
+},600);
+
+
+/* ================================
+   WILLEKEURIG DRAAIEN
+================================ */
+
+setInterval(()=>{
 
     const boxes=
         document.querySelectorAll(".box");
@@ -1675,91 +1747,74 @@ setInterval(function(){
 
     box.style.transform=
         "rotate("+
-        (Math.random()*10-5)+
+        (Math.random()*12-6)+
         "deg)";
 
-},1200);
+},900);
 
 
-/* =========================
-   RANDOM LETTERS
-========================= */
+/* ================================
+   SOMS HELE PAGINA TRILLEN
+================================ */
 
-setInterval(function(){
+setInterval(()=>{
 
-    for(let i=0;i<Math.floor(Math.random()*3)+1;i++){
-        floatingThing();
+    if(Math.random()<.12){
+
+        document.body.classList.add("shake");
+
+        setTimeout(()=>{
+            document.body.classList.remove("shake");
+        },600);
     }
 
-},450);
+},3000);
 
 
-/* =========================
-   WILLEKEURIG WIT SCHERM
-========================= */
+/* ================================
+   RANDOM TITEL
+================================ */
 
-setInterval(function(){
+setInterval(()=>{
 
-    if(Math.random()<.3){
-        whiteFlash();
-    }
-
-},15000);
-
-
-/* =========================
-   RANDOM FLASH
-========================= */
-
-setInterval(function(){
-
-    if(Math.random()<.04){
-
-        const flash=
-            document.createElement("div");
-
-        flash.style.position="fixed";
-        flash.style.left="0";
-        flash.style.top="0";
-        flash.style.right="0";
-        flash.style.bottom="0";
-        flash.style.background="white";
-        flash.style.zIndex="8000";
-        flash.style.pointerEvents="none";
-
-        document.body.appendChild(flash);
-
-        setTimeout(function(){
-            flash.remove();
-        },70);
-    }
+    document.title=
+        phrases[
+            Math.floor(
+                Math.random()*phrases.length
+            )
+        ];
 
 },700);
 
 
-/* =========================
-   TITEL
-========================= */
+/* ================================
+   START
+================================ */
 
-setInterval(function(){
+newMemory();
+startReaction();
 
-    document.title=
-        words[
-            Math.floor(
-                Math.random()*words.length
-            )
-        ];
-
-},500);
-
-
-/* =========================
-   START ROMMEL
-========================= */
-
-for(let i=0;i<20;i++){
-    floatingThing();
+for(let i=0;i<15;i++){
+    floatingText();
 }
+
+for(let i=0;i<4;i++){
+    spawnName();
+}
+
+
+/* ================================
+   EXTRA NAMEN BIJ KLIKKEN
+================================ */
+
+document.addEventListener("click",function(){
+
+    if(Math.random()<.25){
+        spawnName();
+    }
+
+});
+
 
 </script>
 
