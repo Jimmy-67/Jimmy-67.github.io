@@ -2,11 +2,13 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>???</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 html,body{
     margin:0;
@@ -16,93 +18,107 @@ html,body{
 
 body{
     background:#777;
-    color:#111;
     font-family:"Comic Sans MS",Arial,sans-serif;
+    color:#111;
     overflow-x:hidden;
 }
 
-#page{
-    padding:8px;
+#site{
     display:flex;
     flex-wrap:wrap;
     align-items:flex-start;
-    gap:9px;
+    gap:7px;
+    padding:8px;
 }
 
 .box{
-    width:270px;
+    width:260px;
     min-height:100px;
-    padding:8px;
-    border:4px ridge #555;
+    padding:7px;
+    border:5px ridge #444;
     background:#ddd;
-    position:relative;
 }
 
-.box:nth-child(2n){background:#ffaaaa}
-.box:nth-child(3n){background:#aaffaa}
-.box:nth-child(4n){background:#aaaaff}
-.box:nth-child(5n){background:#ffff66}
+.box:nth-child(2n){
+    background:#ff9999;
+}
+
+.box:nth-child(3n){
+    background:#99ff99;
+}
+
+.box:nth-child(4n){
+    background:#9999ff;
+}
+
+.box:nth-child(5n){
+    background:#ffff55;
+}
+
+.box:nth-child(6n){
+    background:#ff99ff;
+}
 
 h2{
-    margin:0 0 7px 0;
+    margin:0 0 5px 0;
     font-size:21px;
     text-decoration:underline;
 }
 
 button{
-    padding:6px 10px;
-    margin:2px;
     font-family:inherit;
-    cursor:pointer;
-    background:#ccc;
+    font-size:14px;
+    margin:2px;
+    padding:6px 9px;
     border:3px outset #eee;
+    background:#ccc;
+    cursor:pointer;
 }
 
 button:active{
-    border-style:inset;
+    border:3px inset #eee;
 }
 
 input,textarea{
     width:100%;
-    padding:7px;
+    padding:6px;
     margin:2px 0;
-    border:3px inset #aaa;
-    background:white;
+    border:3px inset #999;
     font-family:Arial,sans-serif;
 }
 
 textarea{
-    height:90px;
-    resize:vertical;
+    height:80px;
 }
 
 .output{
-    margin-top:5px;
-    padding:6px;
-    min-height:28px;
     background:white;
-    border:2px inset #999;
+    border:3px inset #aaa;
+    min-height:28px;
+    margin-top:4px;
+    padding:5px;
 }
 
 .big{
-    font-size:34px;
-    font-weight:bold;
     text-align:center;
-}
-
-canvas{
-    background:white;
-    border:4px solid black;
-    max-width:100%;
-    touch-action:none;
+    font-size:35px;
+    font-weight:bold;
 }
 
 img{
-    max-width:100%;
-    max-height:230px;
     display:block;
-    margin:3px auto;
+    width:auto;
+    max-width:100%;
+    max-height:200px;
+    margin:4px auto;
     border:5px solid black;
+}
+
+canvas{
+    display:block;
+    max-width:100%;
+    background:white;
+    border:4px solid black;
 }
 
 #floating{
@@ -110,32 +126,16 @@ img{
     inset:0;
     pointer-events:none;
     overflow:hidden;
-    z-index:9000;
+    z-index:5000;
 }
 
-.floatThing{
+.float{
     position:absolute;
     font-weight:bold;
-    animation:flyAway 1.4s linear forwards;
+    pointer-events:none;
 }
 
-@keyframes flyAway{
-    0%{
-        transform:translate(0,0) rotate(0deg);
-        opacity:1;
-    }
-    100%{
-        transform:
-            translate(
-                calc(var(--dx) * 1px),
-                calc(var(--dy) * 1px)
-            )
-            rotate(720deg);
-        opacity:0;
-    }
-}
-
-#whiteOverlay{
+#whiteScreen{
     display:none;
     position:fixed;
     inset:0;
@@ -143,97 +143,49 @@ img{
     background:white;
     align-items:center;
     justify-content:center;
-    color:black;
     font-family:Arial,sans-serif;
-    font-size:75px;
+    font-size:90px;
     font-weight:bold;
 }
 
-#whiteText{
-    animation:wiggle .08s infinite;
+#whiteName{
+    animation:wobble .07s infinite;
 }
 
-@keyframes wiggle{
-    0%{transform:translate(0,0)}
-    25%{transform:translate(7px,-4px)}
-    50%{transform:translate(-6px,5px)}
-    75%{transform:translate(5px,2px)}
-    100%{transform:translate(0,0)}
-}
-
-.marquee{
-    width:100%;
-    overflow:hidden;
-    white-space:nowrap;
-}
-
-.marquee span{
-    display:inline-block;
-    animation:goMarquee 3s linear infinite;
-}
-
-@keyframes goMarquee{
-    from{transform:translateX(100%)}
-    to{transform:translateX(-100%)}
-}
-
-#terminalBox{
-    height:170px;
-    overflow:auto;
-    background:#000;
-    color:#00ff00;
-    padding:7px;
-    font-family:monospace;
-}
-
-.shakePage{
-    animation:pageShake .08s infinite;
-}
-
-@keyframes pageShake{
+@keyframes wobble{
     0%{transform:translate(0)}
-    25%{transform:translate(5px,-3px)}
-    50%{transform:translate(-4px,4px)}
-    75%{transform:translate(3px,2px)}
+    25%{transform:translate(8px,-5px)}
+    50%{transform:translate(-7px,6px)}
+    75%{transform:translate(6px,2px)}
     100%{transform:translate(0)}
 }
 
-.gameArea{
-    text-align:center;
+#terminal{
+    height:150px;
+    overflow:auto;
+    background:#000;
+    color:#00ff00;
+    font-family:monospace;
+    padding:7px;
 }
 
-#memoryGrid{
+#memory{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:4px;
+    gap:3px;
 }
 
-.memoryCard{
-    height:48px;
-    font-size:22px;
+.memoryButton{
+    height:43px;
     padding:0;
-}
-
-#reactionButton{
-    width:100%;
-    height:70px;
-    background:#888;
-    color:white;
     font-size:20px;
 }
 
-#reactionButton.ready{
-    background:#20a020;
-}
-
-#reactionButton.waiting{
-    background:#a02020;
-}
-
-#targetGame{
+#targetArea{
     position:relative;
-    width:250px;
-    height:170px;
+    width:240px;
+    height:160px;
+    max-width:100%;
     background:white;
     border:4px solid black;
     overflow:hidden;
@@ -250,10 +202,11 @@ img{
 
 #maze{
     position:relative;
-    width:250px;
-    height:170px;
+    width:240px;
+    height:160px;
     background:white;
     border:4px solid black;
+    overflow:hidden;
 }
 
 .wall{
@@ -266,142 +219,385 @@ img{
     width:15px;
     height:15px;
     background:red;
-    left:10px;
-    top:10px;
+    left:8px;
+    top:8px;
 }
 
-.rainbow{
-    animation:rainbow .4s infinite;
+.shake{
+    animation:shake .07s infinite;
 }
 
-@keyframes rainbow{
-    0%{filter:hue-rotate(0deg)}
-    100%{filter:hue-rotate(360deg)}
+@keyframes shake{
+    0%{transform:translate(0)}
+    25%{transform:translate(5px,-3px)}
+    50%{transform:translate(-4px,4px)}
+    75%{transform:translate(3px,2px)}
+    100%{transform:translate(0)}
 }
 
 .spin{
-    animation:spin .4s linear infinite;
+    animation:spin .3s linear infinite;
 }
 
 @keyframes spin{
     to{transform:rotate(360deg)}
+}
+
+.marquee{
+    overflow:hidden;
+    white-space:nowrap;
+    background:#000;
+    color:#0f0;
+    padding:5px;
+}
+
+.marquee span{
+    display:inline-block;
+    animation:marquee 2s linear infinite;
+}
+
+@keyframes marquee{
+    from{transform:translateX(100%)}
+    to{transform:translateX(-100%)}
+}
+
+.rainbow{
+    animation:rainbow .5s linear infinite;
+}
+
+@keyframes rainbow{
+    from{filter:hue-rotate(0deg)}
+    to{filter:hue-rotate(360deg)}
 }
 </style>
 </head>
 
 <body>
 
-<div id="page"></div>
+<div id="site">
 
-<div id="floating"></div>
-
-<div id="whiteOverlay">
-    <div id="whiteText">Lucas</div>
+<!-- REKENMACHINE -->
+<div class="box">
+<h2>rekenmachine</h2>
+<input id="calcInput" placeholder="bijv. 25*4">
+<button onclick="calculate()">=</button>
+<button onclick="clearCalc()">wissen</button>
+<div class="output" id="calcOutput">0</div>
 </div>
 
+<!-- SNAKE -->
+<div class="box">
+<h2>Snake</h2>
+<canvas id="snake" width="240" height="180"></canvas>
+<button onclick="startSnake()">start</button>
+<div class="output">
+score: <span id="snakeScore">0</span>
+</div>
+</div>
+
+<!-- MEMORY -->
+<div class="box">
+<h2>memory</h2>
+<div id="memory"></div>
+<button onclick="newMemory()">nieuw</button>
+<div class="output" id="memoryScore">0 paren</div>
+</div>
+
+<!-- KLIK -->
+<div class="box">
+<h2>klik</h2>
+<div class="big" id="clickScore">0</div>
+<button onclick="clickGame()">KLIK</button>
+<button onclick="resetClicks()">reset</button>
+</div>
+
+<!-- GETAL -->
+<div class="box">
+<h2>raad</h2>
+<input id="guessInput" type="number" placeholder="1 t/m 100">
+<button onclick="guessNumber()">raad</button>
+<button onclick="newGuess()">nieuw</button>
+<div class="output" id="guessResult">er is een getal...</div>
+</div>
+
+<!-- STEEN -->
+<div class="box">
+<h2>steen papier schaar</h2>
+<button onclick="rps('steen')">steen</button>
+<button onclick="rps('papier')">papier</button>
+<button onclick="rps('schaar')">schaar</button>
+<div class="output" id="rpsResult">...</div>
+</div>
+
+<!-- TEKENEN -->
+<div class="box">
+<h2>tekenen</h2>
+<canvas id="paint" width="240" height="150"></canvas>
+<button onclick="clearPaint()">weg</button>
+</div>
+
+<!-- TIMER -->
+<div class="box">
+<h2>timer</h2>
+<input id="timerInput" type="number" value="10">
+<button onclick="startTimer()">start</button>
+<div class="big" id="timerDisplay">10</div>
+</div>
+
+<!-- RANDOM -->
+<div class="box">
+<h2>getal</h2>
+<input id="minNumber" type="number" value="1">
+<input id="maxNumber" type="number" value="999">
+<button onclick="randomNumber()">doe</button>
+<div class="big" id="randomOutput">?</div>
+</div>
+
+<!-- TARGET -->
+<div class="box">
+<h2>klik erop</h2>
+<div id="targetArea"></div>
+<button onclick="startTarget()">start</button>
+<div class="output">
+score: <span id="targetScore">0</span>
+</div>
+</div>
+
+<!-- REACTIE -->
+<div class="box">
+<h2>reactie</h2>
+<button id="reactionButton" onclick="reactionClick()">
+start
+</button>
+<div class="output" id="reactionResult">---</div>
+</div>
+
+<!-- GELUID -->
+<div class="box">
+<h2>geluid</h2>
+<button onclick="beep(100)">laag</button>
+<button onclick="beep(500)">normaal</button>
+<button onclick="beep(1500)">hoog</button>
+<button onclick="beep(2500)">AAAA</button>
+</div>
+
+<!-- TEKST -->
+<div class="box">
+<h2>tekst</h2>
+<div class="big" id="randomText">???</div>
+<button onclick="randomText()">anders</button>
+</div>
+
+<!-- KLEUR -->
+<div class="box">
+<h2>kleur</h2>
+<div id="colorBox"
+style="height:70px;background:red;border:5px solid black">
+</div>
+<button onclick="randomColor()">andere</button>
+</div>
+
+<!-- TERMINAL -->
+<div class="box">
+<h2>computer</h2>
+<div id="terminal">
+&gt; welkom<br>
+&gt; typ iets
+</div>
+<input id="terminalInput"
+placeholder="typ en druk enter"
+onkeydown="terminalInput(event)">
+</div>
+
+<!-- SCHUIF -->
+<div class="box">
+<h2>schuif</h2>
+<input
+type="range"
+min="0"
+max="100"
+value="50"
+oninput="slider(this.value)">
+<div class="big" id="sliderValue">50</div>
+</div>
+
+<!-- AFBEELDING 1 -->
+<div class="box">
+<h2>meme</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10"
+onerror="this.style.display='none'">
+<div class="big">BRUH</div>
+</div>
+
+<!-- AFBEELDING 2 -->
+<div class="box">
+<h2>???</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcRkr0KewwnwmGmoQQi8ltA_TarFWQ93IoZRQ4X_cx3DQQ&s=10"
+onerror="this.style.display='none'">
+<button onclick="shake()">druk</button>
+</div>
+
+<!-- AFBEELDING 3 -->
+<div class="box">
+<h2>foto</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTbCfXlQ-LQkHbRKhK02aoikfgs_JSKMVi7TifRxL1M4w&s=10"
+onerror="this.style.display='none'">
+</div>
+
+<!-- AFBEELDING 4 -->
+<div class="box">
+<h2>hmm</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTn4U34c6mnHOmr5faLm3lho2fPdcmvFc1tmqcpVXVWRA&s"
+onerror="this.style.display='none'">
+</div>
+
+<!-- AFBEELDING 5 -->
+<div class="box">
+<h2>dit</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSfJMgE_4SOeA74h1kj1XYzVcKbhlYxjiS9j_ZUoxN2vA&s=10"
+onerror="this.style.display='none'">
+</div>
+
+<!-- MARQUEE -->
+<div class="box">
+<h2>lol</h2>
+<div class="marquee">
+<span>
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 🐔 🐔 🐔
+</span>
+</div>
+</div>
+
+<!-- MAZE -->
+<div class="box">
+<h2>maze</h2>
+<div id="maze">
+<div class="wall" style="left:50px;top:0;width:15px;height:110px"></div>
+<div class="wall" style="left:110px;top:50px;width:15px;height:110px"></div>
+<div class="wall" style="left:170px;top:0;width:15px;height:110px"></div>
+<div class="wall" style="left:50px;top:110px;width:75px;height:15px"></div>
+<div id="mazePlayer"></div>
+</div>
+<p>pijltjestoetsen</p>
+</div>
+
+<!-- MEER ROMMEL -->
+<div class="box">
+<h2>???</h2>
+<div class="big">🦆</div>
+<button onclick="this.innerHTML='🍌'">druk</button>
+</div>
+
+<div class="box">
+<h2>42</h2>
+<div class="big">42</div>
+<button onclick="this.parentElement.classList.toggle('spin')">draai</button>
+</div>
+
+<div class="box">
+<h2>stoel</h2>
+<textarea placeholder="waarom bestaat dit"></textarea>
+</div>
+
+<div class="box">
+<h2>AAAA</h2>
+<button onclick="document.body.classList.toggle('rainbow')">
+AAAA
+</button>
+</div>
+
+<div class="box">
+<h2>knop</h2>
+<button onclick="randomMess(this)">NIET DRUKKEN</button>
+</div>
+
+<div class="box">
+<h2>mayo</h2>
+<input placeholder="mayo">
+<button onclick="this.parentElement.style.background='white'">
+wit
+</button>
+</div>
+
+<div class="box">
+<h2>huh</h2>
+<div id="huh">huh</div>
+<button onclick="huh()">huh</button>
+</div>
+
+<div class="box">
+<h2>000</h2>
+<div class="big" id="randomEmoji">🐔</div>
+<button onclick="emoji()">?</button>
+</div>
+
+<div class="box">
+<h2>plop</h2>
+<button onclick="plop()">PLOP</button>
+<div id="plop"></div>
+</div>
+
+<div class="box">
+<h2>wat</h2>
+<button onclick="this.innerHTML=Math.random()">wat</button>
+<button onclick="this.innerHTML='NEE'">nee</button>
+</div>
+
+</div>
+
+
+<!-- FLOATING ROMMEL -->
+<div id="floating"></div>
+
+<!-- WIT SCHERM -->
+<div id="whiteScreen">
+    <div id="whiteName">Lucas</div>
+</div>
+
+
 <script>
-
-/* =========================
-   BASIS
-========================= */
-
-const pageElement=document.getElementById("page");
-const floatingElement=document.getElementById("floating");
-
-const weirdWords=[
-    "AAAA",
-    "???",
-    "404",
-    "BRUH",
-    "KIP",
-    "42",
-    "LOL",
-    "NEE",
-    "JA",
-    "OOOO",
-    "X",
-    "000",
-    "ERROR",
-    "🤨",
-    "🦆",
-    "🧀",
-    "TURBO",
-    "KWAARK",
-    "stoel",
-    "mayo",
-    "plop"
-];
-
-const whiteNames=[
-    "Lucas",
-    "Sieb",
-    "Roel",
-    "Torrie"
-];
-
-function randomItem(list){
-    return list[Math.floor(Math.random()*list.length)];
-}
-
-function createBox(content){
-    const box=document.createElement("div");
-    box.className="box";
-    box.innerHTML=content;
-    pageElement.appendChild(box);
-    return box;
-}
-
 
 /* =========================
    REKENMACHINE
 ========================= */
 
-createBox(`
-<h2>rekenmachine</h2>
-<input id="calculatorInput" placeholder="2+2">
-<button onclick="calculateNumber()">=</button>
-<button onclick="clearCalculator()">wissen</button>
-<div class="output" id="calculatorOutput">0</div>
-`);
+function calculate(){
 
-function calculateNumber(){
+    const input=document.getElementById("calcInput");
+    const output=document.getElementById("calcOutput");
 
-    const input=
-        document.getElementById("calculatorInput").value.trim();
+    const value=input.value.trim();
 
-    const output=
-        document.getElementById("calculatorOutput");
-
-    if(input===""){
+    if(value===""){
         output.textContent="0";
         return;
     }
 
-    if(!/^[0-9+\\-*\\/(). %]+$/.test(input)){
+    if(!/^[0-9+\-*/(). %]+$/.test(value)){
         output.textContent="fout";
         return;
     }
 
     try{
 
-        const result=Function(
-            '"use strict";return ('+input+')'
+        const answer=Function(
+            '"use strict"; return ('+value+')'
         )();
 
-        if(!Number.isFinite(result)){
+        if(typeof answer!=="number" || !isFinite(answer)){
             output.textContent="fout";
         }else{
-            output.textContent=result;
+            output.textContent=answer;
         }
 
-    }catch(error){
+    }catch(e){
         output.textContent="fout";
     }
 }
 
-function clearCalculator(){
-    document.getElementById("calculatorInput").value="";
-    document.getElementById("calculatorOutput").textContent="0";
+function clearCalc(){
+    document.getElementById("calcInput").value="";
+    document.getElementById("calcOutput").textContent="0";
 }
 
 
@@ -409,73 +605,48 @@ function clearCalculator(){
    SNAKE
 ========================= */
 
-createBox(`
-<h2>Snake</h2>
+const snakeCanvas=document.getElementById("snake");
+const snakeCtx=snakeCanvas.getContext("2d");
 
-<div class="gameArea">
-<canvas id="snakeCanvas" width="240" height="180"></canvas>
-</div>
-
-<button onclick="startSnakeGame()">start</button>
-
-<div class="output">
-score: <span id="snakeScore">0</span>
-</div>
-`);
-
-const snakeCanvas=
-    document.getElementById("snakeCanvas");
-
-const snakeContext=
-    snakeCanvas.getContext("2d");
-
-let snakeBody=[];
-let snakeDirection={x:1,y:0};
+let snake=[];
+let snakeDir={x:1,y:0};
 let snakeFood={x:5,y:5};
-let snakeInterval=null;
+let snakeLoop=null;
 let snakePoints=0;
 
-function startSnakeGame(){
+function startSnake(){
 
-    clearInterval(snakeInterval);
+    clearInterval(snakeLoop);
 
-    snakeBody=[
+    snake=[
         {x:5,y:5},
         {x:4,y:5},
         {x:3,y:5}
     ];
 
-    snakeDirection={x:1,y:0};
+    snakeDir={x:1,y:0};
     snakePoints=0;
 
     document.getElementById("snakeScore").textContent="0";
 
-    placeSnakeFood();
+    newSnakeFood();
 
-    snakeInterval=setInterval(updateSnakeGame,120);
+    snakeLoop=setInterval(moveSnake,120);
 }
 
-function placeSnakeFood(){
+function newSnakeFood(){
 
-    do{
-        snakeFood={
-            x:Math.floor(Math.random()*12),
-            y:Math.floor(Math.random()*9)
-        };
-    }while(
-        snakeBody.some(
-            part=>
-            part.x===snakeFood.x &&
-            part.y===snakeFood.y
-        )
-    );
+    snakeFood={
+        x:Math.floor(Math.random()*12),
+        y:Math.floor(Math.random()*9)
+    };
 }
 
-function updateSnakeGame(){
+function moveSnake(){
 
     const head={
-        x:snakeBody[0].x+snakeDirection.x,
-        y:snakeBody[0].y+snakeDirection.y
+        x:snake[0].x+snakeDir.x,
+        y:snake[0].y+snakeDir.y
     };
 
     if(
@@ -483,18 +654,16 @@ function updateSnakeGame(){
         head.y<0 ||
         head.x>=12 ||
         head.y>=9 ||
-        snakeBody.some(
-            part=>
-            part.x===head.x &&
-            part.y===head.y
+        snake.some(
+            p=>p.x===head.x && p.y===head.y
         )
     ){
 
-        clearInterval(snakeInterval);
+        clearInterval(snakeLoop);
         return;
     }
 
-    snakeBody.unshift(head);
+    snake.unshift(head);
 
     if(
         head.x===snakeFood.x &&
@@ -507,57 +676,56 @@ function updateSnakeGame(){
             "snakeScore"
         ).textContent=snakePoints;
 
-        placeSnakeFood();
+        newSnakeFood();
 
     }else{
-        snakeBody.pop();
+        snake.pop();
     }
 
-    snakeContext.clearRect(
-        0,
-        0,
+    snakeCtx.clearRect(
+        0,0,
         snakeCanvas.width,
         snakeCanvas.height
     );
 
-    snakeContext.fillStyle="red";
+    snakeCtx.fillStyle="red";
 
-    snakeContext.fillRect(
+    snakeCtx.fillRect(
         snakeFood.x*20,
         snakeFood.y*20,
-        18,
-        18
+        18,18
     );
 
-    snakeContext.fillStyle="lime";
+    snakeCtx.fillStyle="lime";
 
-    snakeBody.forEach(part=>{
-        snakeContext.fillRect(
-            part.x*20,
-            part.y*20,
-            18,
-            18
+    snake.forEach(p=>{
+        snakeCtx.fillRect(
+            p.x*20,
+            p.y*20,
+            18,18
         );
     });
 }
 
-document.addEventListener("keydown",function(event){
+document.addEventListener("keydown",function(e){
 
-    if(event.key==="ArrowUp" && snakeDirection.y!==1){
-        snakeDirection={x:0,y:-1};
+    if(e.key==="ArrowUp" && snakeDir.y!==1){
+        snakeDir={x:0,y:-1};
     }
 
-    if(event.key==="ArrowDown" && snakeDirection.y!==-1){
-        snakeDirection={x:0,y:1};
+    if(e.key==="ArrowDown" && snakeDir.y!==-1){
+        snakeDir={x:0,y:1};
     }
 
-    if(event.key==="ArrowLeft" && snakeDirection.x!==1){
-        snakeDirection={x:-1,y:0};
+    if(e.key==="ArrowLeft" && snakeDir.x!==1){
+        snakeDir={x:-1,y:0};
     }
 
-    if(event.key==="ArrowRight" && snakeDirection.x!==-1){
-        snakeDirection={x:1,y:0};
+    if(e.key==="ArrowRight" && snakeDir.x!==-1){
+        snakeDir={x:1,y:0};
     }
+
+    moveMaze(e.key);
 });
 
 
@@ -565,58 +733,116 @@ document.addEventListener("keydown",function(event){
    KLIK
 ========================= */
 
-createBox(`
-<h2>klik</h2>
-<div class="big" id="clickNumber">0</div>
-<button onclick="increaseClickNumber()">KLIK</button>
-`);
+let clickScore=0;
 
-let clickNumber=0;
+function clickGame(){
 
-function increaseClickNumber(){
-
-    clickNumber++;
+    clickScore++;
 
     document.getElementById(
-        "clickNumber"
-    ).textContent=clickNumber;
+        "clickScore"
+    ).textContent=clickScore;
+}
+
+function resetClicks(){
+
+    clickScore=0;
+
+    document.getElementById(
+        "clickScore"
+    ).textContent="0";
 }
 
 
 /* =========================
-   RANDOM GETAL
+   RAAD GETAL
 ========================= */
 
-createBox(`
-<h2>getal</h2>
-<input id="randomMin" value="1">
-<input id="randomMax" value="100">
-<button onclick="makeRandomNumber()">doe</button>
-<div class="big" id="randomNumber">?</div>
-`);
+let secretNumber=
+    Math.floor(Math.random()*100)+1;
 
-function makeRandomNumber(){
+function newGuess(){
 
-    let min=Number(
-        document.getElementById("randomMin").value
-    );
-
-    let max=Number(
-        document.getElementById("randomMax").value
-    );
-
-    if(min>max){
-        const temp=min;
-        min=max;
-        max=temp;
-    }
-
-    const result=
-        Math.floor(Math.random()*(max-min+1))+min;
+    secretNumber=
+        Math.floor(Math.random()*100)+1;
 
     document.getElementById(
-        "randomNumber"
-    ).textContent=result;
+        "guessResult"
+    ).textContent="nieuw getal";
+
+    document.getElementById(
+        "guessInput"
+    ).value="";
+}
+
+function guessNumber(){
+
+    const guess=
+        Number(
+            document.getElementById(
+                "guessInput"
+            ).value
+        );
+
+    const result=
+        document.getElementById(
+            "guessResult"
+        );
+
+    if(!guess){
+        result.textContent="voer een getal in";
+        return;
+    }
+
+    if(guess===secretNumber){
+        result.textContent="GOED";
+        newGuess();
+        return;
+    }
+
+    if(guess<secretNumber){
+        result.textContent="hoger";
+    }else{
+        result.textContent="lager";
+    }
+}
+
+
+/* =========================
+   STEEN PAPIER SCHAAR
+========================= */
+
+function rps(player){
+
+    const choices=[
+        "steen",
+        "papier",
+        "schaar"
+    ];
+
+    const computer=
+        choices[
+            Math.floor(Math.random()*3)
+        ];
+
+    let result;
+
+    if(player===computer){
+        result="gelijk";
+    }else if(
+        (player==="steen" && computer==="schaar") ||
+        (player==="papier" && computer==="steen") ||
+        (player==="schaar" && computer==="papier")
+    ){
+        result="gewonnen";
+    }else{
+        result="verloren";
+    }
+
+    document.getElementById(
+        "rpsResult"
+    ).textContent=
+        player+" vs "+computer+" = "+result;
 }
 
 
@@ -624,156 +850,101 @@ function makeRandomNumber(){
    TEKENEN
 ========================= */
 
-createBox(`
-<h2>tekenen</h2>
-<canvas id="paintCanvas" width="250" height="160"></canvas>
-<button onclick="clearDrawing()">weg</button>
-`);
+const paint=document.getElementById("paint");
+const paintCtx=paint.getContext("2d");
 
-const paintCanvas=
-    document.getElementById("paintCanvas");
+let drawing=false;
 
-const paintContext=
-    paintCanvas.getContext("2d");
-
-let painting=false;
-
-paintCanvas.addEventListener(
+paint.addEventListener(
     "pointerdown",
     function(e){
-        painting=true;
-        drawOnCanvas(e);
+        drawing=true;
+        draw(e);
     }
 );
 
-paintCanvas.addEventListener(
+paint.addEventListener(
     "pointerup",
     function(){
-        painting=false;
+        drawing=false;
     }
 );
 
-paintCanvas.addEventListener(
+paint.addEventListener(
     "pointerleave",
     function(){
-        painting=false;
+        drawing=false;
     }
 );
 
-paintCanvas.addEventListener(
+paint.addEventListener(
     "pointermove",
-    drawOnCanvas
+    draw
 );
 
-function drawOnCanvas(event){
+function draw(e){
 
-    if(!painting)return;
+    if(!drawing)return;
 
-    const rect=
-        paintCanvas.getBoundingClientRect();
+    const rect=paint.getBoundingClientRect();
 
-    paintContext.fillStyle=randomItem([
-        "red",
-        "blue",
-        "lime",
-        "yellow",
-        "purple",
-        "black",
-        "orange"
-    ]);
+    paintCtx.fillStyle=
+        "hsl("+Math.random()*360+",100%,50%)";
 
-    paintContext.fillRect(
-        event.clientX-rect.left,
-        event.clientY-rect.top,
+    paintCtx.fillRect(
+        e.clientX-rect.left,
+        e.clientY-rect.top,
         8,
         8
     );
 }
 
-function clearDrawing(){
+function clearPaint(){
 
-    paintContext.clearRect(
-        0,
-        0,
-        paintCanvas.width,
-        paintCanvas.height
+    paintCtx.clearRect(
+        0,0,
+        paint.width,
+        paint.height
     );
 }
-
-
-/* =========================
-   AFBEELDINGEN
-========================= */
-
-createBox(`
-<h2>meme</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10">
-<div class="big">${randomItem(weirdWords)}</div>
-`);
-
-createBox(`
-<h2>???</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcRkr0KewwnwmGmoQQi8ltA_TarFWQ93IoZRQ4X_cx3DQQ&s=10">
-<button onclick="shakeWholePage()">druk</button>
-`);
-
-createBox(`
-<h2>foto</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTbCfXlQ-LQkHbRKhK02aoikfgs_JSKMVi7TifRxL1M4w&s=10">
-`);
-
-createBox(`
-<h2>hmm</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTn4U34c6mnHOmr5faLm3lho2fPdcmvFc1tmqcpVXVWRA&s">
-`);
-
-createBox(`
-<h2>dit</h2>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSfJMgE_4SOeA74h1kj1XYzVcKbhlYxjiS9j_ZUoxN2vA&s=10">
-`);
 
 
 /* =========================
    TIMER
 ========================= */
 
-createBox(`
-<h2>timer</h2>
-<input id="timerSeconds" value="10">
-<button onclick="startSimpleTimer()">start</button>
-<div class="big" id="timerDisplay">10</div>
-`);
+let timerLoop=null;
 
-let timerInterval=null;
+function startTimer(){
 
-function startSimpleTimer(){
+    clearInterval(timerLoop);
 
-    clearInterval(timerInterval);
-
-    let seconds=
+    let time=
         Number(
-            document.getElementById("timerSeconds").value
+            document.getElementById(
+                "timerInput"
+            ).value
         );
 
-    if(!Number.isFinite(seconds)||seconds<0){
-        seconds=10;
+    if(!isFinite(time)||time<0){
+        time=10;
     }
 
     document.getElementById(
         "timerDisplay"
-    ).textContent=seconds;
+    ).textContent=time;
 
-    timerInterval=setInterval(function(){
+    timerLoop=setInterval(function(){
 
-        seconds--;
+        time--;
 
         document.getElementById(
             "timerDisplay"
-        ).textContent=seconds;
+        ).textContent=time;
 
-        if(seconds<=0){
+        if(time<=0){
 
-            clearInterval(timerInterval);
+            clearInterval(timerLoop);
 
             document.getElementById(
                 "timerDisplay"
@@ -785,45 +956,422 @@ function startSimpleTimer(){
 
 
 /* =========================
-   STEEN PAPIER SCHAAR
+   RANDOM GETAL
 ========================= */
 
-createBox(`
-<h2>steen</h2>
-<button onclick="playRps('steen')">steen</button>
-<button onclick="playRps('papier')">papier</button>
-<button onclick="playRps('schaar')">schaar</button>
-<div class="output" id="rpsResult">...</div>
-`);
+function randomNumber(){
 
-function playRps(player){
+    let min=
+        Number(
+            document.getElementById(
+                "minNumber"
+            ).value
+        );
 
-    const computer=randomItem([
-        "steen",
-        "papier",
-        "schaar"
-    ]);
+    let max=
+        Number(
+            document.getElementById(
+                "maxNumber"
+            ).value
+        );
 
-    let result;
-
-    if(player===computer){
-        result="gelijk";
+    if(min>max){
+        const temp=min;
+        min=max;
+        max=temp;
     }
-    else if(
-        (player==="steen" && computer==="schaar") ||
-        (player==="papier" && computer==="steen") ||
-        (player==="schaar" && computer==="papier")
-    ){
-        result="gewonnen";
-    }
-    else{
-        result="verloren";
-    }
+
+    const value=
+        Math.floor(
+            Math.random()*(max-min+1)
+        )+min;
 
     document.getElementById(
-        "rpsResult"
+        "randomOutput"
+    ).textContent=value;
+}
+
+
+/* =========================
+   TARGET
+========================= */
+
+let targetPoints=0;
+
+function startTarget(){
+
+    targetPoints=0;
+
+    document.getElementById(
+        "targetScore"
+    ).textContent="0";
+
+    spawnTarget();
+}
+
+function spawnTarget(){
+
+    const area=
+        document.getElementById(
+            "targetArea"
+        );
+
+    area.innerHTML="";
+
+    const target=
+        document.createElement("div");
+
+    target.className="target";
+
+    target.style.left=
+        Math.random()*210+"px";
+
+    target.style.top=
+        Math.random()*130+"px";
+
+    target.onclick=function(){
+
+        targetPoints++;
+
+        document.getElementById(
+            "targetScore"
+        ).textContent=targetPoints;
+
+        spawnTarget();
+    };
+
+    area.appendChild(target);
+}
+
+
+/* =========================
+   REACTIESPEL
+========================= */
+
+let reactionReady=false;
+let reactionWaiting=false;
+let reactionTime=0;
+let reactionTimeout=null;
+
+function reactionClick(){
+
+    const button=
+        document.getElementById(
+            "reactionButton"
+        );
+
+    const result=
+        document.getElementById(
+            "reactionResult"
+        );
+
+    if(reactionReady){
+
+        const time=
+            Math.round(
+                performance.now()-reactionTime
+            );
+
+        result.textContent=time+" ms";
+
+        reactionReady=false;
+        button.textContent="opnieuw";
+
+        setTimeout(startReaction,800);
+
+        return;
+    }
+
+    if(reactionWaiting){
+
+        clearTimeout(reactionTimeout);
+
+        reactionWaiting=false;
+
+        button.textContent="TE VROEG";
+
+        result.textContent="te vroeg";
+
+        setTimeout(startReaction,1000);
+
+        return;
+    }
+
+    startReaction();
+}
+
+function startReaction(){
+
+    const button=
+        document.getElementById(
+            "reactionButton"
+        );
+
+    reactionReady=false;
+    reactionWaiting=true;
+
+    button.textContent="WACHT...";
+
+    reactionTimeout=setTimeout(function(){
+
+        reactionWaiting=false;
+        reactionReady=true;
+
+        reactionTime=performance.now();
+
+        button.textContent="NU!!!";
+
+    },1000+Math.random()*3000);
+}
+
+
+/* =========================
+   GELUID
+========================= */
+
+let audio=null;
+
+function beep(freq){
+
+    if(!audio){
+
+        audio=
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+    }
+
+    if(audio.state==="suspended"){
+        audio.resume();
+    }
+
+    const oscillator=
+        audio.createOscillator();
+
+    const gain=
+        audio.createGain();
+
+    oscillator.frequency.value=freq;
+    gain.gain.value=.05;
+
+    oscillator.connect(gain);
+    gain.connect(audio.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audio.currentTime+.15
+    );
+}
+
+
+/* =========================
+   RANDOM TEKST
+========================= */
+
+const words=[
+    "AAAA",
+    "BRUH",
+    "KIP",
+    "42",
+    "???",
+    "NEE",
+    "JA",
+    "PLAK",
+    "TURBO",
+    "MAYO",
+    "STOEL",
+    "ERROR",
+    "BANANA",
+    "🦆",
+    "🐔",
+    "🧀",
+    "OOOO",
+    "404"
+];
+
+function randomText(){
+
+    document.getElementById(
+        "randomText"
     ).textContent=
-        player+" tegen "+computer+" = "+result;
+        words[
+            Math.floor(
+                Math.random()*words.length
+            )
+        ];
+}
+
+
+/* =========================
+   KLEUR
+========================= */
+
+function randomColor(){
+
+    document.getElementById(
+        "colorBox"
+    ).style.background=
+        "hsl("+Math.random()*360+",100%,50%)";
+}
+
+
+/* =========================
+   TERMINAL
+========================= */
+
+function terminalInput(event){
+
+    if(event.key!=="Enter")return;
+
+    const input=
+        document.getElementById(
+            "terminalInput"
+        );
+
+    const terminal=
+        document.getElementById(
+            "terminal"
+        );
+
+    terminal.innerHTML+=
+        "<br>&gt; "+
+        escapeHtml(input.value)+
+        "<br>&gt; "+
+        words[
+            Math.floor(
+                Math.random()*words.length
+            )
+        ];
+
+    input.value="";
+
+    terminal.scrollTop=
+        terminal.scrollHeight;
+}
+
+function escapeHtml(text){
+
+    const div=document.createElement("div");
+
+    div.textContent=text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   SLIDER
+========================= */
+
+function slider(value){
+
+    document.getElementById(
+        "sliderValue"
+    ).textContent=value;
+}
+
+
+/* =========================
+   SHAKEN
+========================= */
+
+function shake(){
+
+    document.body.classList.add("shake");
+
+    setTimeout(function(){
+
+        document.body.classList.remove("shake");
+
+    },1000);
+}
+
+
+/* =========================
+   RANDOM ROMMEL
+========================= */
+
+function randomMess(button){
+
+    button.textContent=
+        words[
+            Math.floor(
+                Math.random()*words.length
+            )
+        ];
+
+    button.style.transform=
+        "rotate("+
+        (Math.random()*60-30)+
+        "deg)";
+
+    button.style.fontSize=
+        (10+Math.random()*30)+"px";
+}
+
+function huh(){
+
+    const choices=[
+        "huh",
+        "wat",
+        "nee",
+        "waarom",
+        "geen idee",
+        "42",
+        "🐔",
+        "AAAAAAAA"
+    ];
+
+    document.getElementById(
+        "huh"
+    ).textContent=
+        choices[
+            Math.floor(
+                Math.random()*choices.length
+            )
+        ];
+}
+
+function emoji(){
+
+    const emojis=[
+        "🐔",
+        "🦆",
+        "🧀",
+        "🍌",
+        "🚽",
+        "🤨",
+        "💀",
+        "🐸",
+        "🍕",
+        "🗿",
+        "🦖"
+    ];
+
+    document.getElementById(
+        "randomEmoji"
+    ).textContent=
+        emojis[
+            Math.floor(
+                Math.random()*emojis.length
+            )
+        ];
+}
+
+function plop(){
+
+    document.getElementById(
+        "plop"
+    ).innerHTML+=
+        "<div>"+
+        words[
+            Math.floor(
+                Math.random()*words.length
+            )
+        ]+
+        "</div>";
 }
 
 
@@ -831,84 +1379,93 @@ function playRps(player){
    MEMORY
 ========================= */
 
-createBox(`
-<h2>memory</h2>
-<div id="memoryGrid"></div>
-<div class="output" id="memoryStatus">0 paren</div>
-<button onclick="startMemory()">nieuw</button>
-`);
-
-let memoryCards=[];
+let memoryData=[];
 let memoryOpen=[];
 let memoryLocked=false;
 let memoryPairs=0;
 
-function startMemory(){
+function newMemory(){
 
     const values=[
         "🐔","🐔",
+        "🦆","🦆",
         "🧀","🧀",
         "🍌","🍌",
-        "🦆","🦆",
-        "🤨","🤨",
         "🚽","🚽",
         "⭐","⭐",
-        "💀","💀"
+        "🤨","🤨",
+        "🗿","🗿"
     ];
 
-    values.sort(()=>Math.random()-.5);
+    values.sort(
+        ()=>Math.random()-.5
+    );
+
+    memoryData=[];
+    memoryOpen=[];
+    memoryPairs=0;
+    memoryLocked=false;
 
     const grid=
-        document.getElementById("memoryGrid");
+        document.getElementById("memory");
 
     grid.innerHTML="";
 
-    memoryCards=[];
-    memoryOpen=[];
-    memoryLocked=false;
-    memoryPairs=0;
-
     document.getElementById(
-        "memoryStatus"
+        "memoryScore"
     ).textContent="0 paren";
 
-    values.forEach((value,index)=>{
+    values.forEach(
+        function(value,index){
 
-        const button=
-            document.createElement("button");
+            const button=
+                document.createElement("button");
 
-        button.className="memoryCard";
-        button.textContent="?";
+            button.className=
+                "memoryButton";
 
-        button.onclick=function(){
-            memoryClick(button,value,index);
-        };
+            button.textContent="?";
 
-        grid.appendChild(button);
+            button.onclick=function(){
 
-        memoryCards.push({
-            button,
-            value,
-            matched:false
-        });
-    });
+                memoryClick(
+                    index,
+                    button
+                );
+            };
+
+            grid.appendChild(button);
+
+            memoryData.push({
+                value:value,
+                button:button,
+                matched:false
+            });
+        }
+    );
 }
 
-function memoryClick(button,value,index){
+function memoryClick(index,button){
 
     if(memoryLocked)return;
-    if(memoryCards[index].matched)return;
-    if(memoryOpen.some(x=>x.index===index))return;
+    if(memoryData[index].matched)return;
 
-    button.textContent=value;
+    if(
+        memoryOpen.some(
+            x=>x.index===index
+        )
+    )return;
+
+    button.textContent=
+        memoryData[index].value;
 
     memoryOpen.push({
-        button,
-        value,
-        index
+        index:index,
+        button:button,
+        value:memoryData[index].value
     });
 
-    if(memoryOpen.length<2)return;
+    if(memoryOpen.length!==2)return;
 
     memoryLocked=true;
 
@@ -917,13 +1474,13 @@ function memoryClick(button,value,index){
 
     if(first.value===second.value){
 
-        memoryCards[first.index].matched=true;
-        memoryCards[second.index].matched=true;
+        memoryData[first.index].matched=true;
+        memoryData[second.index].matched=true;
 
         memoryPairs++;
 
         document.getElementById(
-            "memoryStatus"
+            "memoryScore"
         ).textContent=
             memoryPairs+" paren";
 
@@ -940,585 +1497,162 @@ function memoryClick(button,value,index){
             memoryOpen=[];
             memoryLocked=false;
 
-        },600);
+        },650);
     }
 }
 
-startMemory();
+newMemory();
 
 
 /* =========================
-   REACTIE
+   MAZE
 ========================= */
 
-createBox(`
-<h2>reactie</h2>
-<button id="reactionButton" onclick="reactionClick()">
-klik om te beginnen
-</button>
-<div class="output" id="reactionResult">---</div>
-`);
+let mazeX=8;
+let mazeY=8;
 
-let reactionStart=0;
-let reactionTimeout=null;
-let reactionWaiting=false;
+function moveMaze(key){
 
-function startReactionGame(){
+    let nx=mazeX;
+    let ny=mazeY;
 
-    const button=
-        document.getElementById("reactionButton");
+    if(key==="ArrowUp")ny-=5;
+    if(key==="ArrowDown")ny+=5;
+    if(key==="ArrowLeft")nx-=5;
+    if(key==="ArrowRight")nx+=5;
 
-    button.className="waiting";
-    button.textContent="WACHT...";
+    if(nx<0)nx=0;
+    if(ny<0)ny=0;
+    if(nx>225)nx=225;
+    if(ny>145)ny=145;
 
-    reactionWaiting=true;
+    mazeX=nx;
+    mazeY=ny;
 
-    reactionTimeout=setTimeout(function(){
-
-        button.className="ready";
-        button.textContent="NU!!!";
-
-        reactionStart=performance.now();
-        reactionWaiting=false;
-
-    },1000+Math.random()*3000);
-}
-
-function reactionClick(){
-
-    const button=
-        document.getElementById("reactionButton");
-
-    const result=
-        document.getElementById("reactionResult");
-
-    if(!reactionStart && !reactionWaiting){
-
-        startReactionGame();
-        return;
-    }
-
-    if(reactionWaiting){
-
-        clearTimeout(reactionTimeout);
-
-        reactionWaiting=false;
-        reactionStart=0;
-
-        button.className="";
-        button.textContent="te vroeg";
-
-        result.textContent="te vroeg";
-
-        setTimeout(startReactionGame,1000);
-
-        return;
-    }
-
-    const time=
-        Math.round(performance.now()-reactionStart);
-
-    result.textContent=time+" ms";
-
-    reactionStart=0;
-
-    button.className="";
-    button.textContent="nog een keer";
-
-    setTimeout(startReactionGame,1000);
-}
-
-
-/* =========================
-   TARGET GAME
-========================= */
-
-createBox(`
-<h2>klik erop</h2>
-<div id="targetGame"></div>
-<div class="output">
-score: <span id="targetScore">0</span>
-</div>
-<button onclick="startTargetGame()">start</button>
-`);
-
-let targetScore=0;
-let targetTimeout=null;
-
-function startTargetGame(){
-
-    targetScore=0;
-
-    document.getElementById(
-        "targetScore"
-    ).textContent="0";
-
-    spawnTarget();
-}
-
-function spawnTarget(){
-
-    const area=
-        document.getElementById("targetGame");
-
-    area.innerHTML="";
-
-    const target=
-        document.createElement("div");
-
-    target.className="target";
-
-    target.style.left=
-        Math.random()*220+"px";
-
-    target.style.top=
-        Math.random()*140+"px";
-
-    target.onclick=function(){
-
-        targetScore++;
-
+    const player=
         document.getElementById(
-            "targetScore"
-        ).textContent=targetScore;
+            "mazePlayer"
+        );
 
-        spawnTarget();
-    };
-
-    area.appendChild(target);
-
-    clearTimeout(targetTimeout);
-
-    targetTimeout=setTimeout(function(){
-
-        area.innerHTML="";
-
-    },3000);
+    player.style.left=mazeX+"px";
+    player.style.top=mazeY+"px";
 }
 
 
 /* =========================
-   RANDOM TEKST
+   WIT SCHERM
 ========================= */
 
-createBox(`
-<h2>tekst</h2>
-<div class="big" id="randomWord">???</div>
-<button onclick="changeRandomWord()">klik</button>
-`);
-
-function changeRandomWord(){
-
-    document.getElementById(
-        "randomWord"
-    ).textContent=randomItem(weirdWords);
-}
-
-
-/* =========================
-   COUNTER
-========================= */
-
-createBox(`
-<h2>nummer</h2>
-<div class="big" id="counterNumber">0</div>
-<button onclick="changeCounter(1)">+</button>
-<button onclick="changeCounter(-1)">-</button>
-<button onclick="changeCounter(100)">100</button>
-`);
-
-let counterValue=0;
-
-function changeCounter(amount){
-
-    counterValue+=amount;
-
-    document.getElementById(
-        "counterNumber"
-    ).textContent=counterValue;
-}
-
-
-/* =========================
-   TERMINAL
-========================= */
-
-createBox(`
-<h2>computer</h2>
-
-<div id="terminalBox">
-&gt; welkom<br>
-</div>
-
-<input
-id="terminalInput"
-placeholder="typ iets"
-onkeydown="terminalCommand(event)">
-`);
-
-function terminalCommand(event){
-
-    if(event.key!=="Enter")return;
-
-    const input=
-        document.getElementById("terminalInput");
-
-    const terminal=
-        document.getElementById("terminalBox");
-
-    terminal.innerHTML+=
-        "<br>&gt; "+
-        input.value+
-        "<br>"+
-        randomItem(weirdWords);
-
-    input.value="";
-
-    terminal.scrollTop=
-        terminal.scrollHeight;
-}
-
-
-/* =========================
-   SCHUIF
-========================= */
-
-createBox(`
-<h2>schuif</h2>
-
-<input
-type="range"
-min="0"
-max="100"
-value="50"
-oninput="showSliderValue(this.value)">
-
-<div class="big" id="sliderValue">
-50
-</div>
-`);
-
-function showSliderValue(value){
-
-    document.getElementById(
-        "sliderValue"
-    ).textContent=value;
-}
-
-
-/* =========================
-   KLEUR
-========================= */
-
-createBox(`
-<h2>kleur</h2>
-
-<div
-id="colorSquare"
-style="
-height:80px;
-background:red;
-border:5px solid black;
-">
-</div>
-
-<button onclick="changeSquareColor()">
-andere
-</button>
-`);
-
-function changeSquareColor(){
-
-    document.getElementById(
-        "colorSquare"
-    ).style.background=
-        "hsl("+Math.random()*360+",100%,50%)";
-}
-
-
-/* =========================
-   GELUID
-========================= */
-
-createBox(`
-<h2>geluid</h2>
-
-<button onclick="makeBeep(100)">laag</button>
-<button onclick="makeBeep(500)">normaal</button>
-<button onclick="makeBeep(1500)">hoog</button>
-`);
-
-let audioContext=null;
-
-function makeBeep(frequency){
-
-    if(!audioContext){
-
-        audioContext=
-            new (
-                window.AudioContext ||
-                window.webkitAudioContext
-            )();
-    }
-
-    if(audioContext.state==="suspended"){
-        audioContext.resume();
-    }
-
-    const oscillator=
-        audioContext.createOscillator();
-
-    const gain=
-        audioContext.createGain();
-
-    oscillator.frequency.value=frequency;
-    gain.gain.value=.05;
-
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-
-    oscillator.start();
-
-    oscillator.stop(
-        audioContext.currentTime+.15
-    );
-}
-
-
-/* =========================
-   MARQUEE
-========================= */
-
-createBox(`
-<h2>lol</h2>
-
-<div class="marquee">
-<span>
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-</span>
-</div>
-`);
-
-
-/* =========================
-   EXTRA ROMMEL
-========================= */
-
-for(let i=0;i<15;i++){
-
-    const titles=[
-        "ding",
-        "iets",
-        "???",
-        "tool",
-        "haha",
-        "nummer",
-        "knop",
-        "wat",
-        "huh"
-    ];
-
-    const box=createBox(`
-        <h2>${randomItem(titles)}</h2>
-
-        <button class="randomBoxButton">
-            ${randomItem(weirdWords)}
-        </button>
-
-        <div class="output">
-            ${randomItem(weirdWords)}
-        </div>
-    `);
-
-    const button=
-        box.querySelector(".randomBoxButton");
-
-    button.onclick=function(){
-
-        box.style.transform=
-            "rotate("+
-            (Math.random()*40-20)+
-            "deg)";
-
-        box.style.marginLeft=
-            (Math.random()*50-25)+"px";
-    };
-}
-
-
-/* =========================
-   SCHUDDEN
-========================= */
-
-function shakeWholePage(){
-
-    document.body.classList.add("shakePage");
+const names=[
+    "Lucas",
+    "Sieb",
+    "Roel",
+    "Torrie"
+];
+
+let whiteActive=false;
+
+function whiteFlash(){
+
+    if(whiteActive)return;
+
+    whiteActive=true;
+
+    const overlay=
+        document.getElementById(
+            "whiteScreen"
+        );
+
+    const name=
+        document.getElementById(
+            "whiteName"
+        );
+
+    name.textContent=
+        names[
+            Math.floor(
+                Math.random()*names.length
+            )
+        ];
+
+    overlay.style.display="flex";
 
     setTimeout(function(){
 
-        document.body.classList.remove("shakePage");
+        overlay.style.display="none";
+        whiteActive=false;
 
-    },1000);
+    },2000+Math.random()*2500);
 }
 
 
 /* =========================
-   FLOATING DINGEN
+   FLOATING LETTERS
 ========================= */
 
-function createFloatingThing(){
+function floatingThing(){
 
-    const element=
+    const thing=
         document.createElement("div");
 
-    element.className="floatThing";
+    thing.className="float";
 
-    element.textContent=
-        randomItem(weirdWords);
+    thing.textContent=
+        words[
+            Math.floor(
+                Math.random()*words.length
+            )
+        ];
 
-    element.style.left=
+    thing.style.left=
         Math.random()*100+"vw";
 
-    element.style.top=
+    thing.style.top=
         Math.random()*100+"vh";
 
-    element.style.color=
+    thing.style.fontSize=
+        (15+Math.random()*65)+"px";
+
+    thing.style.color=
         "hsl("+Math.random()*360+",100%,50%)";
 
-    element.style.fontSize=
-        (15+Math.random()*70)+"px";
+    thing.style.transform=
+        "rotate("+
+        (Math.random()*90-45)+
+        "deg)";
 
-    element.style.setProperty(
-        "--dx",
-        Math.random()*800-400
+    document.getElementById(
+        "floating"
+    ).appendChild(thing);
+
+    const x=
+        Math.random()*600-300;
+
+    const y=
+        Math.random()*500-250;
+
+    thing.animate(
+        [
+            {
+                transform:"scale(1) rotate(0deg)",
+                opacity:1
+            },
+            {
+                transform:
+                    "translate("+x+"px,"+
+                    y+"px) scale(0) rotate(700deg)",
+                opacity:0
+            }
+        ],
+        {
+            duration:1200
+        }
     );
-
-    element.style.setProperty(
-        "--dy",
-        Math.random()*600-300
-    );
-
-    floatingElement.appendChild(element);
 
     setTimeout(function(){
-        element.remove();
-    },1500);
+        thing.remove();
+    },1250);
 }
-
-setInterval(function(){
-
-    const amount=
-        Math.floor(Math.random()*4)+1;
-
-    for(let i=0;i<amount;i++){
-        createFloatingThing();
-    }
-
-},350);
-
-
-/* =========================
-   MUIS
-========================= */
-
-document.addEventListener(
-    "mousemove",
-    function(event){
-
-        if(Math.random()>0.96){
-
-            const element=
-                document.createElement("div");
-
-            element.textContent=
-                randomItem(weirdWords);
-
-            element.style.position="fixed";
-
-            element.style.left=
-                event.clientX+"px";
-
-            element.style.top=
-                event.clientY+"px";
-
-            element.style.pointerEvents="none";
-            element.style.zIndex="100001";
-
-            element.style.color=
-                "hsl("+Math.random()*360+",100%,50%)";
-
-            document.body.appendChild(element);
-
-            setTimeout(function(){
-                element.remove();
-            },500);
-        }
-    }
-);
-
-
-/* =========================
-   KLIK EXPLOSIE
-========================= */
-
-document.addEventListener(
-    "click",
-    function(event){
-
-        for(let i=0;i<2;i++){
-
-            const element=
-                document.createElement("div");
-
-            element.textContent=
-                randomItem(weirdWords);
-
-            element.style.position="fixed";
-
-            element.style.left=
-                event.clientX+"px";
-
-            element.style.top=
-                event.clientY+"px";
-
-            element.style.zIndex="100001";
-            element.style.pointerEvents="none";
-
-            element.style.color=
-                "hsl("+Math.random()*360+",100%,50%)";
-
-            document.body.appendChild(element);
-
-            const x=
-                Math.random()*200-100;
-
-            const y=
-                Math.random()*200-100;
-
-            element.animate(
-                [
-                    {
-                        transform:"translate(0,0)",
-                        opacity:1
-                    },
-                    {
-                        transform:
-                            "translate("+x+"px,"+
-                            y+"px) rotate(500deg) scale(0)",
-                        opacity:0
-                    }
-                ],
-                {
-                    duration:600
-                }
-            );
-
-            setTimeout(function(){
-                element.remove();
-            },650);
-        }
-    }
-);
 
 
 /* =========================
@@ -1534,152 +1668,43 @@ setInterval(function(){
 
     const box=
         boxes[
-            Math.floor(Math.random()*boxes.length)
+            Math.floor(
+                Math.random()*boxes.length
+            )
         ];
 
     box.style.transform=
         "rotate("+
-        (Math.random()*14-7)+
+        (Math.random()*10-5)+
         "deg)";
-
-},900);
-
-
-/* =========================
-   RANDOM ACHTERGROND
-========================= */
-
-setInterval(function(){
-
-    if(Math.random()<.08){
-
-        document.body.style.background=
-            randomItem([
-                "red",
-                "blue",
-                "lime",
-                "yellow",
-                "purple",
-                "#123456",
-                "#ff00ff",
-                "#00ffff",
-                "#555",
-                "#999"
-            ]);
-    }
 
 },1200);
 
 
 /* =========================
-   GIGANTISCHE LETTERS
+   RANDOM LETTERS
 ========================= */
 
 setInterval(function(){
 
-    if(Math.random()>.8){
-
-        const element=
-            document.createElement("div");
-
-        element.textContent=
-            randomItem([
-                "A",
-                "X",
-                "?",
-                "!",
-                "42",
-                "🐔"
-            ]);
-
-        element.style.position="fixed";
-
-        element.style.left=
-            Math.random()*90+"vw";
-
-        element.style.top=
-            Math.random()*90+"vh";
-
-        element.style.fontSize=
-            (100+Math.random()*180)+"px";
-
-        element.style.fontWeight="bold";
-
-        element.style.color=
-            "hsl("+Math.random()*360+",100%,50%)";
-
-        element.style.zIndex="8999";
-        element.style.pointerEvents="none";
-
-        document.body.appendChild(element);
-
-        element.animate(
-            [
-                {
-                    transform:"scale(0) rotate(0)",
-                    opacity:0
-                },
-                {
-                    transform:"scale(1) rotate(180deg)",
-                    opacity:1
-                },
-                {
-                    transform:"scale(3) rotate(600deg)",
-                    opacity:0
-                }
-            ],
-            {
-                duration:1000
-            }
-        );
-
-        setTimeout(function(){
-            element.remove();
-        },1100);
+    for(let i=0;i<Math.floor(Math.random()*3)+1;i++){
+        floatingThing();
     }
 
-},1000);
+},450);
 
 
 /* =========================
-   WIT SCHERM
+   WILLEKEURIG WIT SCHERM
 ========================= */
-
-const whiteOverlay=
-    document.getElementById("whiteOverlay");
-
-const whiteText=
-    document.getElementById("whiteText");
-
-let whiteScreenRunning=false;
-
-function showWhiteScreen(){
-
-    if(whiteScreenRunning)return;
-
-    whiteScreenRunning=true;
-
-    whiteText.textContent=
-        randomItem(whiteNames);
-
-    whiteOverlay.style.display="flex";
-
-    setTimeout(function(){
-
-        whiteOverlay.style.display="none";
-
-        whiteScreenRunning=false;
-
-    },2500+Math.random()*2500);
-}
 
 setInterval(function(){
 
     if(Math.random()<.3){
-        showWhiteScreen();
+        whiteFlash();
     }
 
-},18000);
+},15000);
 
 
 /* =========================
@@ -1688,59 +1713,53 @@ setInterval(function(){
 
 setInterval(function(){
 
-    if(Math.random()<.05){
+    if(Math.random()<.04){
 
         const flash=
             document.createElement("div");
 
         flash.style.position="fixed";
-        flash.style.inset="0";
+        flash.style.left="0";
+        flash.style.top="0";
+        flash.style.right="0";
+        flash.style.bottom="0";
         flash.style.background="white";
-        flash.style.zIndex="9500";
+        flash.style.zIndex="8000";
         flash.style.pointerEvents="none";
 
         document.body.appendChild(flash);
 
         setTimeout(function(){
             flash.remove();
-        },80);
+        },70);
     }
 
 },700);
 
 
 /* =========================
-   PAGINA TITEL
+   TITEL
 ========================= */
 
 setInterval(function(){
 
     document.title=
-        randomItem([
-            "site",
-            "???",
-            "AAAA",
-            "42",
-            "banana",
-            "lol",
-            "404",
-            "kip"
-        ]);
+        words[
+            Math.floor(
+                Math.random()*words.length
+            )
+        ];
 
-},300);
+},500);
 
 
 /* =========================
-   START EFFECT
+   START ROMMEL
 ========================= */
 
-setTimeout(function(){
-
-    for(let i=0;i<12;i++){
-        createFloatingThing();
-    }
-
-},500);
+for(let i=0;i<20;i++){
+    floatingThing();
+}
 
 </script>
 
