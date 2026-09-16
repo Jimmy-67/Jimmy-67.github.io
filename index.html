@@ -1,1548 +1,2383 @@
-```html
 <!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>INTERNET CHAOS OS</title>
+<title></title>
 
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Arial,sans-serif}
+*{
+    box-sizing:border-box;
+    user-select:none;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+}
+
 body{
-background:#090909;
-color:#fff;
-overflow-x:hidden;
-transition:.4s;
-}
-body.party{
-animation:party .5s infinite alternate;
-}
-@keyframes party{
-0%{background:#16001f}
-25%{background:#001a20}
-50%{background:#201500}
-75%{background:#001c0d}
-100%{background:#210000}
+    background:#050505;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
+    transition:background .2s,filter .2s;
 }
 
-header{
-position:sticky;
-top:0;
-z-index:1000;
-background:rgba(0,0,0,.88);
-backdrop-filter:blur(15px);
-padding:15px;
-border-bottom:2px solid #333;
+#world{
+    min-height:100vh;
+    padding:18px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-start;
+    justify-content:center;
+    gap:13px;
 }
 
-.logo{
-font-size:28px;
-font-weight:1000;
-letter-spacing:2px;
+.box{
+    position:relative;
+    background:#111;
+    border:1px solid #444;
+    border-radius:15px;
+    padding:14px;
+    min-width:210px;
+    max-width:430px;
+    box-shadow:0 8px 30px #000b;
+    overflow:hidden;
 }
 
-.logo span{color:#00ffff}
-
-nav{
-display:flex;
-gap:8px;
-margin-top:12px;
-overflow:auto;
+.box:nth-child(2n){
+    transform:rotate(-1deg);
 }
 
-nav button{
-background:#171717;
-border:1px solid #444;
-color:white;
-padding:9px 13px;
-border-radius:10px;
-cursor:pointer;
-white-space:nowrap;
+.box:nth-child(3n){
+    transform:rotate(1.5deg);
 }
 
-nav button:hover{
-background:#00ffff;
-color:#000;
-}
-
-.container{
-max-width:1500px;
-margin:auto;
-padding:25px;
-}
-
-.hero{
-padding:40px;
-border:2px solid #333;
-border-radius:25px;
-background:
-radial-gradient(circle at 20% 20%,#5b00ff,transparent 30%),
-radial-gradient(circle at 80% 70%,#00ffff,transparent 30%),
-#111;
-margin-bottom:25px;
-overflow:hidden;
-position:relative;
-}
-
-.hero h1{
-font-size:clamp(40px,8vw,100px);
-margin:0;
-line-height:.85;
-}
-
-.hero p{
-font-size:20px;
-color:#bbb;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:18px;
-}
-
-.card{
-background:#111;
-border:1px solid #333;
-border-radius:18px;
-padding:20px;
-box-shadow:0 10px 30px #0008;
-}
-
-.card h2{
-margin-top:0;
+.box:nth-child(5n){
+    transform:rotate(-2deg);
 }
 
 button{
-background:#222;
-border:1px solid #555;
-color:#fff;
-padding:10px 14px;
-border-radius:9px;
-cursor:pointer;
+    background:#202020;
+    color:white;
+    border:1px solid #555;
+    border-radius:9px;
+    padding:9px 13px;
+    margin:3px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
 button:hover{
-transform:translateY(-1px);
-background:#333;
+    background:white;
+    color:black;
+}
+
+button:active{
+    transform:scale(.9);
 }
 
 input,textarea,select{
-width:100%;
-background:#080808;
-color:#fff;
-border:1px solid #444;
-padding:11px;
-border-radius:9px;
-margin:5px 0 10px;
+    width:100%;
+    background:#050505;
+    color:white;
+    border:1px solid #555;
+    border-radius:8px;
+    padding:10px;
+    margin:4px 0;
 }
 
-textarea{min-height:120px;resize:vertical}
+textarea{
+    min-height:100px;
+    resize:vertical;
+    user-select:text;
+}
 
-.output{
-background:#050505;
-border:1px solid #333;
-padding:15px;
-border-radius:10px;
-min-height:45px;
-margin-top:10px;
-word-break:break-word;
+.out{
+    background:#050505;
+    border:1px solid #333;
+    border-radius:9px;
+    padding:10px;
+    min-height:40px;
+    margin-top:7px;
+    word-break:break-word;
 }
 
 .big{
-font-size:50px;
-font-weight:900;
-text-align:center;
-padding:25px;
-}
-
-.colorbox{
-height:100px;
-border-radius:15px;
-border:2px solid #555;
-margin-bottom:10px;
+    font-size:42px;
+    font-weight:1000;
+    text-align:center;
 }
 
 canvas{
-max-width:100%;
-background:#000;
-border:1px solid #333;
-border-radius:10px;
+    max-width:100%;
+    background:#000;
+    border:1px solid #444;
+    border-radius:9px;
 }
 
-.danger{
-background:#500;
+.color{
+    height:90px;
+    width:100%;
+    border-radius:12px;
+    border:2px solid #555;
 }
 
-.green{
-background:#063d20;
+.bar{
+    height:24px;
+    background:#222;
+    border-radius:20px;
+    overflow:hidden;
 }
 
-.purple{
-background:#32106b;
+.bar div{
+    height:100%;
+    width:50%;
+    background:linear-gradient(
+        90deg,
+        #f00,
+        #ff0,
+        #0f0,
+        #0ff,
+        #00f,
+        #f0f
+    );
 }
 
-.cyan{
-background:#004747;
+#overlay{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:9000;
 }
 
-.hidden{display:none}
-
-#toast{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#fff;
-color:#000;
-padding:15px 20px;
-border-radius:12px;
-transform:translateY(100px);
-transition:.3s;
-z-index:9999;
-font-weight:bold;
+.glitch{
+    position:absolute;
+    font-family:monospace;
+    font-weight:1000;
+    pointer-events:none;
+    text-shadow:
+        3px 0 red,
+        -3px 0 cyan,
+        0 3px yellow;
 }
 
-#toast.show{
-transform:translateY(0);
+.fly{
+    position:absolute;
+    font-weight:1000;
+    white-space:nowrap;
+    pointer-events:none;
 }
 
-.achievement{
-display:inline-block;
-padding:8px;
-background:#222;
-border-radius:8px;
-margin:3px;
-font-size:13px;
+.flash{
+    position:fixed;
+    inset:0;
+    z-index:8999;
+    pointer-events:none;
 }
 
-.terminal{
-background:#020202;
-color:#00ff66;
-font-family:monospace;
-height:250px;
-overflow:auto;
-padding:15px;
-border-radius:10px;
+.scan{
+    position:fixed;
+    left:0;
+    width:100%;
+    height:3px;
+    background:white;
+    opacity:.12;
+    z-index:8998;
+    pointer-events:none;
+    animation:scan 1s linear infinite;
+}
+
+@keyframes scan{
+    from{top:-5px}
+    to{top:100vh}
+}
+
+@keyframes flicker{
+    0%{opacity:.05}
+    20%{opacity:1}
+    40%{opacity:.2}
+    60%{opacity:1}
+    100%{opacity:.1}
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes pulse{
+    0%{transform:scale(.7)}
+    50%{transform:scale(1.2)}
+    100%{transform:scale(.7)}
+}
+
+#popup{
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) scale(0);
+    background:white;
+    color:black;
+    padding:30px;
+    border-radius:20px;
+    z-index:10000;
+    font-size:30px;
+    font-weight:1000;
+    box-shadow:0 20px 100px #000;
+    transition:.15s;
+    pointer-events:none;
+}
+
+#popup.show{
+    transform:translate(-50%,-50%) scale(1);
 }
 
 #mouseZone{
-height:200px;
-border:2px dashed #555;
-border-radius:15px;
-position:relative;
-overflow:hidden;
+    height:160px;
+    border:2px dashed #555;
+    border-radius:10px;
+    position:relative;
+    overflow:hidden;
 }
 
 #mouseDot{
-width:15px;
-height:15px;
-background:#00ffff;
-border-radius:50%;
-position:absolute;
-pointer-events:none;
+    width:13px;
+    height:13px;
+    border-radius:50%;
+    background:#0ff;
+    position:absolute;
 }
 
-footer{
-padding:50px 20px;
-text-align:center;
-color:#555;
+#terminal{
+    height:220px;
+    overflow:auto;
+    background:#020202;
+    color:#00ff66;
+    font-family:monospace;
+    padding:12px;
+    border-radius:8px;
+    user-select:text;
+}
+
+body.invert{
+    filter:invert(1) hue-rotate(180deg);
+}
+
+body.blur{
+    filter:blur(2px);
+}
+
+body.party{
+    animation:party .3s infinite;
+}
+
+@keyframes party{
+    0%{background:#16001d}
+    25%{background:#001b1d}
+    50%{background:#211800}
+    75%{background:#001d0a}
+    100%{background:#1d0000}
+}
+
+@media(max-width:600px){
+    .box{
+        width:100%;
+        min-width:0;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-
-<div class="logo">
-INTERNET <span>CHAOS OS</span> 🌀
-</div>
-
-<nav>
-<button onclick="scrollToId('random')">🎲 Random</button>
-<button onclick="scrollToId('tools')">🧰 Tools</button>
-<button onclick="scrollToId('games')">🎮 Games</button>
-<button onclick="scrollToId('creative')">🎨 Creative</button>
-<button onclick="scrollToId('science')">🧪 Science</button>
-<button onclick="scrollToId('terminal')">💻 Terminal</button>
-<button onclick="chaos()">💥 CHAOS</button>
-</nav>
-
-</header>
-
-<div class="container">
-
-<section class="hero">
-
-<h1>CHAOS<br>OS</h1>
-
-<p>
-Een website zonder enig logisch doel.
-Maar er zit waarschijnlijk iets nuttigs tussen.
-Misschien.
-</p>
-
-<button onclick="chaos()">ACTIVATE CHAOS</button>
-<button onclick="notify('Gefeliciteerd. Je hebt op een knop gedrukt.')">
-Doe helemaal niets
-</button>
-
-</section>
-
-
-<!-- RANDOM -->
-
-<section id="random">
-
-<h1>🎲 Random Machine</h1>
-
-<div class="grid">
-
-<div class="card">
-
-<h2>Random Nummer</h2>
-
-<input id="min" type="number" value="1">
-<input id="max" type="number" value="100">
-
-<button onclick="randomNumber()">GENEREER</button>
-
-<div class="output big" id="numberOut">?</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Random Naam</h2>
-
-<button onclick="randomName()">Nieuwe persoon</button>
-
-<div class="output big" id="nameOut">Wie?</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Random Planeet</h2>
-
-<button onclick="planet()">Ontdek planeet</button>
-
-<div class="output" id="planetOut">🌌</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Random Excuse Generator</h2>
-
-<button onclick="excuse()">Ik heb een excuus nodig</button>
-
-<div class="output" id="excuseOut">...</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- TOOLS -->
-
-<section id="tools">
-
-<h1>🧰 Compleet nutteloze tools</h1>
-
-<div class="grid">
-
-<div class="card">
-
-<h2>🧮 Rekenmachine</h2>
-
-<input id="calc" placeholder="Bijv. 25*8+17">
-
-<button onclick="calculate()">Bereken</button>
-
-<div class="output" id="calcOut">0</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🌈 Kleurgenerator</h2>
-
-<div class="colorbox" id="color"></div>
-
-<button onclick="newColor()">Nieuwe kleur</button>
-
-<div class="output" id="colorText">#FFFFFF</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🔮 Voorspeller</h2>
-
-<input id="question" placeholder="Stel een vraag...">
-
-<button onclick="predict()">Voorspel mijn toekomst</button>
-
-<div class="output" id="prediction"></div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🧠 Productiviteitsmeter</h2>
-
-<button onclick="productivity()">Meet productiviteit</button>
-
-<div class="output big" id="prod">0%</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🐔 Kip Counter</h2>
-
-<button onclick="chicken()">KIP</button>
-
-<div class="output big" id="chickens">0 🐔</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>💰 Nep Geldmachine</h2>
-
-<button onclick="money()">GELD</button>
-
-<div class="output big" id="money">€0</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🌡️ Temperatuur Simulator</h2>
-
-<input id="temp" type="range" min="-100" max="200" value="20"
-oninput="temperature()">
-
-<div class="output big" id="tempOut">20°C</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>⏱️ Stopwatch</h2>
-
-<div class="output big" id="stopwatch">00:00:00</div>
-
-<button onclick="startStopwatch()">START</button>
-<button onclick="stopStopwatch()">STOP</button>
-<button onclick="resetStopwatch()">RESET</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>📝 Super Notepad</h2>
-
-<textarea id="notes" placeholder="Schrijf absoluut niets belangrijks..."></textarea>
-
-<button onclick="saveNotes()">Opslaan</button>
-<button onclick="loadNotes()">Laden</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🌀 Oneindige Spinner</h2>
-
-<div class="output big" id="spinner">0°</div>
-
-<button onclick="spin()">SPIN</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- CREATIVE -->
-
-<section id="creative">
-
-<h1>🎨 Creative Laboratory</h1>
-
-<div class="grid">
-
-<div class="card">
-
-<h2>🎨 Paint</h2>
-
-<canvas id="paint" width="500" height="300"></canvas>
-
-<br><br>
-
-<button onclick="clearPaint()">CLEAR</button>
-
-<input id="paintColor" type="color" value="#00ffff">
-
-</div>
-
-
-<div class="card">
-
-<h2>🔊 Sound Generator</h2>
-
-<button onclick="sound(100)">100 Hz</button>
-<button onclick="sound(300)">300 Hz</button>
-<button onclick="sound(600)">600 Hz</button>
-<button onclick="sound(1000)">1000 Hz</button>
-
-<p>Waarom? Geen idee.</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>🧬 DNA Generator</h2>
-
-<button onclick="dna()">Maak DNA</button>
-
-<div class="output" id="dna"></div>
-
-</div>
-
-
-<div class="card">
-
-<h2>👽 Alien Generator</h2>
-
-<button onclick="alien()">GENEREER ALIEN</button>
-
-<div class="output big" id="alien">👽</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🧙 Naam Generator</h2>
-
-<button onclick="wizard()">Nieuwe tovenaar</button>
-
-<div class="output big" id="wizard">🧙</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- SCIENCE -->
-
-<section id="science">
-
-<h1>🧪 Wetenschappelijk totaal onzin-lab</h1>
-
-<div class="grid">
-
-<div class="card">
-
-<h2>🪐 Planeet Simulator</h2>
-
-<button onclick="planetStats()">Analyseer planeet</button>
-
-<div class="output" id="planetStats"></div>
-
-</div>
-
-
-<div class="card">
-
-<h2>📈 Nutteloze Grafiek</h2>
-
-<canvas id="chart" width="500" height="250"></canvas>
-
-<button onclick="chart()">Genereer data</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🧪 Molecuulgenerator</h2>
-
-<button onclick="molecule()">Maak molecuul</button>
-
-<div class="output big" id="molecule">?</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>⚛️ Quantum Knop</h2>
-
-<button onclick="quantum()">Observeer de quantumstaat</button>
-
-<div class="output" id="quantum"></div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- MOUSE -->
-
-<section>
-
-<h1>🖱️ Muizenonderzoek</h1>
-
-<div class="card">
-
-<p>Beweeg je muis. Dit heeft geen enkel doel.</p>
-
-<div id="mouseZone">
-
-<div id="mouseDot"></div>
-
-</div>
-
-<div class="output" id="mouseInfo">
-x: 0 | y: 0
-</div>
-
-</div>
-
-</section>
-
-
-<!-- TERMINAL -->
-
-<section id="terminal">
-
-<h1>💻 Fake Terminal</h1>
-
-<div class="card">
-
-<div class="terminal" id="terminalBox">
-CHAOS OS TERMINAL v9.999<br>
-Type "help" om te beginnen.<br>
-</div>
-
-<input id="terminalInput"
-placeholder="Typ een commando..."
-onkeydown="terminalKey(event)">
-
-</div>
-
-</section>
-
-
-<!-- ACHIEVEMENTS -->
-
-<section>
-
-<h1>🏆 Achievements</h1>
-
-<div class="card" id="achievements">
-
-<span class="achievement">🔒 Nog niets</span>
-
-</div>
-
-</section>
-
-
-<!-- GAMES -->
-
-<section id="games">
-
-<h1>🎮 Mini Games</h1>
-
-<div class="grid">
-
-<div class="card">
-
-<h2>🎯 Target</h2>
-
-<canvas id="target" width="500" height="300"></canvas>
-
-<button onclick="newTarget()">NEW TARGET</button>
-
-<p id="targetScore">Score: 0</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>⚡ Reaction Test</h2>
-
-<div class="output big" id="reaction">
-Klik START
-</div>
-
-<button onclick="reaction()">START</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🎲 Higher / Lower</h2>
-
-<div class="output big" id="guessNumber">?</div>
-
-<button onclick="guess('higher')">HOGER</button>
-<button onclick="guess('lower')">LAGER</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🪨 Steen Papier Schaar</h2>
-
-<button onclick="rps('🪨')">🪨</button>
-<button onclick="rps('📄')">📄</button>
-<button onclick="rps('✂️')">✂️</button>
-
-<div class="output" id="rpsOut"></div>
-
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-
-<footer>
-INTERNET CHAOS OS © 2026<br>
-Geen enkel onderdeel van deze website heeft een normaal doel.
-</footer>
-
-<div id="toast"></div>
-
+<div id="world"></div>
+<div id="overlay"></div>
+<div id="popup"></div>
 
 <script>
 
-/* =========================
-   GENERAL
-========================= */
+/* ================================
+   BASIS
+================================ */
+
+const world=document.getElementById("world");
+const overlay=document.getElementById("overlay");
+const popup=document.getElementById("popup");
+
+const words=[
+    "AAAA",
+    "???",
+    "404",
+    "banana",
+    "kip",
+    "NEE",
+    "JA",
+    "42",
+    "NULL",
+    "ERROR",
+    "waarom",
+    "stoel",
+    "🦆",
+    "🧀",
+    "X",
+    "OOOO",
+    "!!!",
+    "123",
+    "000",
+    "undefined",
+    "aardappel",
+    "HAHA",
+    "LOL",
+    "∆",
+    "Ω",
+    "Æ",
+    "Q",
+    "ZXCV",
+    "MMMM",
+    "plok",
+    "vrrr",
+    "hmm",
+    "???!!!",
+    "BANANA.EXE"
+];
+
+const symbols=
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?@#$%&*+=<>/\\\\|[]{}∆ΩЖΨλπ¥¢§∞";
+
+function random(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+}
 
 function notify(text){
-const t=document.getElementById("toast");
-t.textContent=text;
-t.classList.add("show");
-setTimeout(()=>t.classList.remove("show"),2200);
+    popup.textContent=text;
+    popup.classList.add("show");
+
+    setTimeout(()=>{
+        popup.classList.remove("show");
+    },700);
 }
 
-function scrollToId(id){
-document.getElementById(id).scrollIntoView({behavior:"smooth"});
-}
-
-
-/* =========================
-   RANDOM
-========================= */
-
-function randomNumber(){
-
-let min=Number(document.getElementById("min").value);
-let max=Number(document.getElementById("max").value);
-
-let n=Math.floor(Math.random()*(max-min+1))+min;
-
-document.getElementById("numberOut").textContent=n;
-
-achievement("🎲 Random gebruikt");
-}
-
-const names=[
-"Kevin","Dimitri","Gerard","Bram","Henk",
-"Xander","Bob","Lucas","Jan","Turbo",
-"Professor Aardappel","Kees Deluxe"
-];
-
-function randomName(){
-document.getElementById("nameOut").textContent=
-names[Math.floor(Math.random()*names.length)];
-}
-
-const planets=[
-"Zorbax-7",
-"Fluffonia",
-"Kepler-Banaan",
-"XJ-9000",
-"Pluto 2",
-"Frietland",
-"Neptunus Ultra",
-"Planeet Kip"
-];
-
-function planet(){
-
-let p=planets[Math.floor(Math.random()*planets.length)];
-
-document.getElementById("planetOut").innerHTML=
-"<b>"+p+"</b><br>Bevolking: "+
-Math.floor(Math.random()*9999999)+
-"<br>Gravity: "+
-(Math.random()*20).toFixed(2)+" G";
-}
-
-const excuses=[
-"Mijn wifi had vandaag mentale problemen.",
-"Mijn hond heeft mijn opdracht geanalyseerd.",
-"Mijn wekker heeft ontslag genomen.",
-"Mijn computer moest even nadenken over het leven.",
-"Ik was bezig met een belangrijk wetenschappelijk experiment.",
-"Mijn huiswerk is waarschijnlijk in een andere dimensie.",
-"Mijn pen werkte niet mee."
-];
-
-function excuse(){
-
-document.getElementById("excuseOut").textContent=
-excuses[Math.floor(Math.random()*excuses.length)];
+function box(html){
+    const d=document.createElement("div");
+    d.className="box";
+    d.innerHTML=html;
+    world.appendChild(d);
+    return d;
 }
 
 
-/* =========================
-   CALCULATOR
-========================= */
+/* ================================
+   REKENMACHINE
+================================ */
+
+box(`
+<input id="calc" placeholder="...">
+<button onclick="calculate()">=</button>
+<button onclick="document.getElementById('calc').value=''">x</button>
+<div class="out big" id="calcOut">0</div>
+`);
+
+
+/* ================================
+   RANDOM GETAL
+================================ */
+
+box(`
+<input id="min" type="number" value="1">
+<input id="max" type="number" value="100">
+<button onclick="randomNumber()">?</button>
+<div class="out big" id="randomNumber">?</div>
+`);
+
+
+/* ================================
+   TEKENEN
+================================ */
+
+box(`
+<canvas id="paint" width="360" height="210"></canvas>
+<input id="paintColor" type="color" value="#00ffff">
+<button onclick="clearPaint()">x</button>
+`);
+
+
+/* ================================
+   RANDOM EMOJI
+================================ */
+
+box(`
+<div class="big" id="emoji">?</div>
+<button onclick="randomEmoji()">...</button>
+`);
+
+
+/* ================================
+   KLEUR
+================================ */
+
+box(`
+<div class="color" id="color"></div>
+<button onclick="newColor()">?</button>
+<div class="out" id="colorCode">#000000</div>
+`);
+
+
+/* ================================
+   STOPWATCH
+================================ */
+
+box(`
+<div class="big" id="stopwatch">00:00:00</div>
+<button onclick="startWatch()">▶</button>
+<button onclick="stopWatch()">■</button>
+<button onclick="resetWatch()">↻</button>
+`);
+
+
+/* ================================
+   GELD
+================================ */
+
+box(`
+<div class="big" id="cash">€0</div>
+<button onclick="money()">€</button>
+`);
+
+
+/* ================================
+   KIP
+================================ */
+
+box(`
+<div class="big" id="chicken">0 🐔</div>
+<button onclick="chicken()">🐔</button>
+`);
+
+
+/* ================================
+   SLIDER
+================================ */
+
+box(`
+<input type="range" min="0" max="1000" value="500"
+oninput="document.getElementById('sliderOut').textContent=this.value">
+<div class="big" id="sliderOut">500</div>
+`);
+
+
+/* ================================
+   TEKST OMKEREN
+================================ */
+
+box(`
+<input id="reverseInput" placeholder="...">
+<button onclick="reverseText()">←</button>
+<div class="out" id="reverseOut">...</div>
+`);
+
+
+/* ================================
+   GELUID
+================================ */
+
+box(`
+<button onclick="tone(80)">.</button>
+<button onclick="tone(180)">.</button>
+<button onclick="tone(400)">.</button>
+<button onclick="tone(900)">.</button>
+<button onclick="tone(1800)">.</button>
+`);
+
+
+/* ================================
+   MOUSE
+================================ */
+
+box(`
+<div id="mouseZone">
+<div id="mouseDot"></div>
+</div>
+<div class="out" id="mouseInfo">0 / 0</div>
+`);
+
+
+/* ================================
+   DNA
+================================ */
+
+box(`
+<div class="out" id="dna">ATCG</div>
+<button onclick="dna()">🧬</button>
+`);
+
+
+/* ================================
+   RANDOM NAAM
+================================ */
+
+box(`
+<div class="big" id="name">?</div>
+<button onclick="nameGen()">?</button>
+`);
+
+
+/* ================================
+   TEMPERATUUR
+================================ */
+
+box(`
+<input type="range" min="-273" max="1000" value="20"
+oninput="document.getElementById('temperature').textContent=this.value+'°C'">
+<div class="big" id="temperature">20°C</div>
+`);
+
+
+/* ================================
+   REACTIE
+================================ */
+
+box(`
+<div class="big" id="reaction">?</div>
+<button onclick="reaction()">START</button>
+`);
+
+
+/* ================================
+   TARGET
+================================ */
+
+box(`
+<canvas id="target" width="360" height="210"></canvas>
+<div class="out" id="score">0</div>
+`);
+
+
+/* ================================
+   STEEN PAPIER SCHAAR
+================================ */
+
+box(`
+<button onclick="rps('🪨')">🪨</button>
+<button onclick="rps('📄')">📄</button>
+<button onclick="rps('✂️')">✂️</button>
+<div class="out" id="rps"></div>
+`);
+
+
+/* ================================
+   TIMER
+================================ */
+
+box(`
+<input id="timerInput" type="number" value="10">
+<button onclick="timer()">▶</button>
+<div class="big" id="timerOut">10</div>
+`);
+
+
+/* ================================
+   NOTITIES
+================================ */
+
+box(`
+<textarea id="notes" placeholder="..."></textarea>
+<button onclick="saveNotes()">💾</button>
+<button onclick="loadNotes()">↻</button>
+`);
+
+
+/* ================================
+   RANDOM ANTWOORD
+================================ */
+
+box(`
+<input id="question" placeholder="?">
+<button onclick="answer()">?</button>
+<div class="out" id="answer">...</div>
+`);
+
+
+/* ================================
+   GRAFIEK
+================================ */
+
+box(`
+<canvas id="graph" width="360" height="210"></canvas>
+<button onclick="makeGraph()">↗</button>
+`);
+
+
+/* ================================
+   SPINNER
+================================ */
+
+box(`
+<div class="big" id="spinner">0°</div>
+<button onclick="spin()">↻</button>
+`);
+
+
+/* ================================
+   FAKE TERMINAL
+================================ */
+
+box(`
+<div id="terminal"></div>
+<input id="terminalInput"
+placeholder="..."
+onkeydown="terminalCommand(event)">
+`);
+
+
+/* ================================
+   ALIEN
+================================ */
+
+box(`
+<div class="big" id="alien">👽</div>
+<button onclick="alien()">?</button>
+`);
+
+
+/* ================================
+   PRODUCTIVITEIT
+================================ */
+
+box(`
+<div class="bar">
+<div id="productivityBar"></div>
+</div>
+<button onclick="productivity()">?</button>
+<div class="out" id="productivity">0%</div>
+`);
+
+
+/* ================================
+   MOLECUUL
+================================ */
+
+box(`
+<div class="big" id="molecule">?</div>
+<button onclick="molecule()">⚛</button>
+`);
+
+
+/* ================================
+   HOGER LAGER
+================================ */
+
+box(`
+<div class="big" id="higherNumber">50</div>
+<button onclick="higherLower('higher')">↑</button>
+<button onclick="higherLower('lower')">↓</button>
+<div class="out" id="higherResult"></div>
+`);
+
+
+/* ================================
+   VORM
+================================ */
+
+box(`
+<div id="shape" style="
+width:80px;
+height:80px;
+margin:auto;
+background:#f00;
+"></div>
+<button onclick="shape()">?</button>
+`);
+
+
+/* ================================
+   RANDOM TEKST
+================================ */
+
+box(`
+<div class="big" id="randomText">...</div>
+<button onclick="randomText()">...</button>
+`);
+
+
+/* ================================
+   COUNTER
+================================ */
+
+box(`
+<div class="big" id="counter">0</div>
+<button onclick="counterChange(1)">+</button>
+<button onclick="counterChange(-1)">-</button>
+<button onclick="counterChange(Math.floor(Math.random()*100))">?</button>
+`);
+
+
+/* ================================
+   BROWSER ACHIEVEMENT
+================================ */
+
+box(`
+<button onclick="achievement()">🏆</button>
+<div class="out" id="achievement">0</div>
+`);
+
+
+/* ================================
+   STERREN
+================================ */
+
+box(`
+<div class="big" id="stars">⭐</div>
+<button onclick="stars()">✦</button>
+`);
+
+
+/* ================================
+   NEP PEILING
+================================ */
+
+box(`
+<button onclick="poll()">?</button>
+<div class="out" id="poll"></div>
+`);
+
+
+/* ================================
+   WILLEKEURIGE FORMULE
+================================ */
+
+box(`
+<div class="out" id="formula">x = ?</div>
+<button onclick="formula()">∑</button>
+`);
+
+
+/* ================================
+   SNAKE
+================================ */
+
+box(`
+<canvas id="snake" width="360" height="220"></canvas>
+<button onclick="startSnake()">▶</button>
+<div class="out" id="snakeScore">0</div>
+`);
+
+
+/* ================================
+   BREAKOUT
+================================ */
+
+box(`
+<canvas id="breakout" width="360" height="220"></canvas>
+<button onclick="startBreakout()">▶</button>
+`);
+
+
+/* ================================
+   PI
+================================ */
+
+box(`
+<div class="big" id="pi">3.14</div>
+<button onclick="morePi()">π</button>
+`);
+
+
+/* ================================
+   RANDOM PLAATS
+================================ */
+
+box(`
+<div class="out" id="place">...</div>
+<button onclick="place()">🌍</button>
+`);
+
+
+/* ================================
+   NEP AI
+================================ */
+
+box(`
+<input id="aiInput" placeholder="...">
+<button onclick="fakeAI()">↗</button>
+<div class="out" id="aiOutput">...</div>
+`);
+
+
+/* ================================
+   MEMO
+================================ */
+
+box(`
+<div class="big" id="memo">?</div>
+<button onclick="memo()">?</button>
+`);
+
+
+/* ================================
+   GELUID SLIDER
+================================ */
+
+box(`
+<input type="range" min="20" max="2000" value="440"
+oninput="tone(Number(this.value))">
+`);
+
+
+/* ================================
+   ELEMENT RANDOMIZER
+================================ */
+
+box(`
+<button onclick="randomizeBoxes()">↯</button>
+<button onclick="resetBoxes()">↩</button>
+`);
+
+
+/* ================================
+   FUNCTIES
+================================ */
 
 function calculate(){
+    let x=document.getElementById("calc").value;
 
-let x=document.getElementById("calc").value;
+    try{
+        if(!/^[0-9+\-*/(). %]+$/.test(x)) throw 0;
 
-try{
-
-if(!/^[0-9+\-*/(). %]+$/.test(x))
-throw Error();
-
-document.getElementById("calcOut").textContent=
-Function("return "+x)();
-
-}catch{
-
-document.getElementById("calcOut").textContent="ERROR";
-}
+        document.getElementById("calcOut").textContent=
+            Function("return "+x)();
+    }catch{
+        document.getElementById("calcOut").textContent="ERROR";
+    }
 }
 
 
-/* =========================
-   COLORS
-========================= */
+function randomNumber(){
+    let a=Number(document.getElementById("min").value);
+    let b=Number(document.getElementById("max").value);
+
+    if(a>b)[a,b]=[b,a];
+
+    document.getElementById("randomNumber").textContent=
+        Math.floor(Math.random()*(b-a+1))+a;
+}
+
+
+function randomEmoji(){
+    document.getElementById("emoji").textContent=
+        random([
+            "😀","😂","🤣","😎","🥶","🤨","😵",
+            "👽","👾","🤖","🐸","🐔","🦆","🦀",
+            "🍌","🍕","🧀","🌚","🌝","💀","🔥"
+        ]);
+}
+
 
 function newColor(){
+    let c="#"+Math.floor(Math.random()*16777215)
+        .toString(16)
+        .padStart(6,"0");
 
-let c="#"+Math.floor(Math.random()*16777215)
-.toString(16).padStart(6,"0");
-
-document.getElementById("color").style.background=c;
-document.getElementById("colorText").textContent=c;
+    document.getElementById("color").style.background=c;
+    document.getElementById("colorCode").textContent=c;
 }
 
 
-/* =========================
-   PREDICTION
-========================= */
+let watchStart=0;
+let watchInterval=null;
 
-const predictions=[
-"Je gaat vandaag iets vergeten.",
-"Je gaat binnen 24 uur iets eten.",
-"Er komt een onverwachte melding.",
-"Je gaat binnenkort lachen.",
-"Een mysterieuze gebeurtenis staat gepland.",
-"Je toekomst is momenteel aan het laden...",
-"Je zult ooit een knop indrukken."
-];
+function startWatch(){
 
-function predict(){
+    if(watchInterval)return;
 
-document.getElementById("prediction").textContent=
-predictions[Math.floor(Math.random()*predictions.length)];
+    watchStart=Date.now();
+
+    watchInterval=setInterval(()=>{
+
+        let ms=Date.now()-watchStart;
+
+        let s=Math.floor(ms/1000);
+        let m=Math.floor(s/60);
+
+        s%=60;
+
+        document.getElementById("stopwatch").textContent=
+            String(m).padStart(2,"0")+":"+
+            String(s).padStart(2,"0")+":"+
+            String(Math.floor(ms%1000/10)).padStart(2,"0");
+
+    },10);
 }
 
 
-/* =========================
-   PRODUCTIVITY
-========================= */
-
-function productivity(){
-
-let n=Math.floor(Math.random()*101);
-
-document.getElementById("prod").textContent=n+"%";
-
-if(n>90) notify("ONGELOOFLIJKE PRODUCTIVITEIT");
+function stopWatch(){
+    clearInterval(watchInterval);
+    watchInterval=null;
 }
 
 
-/* =========================
-   CHICKEN
-========================= */
-
-let chickens=0;
-
-function chicken(){
-
-chickens++;
-
-document.getElementById("chickens").textContent=
-chickens+" 🐔";
-
-if(chickens===100)
-achievement("🐔 100 KIPPEN");
+function resetWatch(){
+    stopWatch();
+    document.getElementById("stopwatch").textContent="00:00:00";
 }
 
-
-/* =========================
-   MONEY
-========================= */
 
 let cash=0;
 
 function money(){
-
-cash+=Math.floor(Math.random()*100000);
-
-document.getElementById("money").textContent=
-"€"+cash.toLocaleString("nl-NL");
+    cash+=Math.floor(Math.random()*100000);
+    document.getElementById("cash").textContent=
+        "€"+cash.toLocaleString("nl-NL");
 }
 
 
-/* =========================
-   TEMPERATURE
-========================= */
+let chickens=0;
 
-function temperature(){
-
-let t=document.getElementById("temp").value;
-
-document.getElementById("tempOut").textContent=t+"°C";
+function chicken(){
+    chickens++;
+    document.getElementById("chicken").textContent=
+        chickens+" 🐔";
 }
 
 
-/* =========================
-   STOPWATCH
-========================= */
+function reverseText(){
 
-let stopwatchStart=0;
-let stopwatchTimer=null;
-let stopwatchRunning=false;
-
-function startStopwatch(){
-
-if(stopwatchRunning)return;
-
-stopwatchRunning=true;
-stopwatchStart=Date.now()-(stopwatchStart||0);
-
-stopwatchTimer=setInterval(()=>{
-
-let ms=Date.now()-stopwatchStart;
-
-let sec=Math.floor(ms/1000);
-let min=Math.floor(sec/60);
-
-sec%=60;
-
-document.getElementById("stopwatch").textContent=
-String(min).padStart(2,"0")+":"+
-String(sec).padStart(2,"0")+":"+
-String(Math.floor(ms%1000/10)).padStart(2,"0");
-
-},10);
-}
-
-function stopStopwatch(){
-
-stopwatchRunning=false;
-clearInterval(stopwatchTimer);
-
-}
-
-function resetStopwatch(){
-
-stopStopwatch();
-stopwatchStart=0;
-
-document.getElementById("stopwatch").textContent=
-"00:00:00";
+    document.getElementById("reverseOut").textContent=
+        document.getElementById("reverseInput")
+        .value
+        .split("")
+        .reverse()
+        .join("");
 }
 
 
-/* =========================
-   NOTES
-========================= */
+let audio;
+
+function tone(freq){
+
+    audio=audio||new AudioContext();
+
+    let osc=audio.createOscillator();
+    let gain=audio.createGain();
+
+    osc.frequency.value=freq;
+
+    osc.connect(gain);
+    gain.connect(audio.destination);
+
+    gain.gain.value=.07;
+
+    osc.start();
+
+    osc.stop(audio.currentTime+.15);
+}
+
+
+function dna(){
+
+    let s="";
+    let bases="ATCG";
+
+    for(let i=0;i<80;i++)
+        s+=bases[Math.floor(Math.random()*4)];
+
+    document.getElementById("dna").textContent=s;
+}
+
+
+function nameGen(){
+
+    let a=[
+        "Zor","Mega","Turbo","Professor",
+        "Dimi","Flop","Xeno","Banaan",
+        "Kaas","Ultra"
+    ];
+
+    let b=[
+        "snor","aardappel","bliksem",
+        "kwark","kip","donder",
+        "stoel","meneer","999"
+    ];
+
+    document.getElementById("name").textContent=
+        random(a)+" "+random(b);
+}
+
+
+let reactionRunning=false;
+
+function reaction(){
+
+    if(reactionRunning)return;
+
+    reactionRunning=true;
+
+    const el=document.getElementById("reaction");
+
+    el.textContent="WACHT";
+
+    setTimeout(()=>{
+
+        el.textContent="NU!";
+
+        let start=performance.now();
+
+        const fn=()=>{
+
+            el.textContent=
+                Math.round(performance.now()-start)+" ms";
+
+            reactionRunning=false;
+        };
+
+        document.addEventListener("click",fn,{once:true});
+
+    },1000+Math.random()*3000);
+}
+
+
+/* TARGET */
+
+const targetCanvas=document.getElementById("target");
+const targetCtx=targetCanvas.getContext("2d");
+
+let targetX=100;
+let targetY=100;
+let targetScore=0;
+
+function newTarget(){
+
+    targetCtx.clearRect(0,0,360,210);
+
+    targetX=30+Math.random()*300;
+    targetY=30+Math.random()*150;
+
+    targetCtx.fillStyle="#f00";
+
+    targetCtx.beginPath();
+    targetCtx.arc(targetX,targetY,25,0,Math.PI*2);
+    targetCtx.fill();
+
+    targetCtx.fillStyle="#fff";
+
+    targetCtx.beginPath();
+    targetCtx.arc(targetX,targetY,11,0,Math.PI*2);
+    targetCtx.fill();
+}
+
+targetCanvas.onclick=e=>{
+
+    let r=targetCanvas.getBoundingClientRect();
+
+    let x=(e.clientX-r.left)*360/r.width;
+    let y=(e.clientY-r.top)*210/r.height;
+
+    if(Math.hypot(x-targetX,y-targetY)<30){
+
+        targetScore++;
+
+        document.getElementById("score").textContent=
+            targetScore;
+
+        newTarget();
+    }
+};
+
+newTarget();
+
+
+function rps(player){
+
+    let c=["🪨","📄","✂️"];
+    let cpu=random(c);
+
+    let result;
+
+    if(player===cpu)
+        result="gelijk";
+
+    else if(
+        player==="🪨"&&cpu==="✂️" ||
+        player==="📄"&&cpu==="🪨" ||
+        player==="✂️"&&cpu==="📄"
+    )
+        result="jij";
+
+    else
+        result="computer";
+
+    document.getElementById("rps").textContent=
+        player+" "+cpu+" "+result;
+}
+
+
+let timerInterval;
+
+function timer(){
+
+    clearInterval(timerInterval);
+
+    let n=Number(
+        document.getElementById("timerInput").value
+    );
+
+    document.getElementById("timerOut").textContent=n;
+
+    timerInterval=setInterval(()=>{
+
+        n--;
+
+        document.getElementById("timerOut").textContent=n;
+
+        if(n<=0){
+
+            clearInterval(timerInterval);
+
+            notify(random(words));
+        }
+
+    },1000);
+}
+
 
 function saveNotes(){
-
-localStorage.setItem(
-"chaosNotes",
-document.getElementById("notes").value
-);
-
-notify("Notities opgeslagen.");
+    localStorage.setItem(
+        "weirdNotes",
+        document.getElementById("notes").value
+    );
 }
 
 function loadNotes(){
-
-document.getElementById("notes").value=
-localStorage.getItem("chaosNotes")||"";
+    document.getElementById("notes").value=
+        localStorage.getItem("weirdNotes")||"";
 }
 
 
-/* =========================
-   SPINNER
-========================= */
+function answer(){
+
+    document.getElementById("answer").textContent=
+        random([
+            "ja",
+            "nee",
+            "misschien",
+            "waarschijnlijk",
+            "absoluut",
+            "42",
+            "een banaan",
+            "volgende dinsdag",
+            "nee maar ook ja",
+            "404",
+            "ik weet het niet"
+        ]);
+}
+
+
+function makeGraph(){
+
+    let c=document.getElementById("graph");
+    let x=c.getContext("2d");
+
+    x.clearRect(0,0,360,210);
+
+    x.strokeStyle=
+        `hsl(${Math.random()*360},100%,60%)`;
+
+    x.lineWidth=3;
+
+    x.beginPath();
+
+    for(let i=0;i<360;i+=5){
+
+        let y=105+
+            Math.sin(i/15)*50+
+            (Math.random()-.5)*70;
+
+        if(i===0)x.moveTo(i,y);
+        else x.lineTo(i,y);
+    }
+
+    x.stroke();
+}
+
 
 let rotation=0;
 
 function spin(){
 
-rotation+=
-360+
-Math.floor(Math.random()*2000);
+    rotation+=360+Math.random()*1000;
 
-document.getElementById("spinner").textContent=
-(rotation%360)+"°";
-
+    document.getElementById("spinner").textContent=
+        Math.round(rotation)+"°";
 }
 
-
-/* =========================
-   DNA
-========================= */
-
-function dna(){
-
-let bases="ATCG";
-let s="";
-
-for(let i=0;i<60;i++)
-s+=bases[Math.floor(Math.random()*4)];
-
-document.getElementById("dna").textContent=s;
-}
-
-
-/* =========================
-   ALIEN
-========================= */
-
-const aliens=[
-"👽","👾","🛸","👽👾","🧠👽",
-"👽🦆","👾🧠","🛸👽"
-];
 
 function alien(){
 
-document.getElementById("alien").textContent=
-aliens[Math.floor(Math.random()*aliens.length)];
+    document.getElementById("alien").textContent=
+        random([
+            "👽",
+            "👾",
+            "🛸",
+            "👽👾",
+            "🧠👽",
+            "👽🦆",
+            "🤖👽"
+        ]);
 }
 
 
-/* =========================
-   WIZARD
-========================= */
+function productivity(){
 
-const wizardFirst=[
-"Zor","Mega","Dimi","Flop","Giga",
-"Turbo","Professor","Xeno"
-];
+    let n=Math.floor(Math.random()*101);
 
-const wizardLast=[
-"baard","bliksem","aardappel","donder",
-"kwark","snor","toverstok","chaos"
-];
+    document.getElementById("productivity").textContent=
+        n+"%";
 
-function wizard(){
-
-document.getElementById("wizard").textContent=
-wizardFirst[Math.floor(Math.random()*wizardFirst.length)]
-+" "+
-wizardLast[Math.floor(Math.random()*wizardLast.length)];
+    document.getElementById("productivityBar")
+        .style.width=n+"%";
 }
 
-
-/* =========================
-   MOLECULE
-========================= */
-
-const molecules=[
-"H₂O",
-"CO₂",
-"NaCl",
-"C₆H₁₂O₆",
-"CH₄",
-"XeF₄",
-"UwHuiswerk₂"
-];
 
 function molecule(){
 
-document.getElementById("molecule").textContent=
-molecules[Math.floor(Math.random()*molecules.length)];
+    document.getElementById("molecule").textContent=
+        random([
+            "H₂O",
+            "CO₂",
+            "NaCl",
+            "CH₄",
+            "C₆H₁₂O₆",
+            "XeF₄",
+            "UwHuiswerk₂",
+            "X₉₉"
+        ]);
 }
 
 
-/* =========================
-   QUANTUM
-========================= */
+let higherValue=50;
 
-function quantum(){
+function higherLower(choice){
 
-const states=[
-"Deeltje",
-"Gegolfd deeltje",
-"Waarschijnlijkheid",
-"Onbekend",
-"Het deeltje is beledigd",
-"Quantum-aardappel"
-];
+    let next=Math.floor(Math.random()*100)+1;
 
-document.getElementById("quantum").textContent=
-states[Math.floor(Math.random()*states.length)];
+    let correct=
+        choice==="higher"
+        ?next>higherValue
+        :next<higherValue;
+
+    document.getElementById("higherResult").textContent=
+        correct?"goed":"fout";
+
+    higherValue=next;
+
+    document.getElementById("higherNumber").textContent=
+        higherValue;
 }
 
 
-/* =========================
-   PLANET STATS
-========================= */
+function shape(){
 
-function planetStats(){
+    let s=document.getElementById("shape");
 
-document.getElementById("planetStats").innerHTML=
-`
-Diameter: ${Math.floor(Math.random()*100000)} km<br>
-Gravity: ${(Math.random()*30).toFixed(2)} G<br>
-Manen: ${Math.floor(Math.random()*50)}<br>
-Temperatuur: ${Math.floor(Math.random()*900-400)}°C<br>
-Bewoonbaar: ${Math.random()>.5?"JA":"ABSOLUUT NIET"}
-`;
+    s.style.width=
+        Math.random()*180+20+"px";
+
+    s.style.height=
+        Math.random()*180+20+"px";
+
+    s.style.borderRadius=
+        Math.random()*100+"%";
+
+    s.style.background=
+        `hsl(${Math.random()*360},100%,50%)`;
+
+    s.style.transform=
+        `rotate(${Math.random()*360}deg)`;
 }
 
 
-/* =========================
-   CHART
-========================= */
+function randomText(){
 
-function chart(){
+    let result="";
 
-let c=document.getElementById("chart");
-let x=c.getContext("2d");
+    for(let i=0;i<Math.floor(Math.random()*8)+1;i++)
+        result+=random(words)+" ";
 
-x.clearRect(0,0,500,250);
-
-x.strokeStyle="#00ffff";
-x.lineWidth=3;
-
-x.beginPath();
-
-for(let i=0;i<500;i+=10){
-
-let y=125+
-Math.sin(i/30)*70+
-(Math.random()-.5)*30;
-
-if(i===0)x.moveTo(i,y);
-else x.lineTo(i,y);
-}
-
-x.stroke();
+    document.getElementById("randomText").textContent=result;
 }
 
 
-/* =========================
+let count=0;
+
+function counterChange(n){
+
+    count+=n;
+
+    document.getElementById("counter").textContent=
+        count;
+}
+
+
+let ach=0;
+
+function achievement(){
+
+    ach++;
+
+    document.getElementById("achievement").textContent=
+        ach;
+}
+
+
+function stars(){
+
+    document.getElementById("stars").textContent=
+        random([
+            "⭐",
+            "⭐⭐",
+            "⭐⭐⭐⭐",
+            "🌟",
+            "✨",
+            "💫",
+            "🌠",
+            "⭐🦆⭐",
+            "⭐⭐⭐⭐⭐⭐⭐⭐"
+        ]);
+}
+
+
+function poll(){
+
+    document.getElementById("poll").textContent=
+        random([
+            "37% ja",
+            "63% nee",
+            "99% banaan",
+            "12% stoel",
+            "100% waarom",
+            "0% logisch"
+        ]);
+}
+
+
+function formula(){
+
+    let a=Math.floor(Math.random()*100);
+    let b=Math.floor(Math.random()*100);
+
+    document.getElementById("formula").textContent=
+        `${a}x² + ${b}x = ${a*b}`;
+}
+
+
+function morePi(){
+
+    document.getElementById("pi").textContent=
+        Math.PI.toString()
+        .slice(
+            0,
+            Math.floor(Math.random()*12)+4
+        );
+}
+
+
+function place(){
+
+    document.getElementById("place").textContent=
+        random([
+            "Amsterdam",
+            "Mars",
+            "een koelkast",
+            "Atlantis",
+            "de maan",
+            "een parkeerplaats",
+            "de oceaan",
+            "een onbekende kelder",
+            "nummer 404",
+            "achter je"
+        ]);
+}
+
+
+function fakeAI(){
+
+    let q=document.getElementById("aiInput").value;
+
+    document.getElementById("aiOutput").textContent=
+        q
+        ? random([
+            "Interessant.",
+            "Daar moet ik even over nadenken.",
+            "Het antwoord is waarschijnlijk banaan.",
+            "Volgens mijn berekeningen: 42.",
+            "Dat klinkt als een probleem voor morgen.",
+            "Ik heb hier absoluut geen verstand van.",
+            "Mijn antwoord is dinsdag."
+        ])
+        : "Geen invoer gedetecteerd.";
+}
+
+
+function memo(){
+
+    document.getElementById("memo").textContent=
+        random([
+            "onthoud dit",
+            "vergeet dit",
+            "wat was ik ook alweer aan het doen?",
+            "🧠",
+            "nee",
+            "ja",
+            "42"
+        ]);
+}
+
+
+/* ================================
+   TERMINAL
+================================ */
+
+const terminal=document.getElementById("terminal");
+
+terminal.innerHTML=
+    "><br>";
+
+function terminalCommand(e){
+
+    if(e.key!=="Enter")return;
+
+    let input=document.getElementById("terminalInput");
+    let command=input.value;
+
+    terminal.innerHTML+=
+        "<br>> "+command;
+
+    let response;
+
+    if(command==="help")
+        response="help / banana / matrix / money / dance / clear";
+
+    else if(command==="banana")
+        response="🍌";
+
+    else if(command==="matrix")
+        response="01001000 01000101 01001100 01010000";
+
+    else if(command==="money")
+        response="€999999999999";
+
+    else if(command==="dance")
+        response="🕺💃🕺💃🕺";
+
+    else if(command==="clear"){
+        terminal.innerHTML="";
+        input.value="";
+        return;
+    }
+
+    else
+        response=random(words);
+
+    terminal.innerHTML+="<br>"+response;
+
+    terminal.scrollTop=terminal.scrollHeight;
+
+    input.value="";
+}
+
+
+/* ================================
    PAINT
-========================= */
+================================ */
 
 const paint=document.getElementById("paint");
 const pctx=paint.getContext("2d");
 
-let painting=false;
+let drawing=false;
 
-paint.addEventListener("mousedown",()=>painting=true);
-paint.addEventListener("mouseup",()=>painting=false);
-paint.addEventListener("mouseleave",()=>painting=false);
+paint.onmousedown=()=>drawing=true;
+paint.onmouseup=()=>drawing=false;
+paint.onmouseleave=()=>drawing=false;
 
-paint.addEventListener("mousemove",e=>{
+paint.onmousemove=e=>{
 
-if(!painting)return;
+    if(!drawing)return;
 
-const r=paint.getBoundingClientRect();
+    let r=paint.getBoundingClientRect();
 
-pctx.fillStyle=
-document.getElementById("paintColor").value;
+    let x=(e.clientX-r.left)*360/r.width;
+    let y=(e.clientY-r.top)*210/r.height;
 
-pctx.beginPath();
+    pctx.fillStyle=
+        document.getElementById("paintColor").value;
 
-pctx.arc(
-e.clientX-r.left,
-e.clientY-r.top,
-5,0,Math.PI*2
-);
+    pctx.beginPath();
 
-pctx.fill();
-});
+    pctx.arc(x,y,5,0,Math.PI*2);
+
+    pctx.fill();
+};
 
 function clearPaint(){
-
-pctx.clearRect(0,0,500,300);
+    pctx.clearRect(0,0,360,210);
 }
 
 
-/* =========================
-   SOUND
-========================= */
-
-let audio;
-
-function sound(freq){
-
-audio=audio||new AudioContext();
-
-let osc=audio.createOscillator();
-let gain=audio.createGain();
-
-osc.frequency.value=freq;
-
-osc.connect(gain);
-gain.connect(audio.destination);
-
-osc.start();
-
-gain.gain.setValueAtTime(.15,audio.currentTime);
-
-gain.gain.exponentialRampToValueAtTime(
-.001,
-audio.currentTime+1
-);
-
-osc.stop(audio.currentTime+1);
-}
-
-
-/* =========================
+/* ================================
    MOUSE
-========================= */
+================================ */
 
-const zone=document.getElementById("mouseZone");
-const dot=document.getElementById("mouseDot");
+document.getElementById("mouseZone")
+.addEventListener("mousemove",e=>{
 
-zone.addEventListener("mousemove",e=>{
+    let r=e.currentTarget.getBoundingClientRect();
 
-const r=zone.getBoundingClientRect();
+    let x=e.clientX-r.left;
+    let y=e.clientY-r.top;
 
-let x=e.clientX-r.left;
-let y=e.clientY-r.top;
+    document.getElementById("mouseDot").style.left=x+"px";
+    document.getElementById("mouseDot").style.top=y+"px";
 
-dot.style.left=x+"px";
-dot.style.top=y+"px";
-
-document.getElementById("mouseInfo").textContent=
-"x: "+Math.round(x)+" | y: "+Math.round(y);
+    document.getElementById("mouseInfo").textContent=
+        Math.round(x)+" / "+Math.round(y);
 });
 
 
-/* =========================
-   TARGET GAME
-========================= */
+/* ================================
+   SNAKE
+================================ */
 
-const targetCanvas=document.getElementById("target");
-const tctx=targetCanvas.getContext("2d");
+const snakeCanvas=document.getElementById("snake");
+const snakeCtx=snakeCanvas.getContext("2d");
 
-let targetX=250;
-let targetY=150;
-let targetScore=0;
+let snake=[];
+let food={x:10,y:10};
+let snakeDir={x:1,y:0};
+let snakeGame=null;
+let snakePoints=0;
 
-function newTarget(){
+function startSnake(){
 
-targetX=30+Math.random()*440;
-targetY=30+Math.random()*240;
+    clearInterval(snakeGame);
 
-tctx.clearRect(0,0,500,300);
+    snake=[
+        {x:8,y:8},
+        {x:7,y:8},
+        {x:6,y:8}
+    ];
 
-tctx.fillStyle="#ff0055";
+    snakeDir={x:1,y:0};
+    snakePoints=0;
 
-tctx.beginPath();
-tctx.arc(targetX,targetY,25,0,Math.PI*2);
-tctx.fill();
+    placeFood();
 
-tctx.fillStyle="white";
-
-tctx.beginPath();
-tctx.arc(targetX,targetY,12,0,Math.PI*2);
-tctx.fill();
+    snakeGame=setInterval(updateSnake,110);
 }
 
-targetCanvas.onclick=e=>{
+function placeFood(){
 
-const r=targetCanvas.getBoundingClientRect();
-
-let x=(e.clientX-r.left)*500/r.width;
-let y=(e.clientY-r.top)*300/r.height;
-
-if(Math.hypot(x-targetX,y-targetY)<30){
-
-targetScore++;
-
-document.getElementById("targetScore").textContent=
-"Score: "+targetScore;
-
-newTarget();
-}
-};
-
-newTarget();
-
-
-/* =========================
-   REACTION
-========================= */
-
-function reaction(){
-
-let el=document.getElementById("reaction");
-
-el.textContent="WACHT...";
-
-let start;
-
-let delay=1000+Math.random()*4000;
-
-setTimeout(()=>{
-
-el.textContent="KLIK NU!";
-
-start=performance.now();
-
-const fn=()=>{
-
-let time=Math.round(performance.now()-start);
-
-el.textContent=time+" ms";
-
-document.removeEventListener("click",fn);
-
-};
-
-document.addEventListener("click",fn,{once:true});
-
-},delay);
+    food={
+        x:Math.floor(Math.random()*18),
+        y:Math.floor(Math.random()*11)
+    };
 }
 
+function updateSnake(){
 
-/* =========================
-   HIGHER LOWER
-========================= */
+    let head={
+        x:snake[0].x+snakeDir.x,
+        y:snake[0].y+snakeDir.y
+    };
 
-let guessNumberValue=Math.floor(Math.random()*100)+1;
+    if(
+        head.x<0||
+        head.x>=18||
+        head.y<0||
+        head.y>=11||
+        snake.some(s=>s.x===head.x&&s.y===head.y)
+    ){
+        clearInterval(snakeGame);
+        return;
+    }
 
-function guess(type){
+    snake.unshift(head);
 
-let newNumber=Math.floor(Math.random()*100)+1;
+    if(head.x===food.x&&head.y===food.y){
 
-let correct=
-type==="higher"
-?newNumber>guessNumberValue
-:newNumber<guessNumberValue;
+        snakePoints++;
 
-notify(correct?"GOED! 🎉":"FOUT!");
+        document.getElementById("snakeScore")
+        .textContent=snakePoints;
 
-guessNumberValue=newNumber;
+        placeFood();
 
-document.getElementById("guessNumber").textContent=
-guessNumberValue;
+    }else{
+        snake.pop();
+    }
+
+    drawSnake();
 }
 
-document.getElementById("guessNumber").textContent=
-guessNumberValue;
+function drawSnake(){
 
+    snakeCtx.clearRect(0,0,360,220);
 
-/* =========================
-   RPS
-========================= */
+    snakeCtx.fillStyle="#f00";
 
-function rps(player){
+    snakeCtx.fillRect(
+        food.x*20,
+        food.y*20,
+        18,
+        18
+    );
 
-const choices=["🪨","📄","✂️"];
+    snakeCtx.fillStyle="#0f0";
 
-let cpu=choices[Math.floor(Math.random()*3)];
-
-let result;
-
-if(player===cpu)
-result="Gelijkspel";
-
-else if(
-(player==="🪨"&&cpu==="✂️")||
-(player==="📄"&&cpu==="🪨")||
-(player==="✂️"&&cpu==="📄")
-)
-result="Jij wint!";
-
-else
-result="Computer wint!";
-
-document.getElementById("rpsOut").textContent=
-"Jij: "+player+" | Computer: "+cpu+
-" → "+result;
+    snake.forEach(s=>{
+        snakeCtx.fillRect(
+            s.x*20,
+            s.y*20,
+            18,
+            18
+        );
+    });
 }
 
+document.addEventListener("keydown",e=>{
 
-/* =========================
-   CHAOS
-========================= */
+    if(e.key==="ArrowUp"&&snakeDir.y!==1)
+        snakeDir={x:0,y:-1};
 
-function chaos(){
+    if(e.key==="ArrowDown"&&snakeDir.y!==-1)
+        snakeDir={x:0,y:1};
 
-document.body.classList.toggle("party");
+    if(e.key==="ArrowLeft"&&snakeDir.x!==1)
+        snakeDir={x:-1,y:0};
 
-document.querySelectorAll("button").forEach(b=>{
-
-if(Math.random()<.25){
-
-b.style.transform=
-"rotate("+(-10+Math.random()*20)+"deg)";
-
-}
-
+    if(e.key==="ArrowRight"&&snakeDir.x!==-1)
+        snakeDir={x:1,y:0};
 });
 
-notify("CHAOS MODE GEACTIVEERD 💥");
 
-achievement("💥 Chaos geactiveerd");
+/* ================================
+   BREAKOUT
+================================ */
 
+const bc=document.getElementById("breakout");
+const bx=bc.getContext("2d");
+
+let breakoutRunning=false;
+let ball={x:180,y:170,dx:3,dy:-3,r:6};
+let paddle={x:145,w:70};
+let bricks=[];
+
+function startBreakout(){
+
+    bricks=[];
+
+    for(let r=0;r<4;r++){
+
+        for(let c=0;c<8;c++){
+
+            bricks.push({
+                x:c*45+2,
+                y:r*22+10,
+                w:40,
+                h:17,
+                alive:true
+            });
+        }
+    }
+
+    ball={
+        x:180,
+        y:170,
+        dx:3,
+        dy:-3,
+        r:6
+    };
+
+    paddle.x=145;
+    breakoutRunning=true;
+
+    requestAnimationFrame(breakoutLoop);
+}
+
+function breakoutLoop(){
+
+    if(!breakoutRunning)return;
+
+    bx.clearRect(0,0,360,220);
+
+    bricks.forEach(b=>{
+
+        if(b.alive){
+
+            bx.fillStyle=
+                `hsl(${b.x+b.y},100%,60%)`;
+
+            bx.fillRect(
+                b.x,b.y,b.w,b.h
+            );
+        }
+    });
+
+    bx.fillStyle="white";
+
+    bx.fillRect(
+        paddle.x,
+        205,
+        paddle.w,
+        8
+    );
+
+    bx.beginPath();
+
+    bx.arc(
+        ball.x,
+        ball.y,
+        ball.r,
+        0,
+        Math.PI*2
+    );
+
+    bx.fill();
+
+    ball.x+=ball.dx;
+    ball.y+=ball.dy;
+
+    if(ball.x<0||ball.x>360)
+        ball.dx*=-1;
+
+    if(ball.y<0)
+        ball.dy*=-1;
+
+    if(
+        ball.y>195 &&
+        ball.x>paddle.x &&
+        ball.x<paddle.x+paddle.w
+    ){
+        ball.dy=-Math.abs(ball.dy);
+    }
+
+    bricks.forEach(b=>{
+
+        if(
+            b.alive &&
+            ball.x>b.x &&
+            ball.x<b.x+b.w &&
+            ball.y>b.y &&
+            ball.y<b.y+b.h
+        ){
+
+            b.alive=false;
+            ball.dy*=-1;
+        }
+    });
+
+    if(ball.y>230)
+        breakoutRunning=false;
+
+    requestAnimationFrame(breakoutLoop);
+}
+
+bc.addEventListener("mousemove",e=>{
+
+    let r=bc.getBoundingClientRect();
+
+    paddle.x=
+        (e.clientX-r.left)*360/r.width-
+        paddle.w/2;
+});
+
+
+/* ================================
+   RANDOM BOX POSITIES
+================================ */
+
+function randomizeBoxes(){
+
+    document.querySelectorAll(".box")
+    .forEach(b=>{
+
+        b.style.transform=
+            `rotate(${Math.random()*20-10}deg)
+             translate(
+                ${Math.random()*30-15}px,
+                ${Math.random()*30-15}px
+             )`;
+    });
+}
+
+function resetBoxes(){
+
+    document.querySelectorAll(".box")
+    .forEach(b=>{
+        b.style.transform="";
+    });
 }
 
 
-/* =========================
-   TERMINAL
-========================= */
+/* ================================
+   RANDOM LETTERS
+================================ */
 
-function terminalKey(e){
+function spawnGlitch(){
 
-if(e.key!=="Enter")return;
+    let e=document.createElement("div");
 
-let input=document.getElementById("terminalInput");
-let command=input.value.toLowerCase().trim();
+    e.className="glitch";
 
-let box=document.getElementById("terminalBox");
+    e.textContent=
+        random(symbols.split(""));
 
-box.innerHTML+="<br>> "+command;
+    e.style.left=Math.random()*100+"vw";
+    e.style.top=Math.random()*100+"vh";
 
-let response="Unknown command.";
+    e.style.fontSize=
+        (10+Math.random()*100)+"px";
 
-if(command==="help")
-response=
-"Commands: help, matrix, banana, chaos, money, clear, sudo, dance";
+    e.style.color=
+        `hsl(${Math.random()*360},100%,60%)`;
 
-if(command==="banana")
-response="🍌 BANANA PROTOCOL ACTIVATED";
+    e.style.animation=
+        `flicker ${.05+Math.random()*.3}s infinite`;
 
-if(command==="matrix")
-response=
-"01001000 01000101 01001100 01010000";
+    overlay.appendChild(e);
 
-if(command==="chaos"){
-chaos();
-response="CHAOS.";
-}
+    let x=(Math.random()*1000)-500;
+    let y=(Math.random()*800)-400;
 
-if(command==="money")
-response="ERROR: geld bestaat alleen in je verbeelding.";
+    e.animate([
+        {
+            transform:"translate(0,0) rotate(0)",
+            opacity:0
+        },
+        {
+            transform:
+                `translate(${x}px,${y}px)
+                 rotate(${Math.random()*720}deg)
+                 scale(${Math.random()*3+1})`,
+            opacity:1
+        },
+        {
+            opacity:0
+        }
+    ],{
+        duration:500+Math.random()*1800
+    });
 
-if(command==="sudo")
-response="Nice try.";
-
-if(command==="dance")
-response="🕺💃🕺💃🕺💃";
-
-if(command==="clear"){
-box.innerHTML="";
-input.value="";
-return;
-}
-
-box.innerHTML+="<br>"+response;
-
-box.scrollTop=box.scrollHeight;
-
-input.value="";
+    setTimeout(()=>e.remove(),2500);
 }
 
 
-/* =========================
-   ACHIEVEMENTS
-========================= */
+/* ================================
+   VLIEGENDE WOORDEN
+================================ */
 
-function achievement(text){
+function flyingWord(){
 
-let box=document.getElementById("achievements");
+    let e=document.createElement("div");
 
-if([...box.children].some(x=>x.textContent===text))
-return;
+    e.className="fly";
 
-let a=document.createElement("span");
+    e.textContent=random(words);
 
-a.className="achievement";
-a.textContent=text;
+    e.style.top=Math.random()*100+"vh";
 
-box.appendChild(a);
+    e.style.color=
+        `hsl(${Math.random()*360},100%,60%)`;
+
+    e.style.fontSize=
+        (15+Math.random()*70)+"px";
+
+    overlay.appendChild(e);
+
+    let y=(Math.random()*500)-250;
+
+    e.animate([
+        {
+            transform:"translateX(-200px) rotate(-30deg)",
+            opacity:0
+        },
+        {
+            transform:
+                `translateX(50vw)
+                 translateY(${y}px)
+                 rotate(${Math.random()*300-150}deg)`,
+            opacity:1
+        },
+        {
+            transform:
+                `translateX(110vw)
+                 translateY(${y*2}px)
+                 rotate(700deg)`,
+            opacity:0
+        }
+    ],{
+        duration:1000+Math.random()*1500
+    });
+
+    setTimeout(()=>e.remove(),2600);
 }
 
 
-/* =========================
-   RANDOM EVENTS
-========================= */
+/* ================================
+   BLOKKEN
+================================ */
+
+function randomBlock(){
+
+    let e=document.createElement("div");
+
+    e.style.position="fixed";
+    e.style.left=Math.random()*100+"vw";
+    e.style.top=Math.random()*100+"vh";
+    e.style.width=20+Math.random()*200+"px";
+    e.style.height=20+Math.random()*200+"px";
+
+    e.style.border=
+        "3px solid "+
+        `hsl(${Math.random()*360},100%,60%)`;
+
+    e.style.zIndex=8990;
+    e.style.pointerEvents="none";
+
+    overlay.appendChild(e);
+
+    e.animate([
+        {transform:"rotate(0) scale(.1)",opacity:0},
+        {transform:"rotate(360deg) scale(1)",opacity:1},
+        {transform:"rotate(900deg) scale(2)",opacity:0}
+    ],{
+        duration:800+Math.random()*1500
+    });
+
+    setTimeout(()=>e.remove(),2400);
+}
+
+
+/* ================================
+   FLASH
+================================ */
+
+function flash(){
+
+    let e=document.createElement("div");
+
+    e.className="flash";
+
+    e.style.background=
+        `hsl(${Math.random()*360},100%,50%)`;
+
+    overlay.appendChild(e);
+
+    e.animate([
+        {opacity:0},
+        {opacity:.8},
+        {opacity:0}
+    ],{
+        duration:120
+    });
+
+    setTimeout(()=>e.remove(),150);
+}
+
+
+/* ================================
+   SCANLINES
+================================ */
+
+for(let i=0;i<6;i++){
+
+    let s=document.createElement("div");
+
+    s.className="scan";
+
+    s.style.animationDelay=
+        Math.random()*2+"s";
+
+    overlay.appendChild(s);
+}
+
+
+/* ================================
+   AUTOMATISCHE ROMMEL
+================================ */
 
 setInterval(()=>{
 
-if(Math.random()<.05){
+    for(let i=0;i<Math.floor(Math.random()*6)+1;i++)
+        spawnGlitch();
 
-let events=[
-"Er gebeurt helemaal niets.",
-"Een aardappel is tevreden.",
-"CHAOS DETECTED.",
-"Je computer kijkt naar jou.",
-"Een onzichtbare kip loopt voorbij.",
-"De website weet iets wat jij niet weet."
-];
+},170);
 
-notify(events[Math.floor(Math.random()*events.length)]);
+
+setInterval(()=>{
+
+    if(Math.random()<.8)
+        flyingWord();
+
+},500);
+
+
+setInterval(()=>{
+
+    if(Math.random()<.7)
+        randomBlock();
+
+},700);
+
+
+setInterval(()=>{
+
+    if(Math.random()<.15)
+        flash();
+
+},400);
+
+
+/* ================================
+   KLEUREN
+================================ */
+
+setInterval(()=>{
+
+    if(Math.random()<.25){
+
+        document.body.style.background=
+            `hsl(${Math.random()*360},35%,${3+Math.random()*8}%)`;
+    }
+
+},1000);
+
+
+/* ================================
+   FILTER
+================================ */
+
+setInterval(()=>{
+
+    if(Math.random()<.1){
+
+        document.body.style.filter=
+            `hue-rotate(${Math.random()*360}deg)
+             contrast(${.7+Math.random()*2})
+             saturate(${.5+Math.random()*4})`;
+
+        setTimeout(()=>{
+            document.body.style.filter="";
+        },300+Math.random()*600);
+    }
+
+},900);
+
+
+/* ================================
+   MUIS-EFFECT
+================================ */
+
+document.addEventListener("mousemove",e=>{
+
+    if(Math.random()<.1){
+
+        let d=document.createElement("div");
+
+        d.textContent=
+            random(symbols.split(""));
+
+        d.style.position="fixed";
+        d.style.left=e.clientX+"px";
+        d.style.top=e.clientY+"px";
+        d.style.color=
+            `hsl(${Math.random()*360},100%,60%)`;
+        d.style.fontSize=
+            10+Math.random()*35+"px";
+        d.style.fontWeight="1000";
+        d.style.zIndex=10001;
+        d.style.pointerEvents="none";
+
+        document.body.appendChild(d);
+
+        d.animate([
+            {
+                transform:"translate(0,0) scale(1)",
+                opacity:1
+            },
+            {
+                transform:
+                    `translate(
+                        ${Math.random()*100-50}px,
+                        ${Math.random()*100-50}px
+                    )
+                    rotate(500deg)
+                    scale(0)`,
+                opacity:0
+            }
+        ],{
+            duration:500+Math.random()*500
+        });
+
+        setTimeout(()=>d.remove(),1100);
+    }
+});
+
+
+/* ================================
+   KLIK EFFECT
+================================ */
+
+document.addEventListener("click",e=>{
+
+    for(let i=0;i<5;i++){
+
+        let d=document.createElement("div");
+
+        d.textContent=
+            random(symbols.split(""));
+
+        d.style.position="fixed";
+        d.style.left=e.clientX+"px";
+        d.style.top=e.clientY+"px";
+        d.style.color=
+            `hsl(${Math.random()*360},100%,60%)`;
+        d.style.fontSize=
+            10+Math.random()*30+"px";
+        d.style.zIndex=10001;
+        d.style.pointerEvents="none";
+
+        document.body.appendChild(d);
+
+        d.animate([
+            {
+                transform:"translate(0,0)",
+                opacity:1
+            },
+            {
+                transform:
+                    `translate(
+                        ${Math.random()*250-125}px,
+                        ${Math.random()*250-125}px
+                    )
+                    rotate(${Math.random()*720}deg)
+                    scale(0)`,
+                opacity:0
+            }
+        ],{
+            duration:500+Math.random()*500
+        });
+
+        setTimeout(()=>d.remove(),1200);
+    }
+});
+
+
+/* ================================
+   GIGANTISCHE LETTER
+================================ */
+
+setInterval(()=>{
+
+    if(Math.random()<.35){
+
+        let e=document.createElement("div");
+
+        e.textContent=
+            random(symbols.split(""));
+
+        e.style.position="fixed";
+        e.style.left=Math.random()*100+"vw";
+        e.style.top=Math.random()*100+"vh";
+        e.style.fontSize=
+            100+Math.random()*350+"px";
+        e.style.fontWeight="1000";
+        e.style.color=
+            `hsl(${Math.random()*360},100%,50%)`;
+        e.style.zIndex=8995;
+        e.style.pointerEvents="none";
+
+        document.body.appendChild(e);
+
+        e.animate([
+            {
+                transform:"scale(0) rotate(0)",
+                opacity:0
+            },
+            {
+                transform:"scale(1) rotate(180deg)",
+                opacity:1
+            },
+            {
+                transform:"scale(3) rotate(720deg)",
+                opacity:0
+            }
+        ],{
+            duration:900
+        });
+
+        setTimeout(()=>e.remove(),1000);
+    }
+
+},700);
+
+
+/* ================================
+   RANDOM TITEL
+================================ */
+
+setInterval(()=>{
+
+    document.title=
+        random(words)+
+        random(words)+
+        random(words);
+
+},80);
+
+
+/* ================================
+   RANDOM ROTATIE
+================================ */
+
+setInterval(()=>{
+
+    document.querySelectorAll(".box")
+    .forEach(b=>{
+
+        if(Math.random()<.15){
+
+            b.style.transform=
+                `rotate(${Math.random()*20-10}deg)
+                 scale(${.8+Math.random()*.4})`;
+        }
+    });
+
+},400);
+
+
+/* ================================
+   RANDOM POPUP
+================================ */
+
+setInterval(()=>{
+
+    if(Math.random()<.025){
+
+        notify(random([
+            "nee",
+            "waarom",
+            "42",
+            "🐔",
+            "ERROR",
+            "???",
+            "BANANA",
+            "OK",
+            "AAAA",
+            "..."
+        ]));
+    }
+
+},1000);
+
+
+/* ================================
+   RANDOM GELUID
+================================ */
+
+setInterval(()=>{
+
+    if(Math.random()<.025){
+
+        try{
+            tone(
+                50+
+                Math.random()*1800
+            );
+        }catch(e){}
+    }
+
+},3000);
+
+
+/* ================================
+   PAGINA BIJ START DOOR ELKAAR
+================================ */
+
+function shuffleEverything(){
+
+    let children=[...world.children];
+
+    children.sort(
+        ()=>Math.random()-.5
+    );
+
+    children.forEach(x=>{
+        world.appendChild(x);
+    });
 }
 
-},5000);
+shuffleEverything();
+
+
+/* ================================
+   ECHT HELEMAAL ONLOGISCH
+================================ */
+
+setInterval(()=>{
+
+    if(Math.random()<.05){
+
+        let all=[
+            ...document.querySelectorAll("button"),
+            ...document.querySelectorAll(".box")
+        ];
+
+        if(all.length){
+
+            let x=random(all);
+
+            x.style.transform=
+                `rotate(${Math.random()*90-45}deg)
+                 translate(
+                    ${Math.random()*100-50}px,
+                    ${Math.random()*100-50}px
+                 )`;
+        }
+    }
+
+},500);
+
+
+/* ================================
+   EASTER EGG
+================================ */
+
+let secretClicks=0;
+
+document.addEventListener("keydown",e=>{
+
+    if(e.key.toLowerCase()==="x"){
+
+        secretClicks++;
+
+        if(secretClicks>=7){
+
+            document.body.classList.toggle("party");
+
+            for(let i=0;i<100;i++)
+                spawnGlitch();
+
+            notify("????????????????");
+
+            secretClicks=0;
+        }
+    }
+});
+
 
 </script>
 
 </body>
 </html>
-```
