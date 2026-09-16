@@ -2,1499 +2,467 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>site</title>
 
 <style>
 *{
     box-sizing:border-box;
-    user-select:none;
-}
-
-html,body{
-    margin:0;
-    padding:0;
-    min-height:100%;
 }
 
 body{
-    background:#050505;
-    color:white;
-    font-family:Arial,Helvetica,sans-serif;
+    margin:0;
+    background:#777;
+    color:#111;
+    font-family:"Comic Sans MS",Arial,sans-serif;
     overflow-x:hidden;
-    transition:background .2s,filter .2s;
 }
 
-#world{
-    min-height:100vh;
-    padding:18px;
+#main{
+    padding:7px;
     display:flex;
     flex-wrap:wrap;
+    gap:8px;
     align-items:flex-start;
-    justify-content:center;
-    gap:13px;
 }
 
 .box{
+    background:#ddd;
+    border:4px ridge #555;
+    padding:8px;
+    width:270px;
+    min-height:100px;
     position:relative;
-    background:#111;
-    border:1px solid #444;
-    border-radius:15px;
-    padding:14px;
-    min-width:210px;
-    max-width:430px;
-    box-shadow:0 8px 30px #000b;
-    overflow:hidden;
 }
 
 .box:nth-child(2n){
-    transform:rotate(-1deg);
+    background:#ffaaaa;
 }
 
 .box:nth-child(3n){
-    transform:rotate(1.5deg);
+    background:#aaffaa;
+}
+
+.box:nth-child(4n){
+    background:#aaaaff;
 }
 
 .box:nth-child(5n){
-    transform:rotate(-2deg);
+    background:#ffff77;
+}
+
+h2{
+    font-size:21px;
+    margin:0 0 8px 0;
+    color:#111;
+    text-decoration:underline;
 }
 
 button{
-    background:#202020;
-    color:white;
-    border:1px solid #555;
-    border-radius:9px;
-    padding:9px 13px;
-    margin:3px;
+    background:#ccc;
+    border:3px outset #eee;
+    padding:6px 10px;
+    margin:2px;
+    font-family:inherit;
     cursor:pointer;
-    font-weight:bold;
-}
-
-button:hover{
-    background:white;
-    color:black;
 }
 
 button:active{
-    transform:scale(.9);
+    border-style:inset;
 }
 
-input,textarea,select{
+input,textarea{
     width:100%;
-    background:#050505;
-    color:white;
-    border:1px solid #555;
-    border-radius:8px;
-    padding:10px;
-    margin:4px 0;
+    padding:7px;
+    border:3px inset #aaa;
+    background:#fff;
+    color:#000;
+    font-family:Arial;
 }
 
 textarea{
-    min-height:100px;
-    resize:vertical;
-    user-select:text;
+    height:90px;
 }
 
-.out{
-    background:#050505;
-    border:1px solid #333;
-    border-radius:9px;
-    padding:10px;
-    min-height:40px;
-    margin-top:7px;
-    word-break:break-word;
+.output{
+    background:white;
+    border:2px inset #999;
+    padding:6px;
+    min-height:28px;
+    margin-top:5px;
 }
 
 .big{
-    font-size:42px;
-    font-weight:1000;
+    font-size:35px;
+    font-weight:bold;
     text-align:center;
 }
 
-canvas{
+img{
     max-width:100%;
-    background:#000;
-    border:1px solid #444;
-    border-radius:9px;
+    max-height:230px;
+    display:block;
+    margin:3px auto;
+    border:5px solid #000;
 }
 
-.color{
-    height:90px;
-    width:100%;
-    border-radius:12px;
-    border:2px solid #555;
+canvas{
+    background:white;
+    border:4px solid #222;
+    max-width:100%;
 }
 
-.bar{
-    height:24px;
-    background:#222;
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.bar div{
-    height:100%;
-    width:50%;
-    background:linear-gradient(
-        90deg,
-        #f00,
-        #ff0,
-        #0f0,
-        #0ff,
-        #00f,
-        #f0f
-    );
-}
-
-#overlay{
+#mess{
     position:fixed;
     inset:0;
     pointer-events:none;
-    overflow:hidden;
     z-index:9000;
+    overflow:hidden;
 }
 
-.glitch{
+.random{
     position:absolute;
-    font-family:monospace;
-    font-weight:1000;
-    pointer-events:none;
-    text-shadow:
-        3px 0 red,
-        -3px 0 cyan,
-        0 3px yellow;
+    font-weight:bold;
+    font-size:30px;
+    animation:moveRandom 1.4s linear forwards;
 }
 
-.fly{
-    position:absolute;
-    font-weight:1000;
-    white-space:nowrap;
-    pointer-events:none;
+@keyframes moveRandom{
+    0%{
+        transform:translate(0,0) rotate(0deg);
+        opacity:1;
+    }
+    50%{
+        transform:translate(300px,-100px) rotate(180deg);
+    }
+    100%{
+        transform:translate(-400px,300px) rotate(700deg);
+        opacity:0;
+    }
+}
+
+#whiteScreen{
+    position:fixed;
+    inset:0;
+    background:white;
+    z-index:99999;
+    display:none;
+    color:black;
+    align-items:center;
+    justify-content:center;
+    font-family:Arial,sans-serif;
+    font-size:70px;
+    font-weight:bold;
+}
+
+#whiteName{
+    animation:nameWiggle .08s infinite;
+}
+
+@keyframes nameWiggle{
+    0%{transform:translate(0,0)}
+    25%{transform:translate(7px,-3px)}
+    50%{transform:translate(-5px,5px)}
+    75%{transform:translate(4px,2px)}
+    100%{transform:translate(0,0)}
 }
 
 .flash{
     position:fixed;
     inset:0;
-    z-index:8999;
-    pointer-events:none;
-}
-
-.scan{
-    position:fixed;
-    left:0;
-    width:100%;
-    height:3px;
     background:white;
-    opacity:.12;
-    z-index:8998;
+    z-index:9500;
     pointer-events:none;
-    animation:scan 1s linear infinite;
 }
 
-@keyframes scan{
-    from{top:-5px}
-    to{top:100vh}
-}
-
-@keyframes flicker{
-    0%{opacity:.05}
-    20%{opacity:1}
-    40%{opacity:.2}
-    60%{opacity:1}
-    100%{opacity:.1}
+.spin{
+    animation:spin .3s linear infinite;
 }
 
 @keyframes spin{
     to{transform:rotate(360deg)}
 }
 
-@keyframes pulse{
-    0%{transform:scale(.7)}
-    50%{transform:scale(1.2)}
-    100%{transform:scale(.7)}
+.shake{
+    animation:shake .1s infinite;
 }
 
-#popup{
-    position:fixed;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%) scale(0);
-    background:white;
-    color:black;
-    padding:30px;
-    border-radius:20px;
-    z-index:10000;
-    font-size:30px;
-    font-weight:1000;
-    box-shadow:0 20px 100px #000;
-    transition:.15s;
-    pointer-events:none;
-}
-
-#popup.show{
-    transform:translate(-50%,-50%) scale(1);
-}
-
-#mouseZone{
-    height:160px;
-    border:2px dashed #555;
-    border-radius:10px;
-    position:relative;
-    overflow:hidden;
-}
-
-#mouseDot{
-    width:13px;
-    height:13px;
-    border-radius:50%;
-    background:#0ff;
-    position:absolute;
+@keyframes shake{
+    0%{transform:translate(0)}
+    25%{transform:translate(5px,-3px)}
+    50%{transform:translate(-4px,4px)}
+    75%{transform:translate(3px,2px)}
+    100%{transform:translate(0)}
 }
 
 #terminal{
-    height:220px;
+    background:#000;
+    color:#00ff00;
+    height:170px;
     overflow:auto;
-    background:#020202;
-    color:#00ff66;
+    padding:8px;
     font-family:monospace;
-    padding:12px;
-    border-radius:8px;
-    user-select:text;
 }
 
-body.invert{
-    filter:invert(1) hue-rotate(180deg);
+.memeText{
+    font-size:28px;
+    font-weight:bold;
+    text-align:center;
+    background:#fff;
+    color:#000;
+    padding:5px;
 }
 
-body.blur{
-    filter:blur(2px);
+.marquee{
+    overflow:hidden;
+    white-space:nowrap;
 }
 
-body.party{
-    animation:party .3s infinite;
+.marquee span{
+    display:inline-block;
+    animation:marquee 3s linear infinite;
 }
 
-@keyframes party{
-    0%{background:#16001d}
-    25%{background:#001b1d}
-    50%{background:#211800}
-    75%{background:#001d0a}
-    100%{background:#1d0000}
-}
-
-@media(max-width:600px){
-    .box{
-        width:100%;
-        min-width:0;
-    }
+@keyframes marquee{
+    from{transform:translateX(100%)}
+    to{transform:translateX(-100%)}
 }
 </style>
 </head>
 
 <body>
 
-<div id="world"></div>
-<div id="overlay"></div>
-<div id="popup"></div>
+<div id="main"></div>
+<div id="mess"></div>
+
+<div id="whiteScreen">
+    <div id="whiteName">Lucas</div>
+</div>
 
 <script>
 
-/* ================================
-   BASIS
-================================ */
+const main=document.getElementById("main");
+const mess=document.getElementById("mess");
 
-const world=document.getElementById("world");
-const overlay=document.getElementById("overlay");
-const popup=document.getElementById("popup");
+const names=[
+    "Lucas",
+    "Sieb",
+    "Roel",
+    "Torrie"
+];
 
-const words=[
+const nonsense=[
     "AAAA",
     "???",
     "404",
-    "banana",
-    "kip",
+    "BANANA",
+    "KIP",
+    "LOL",
+    "42",
     "NEE",
     "JA",
-    "42",
-    "NULL",
+    "WAAROM",
+    "OOOO",
+    "HAHA",
+    "X",
+    "000",
     "ERROR",
-    "waarom",
-    "stoel",
+    "🤨",
     "🦆",
     "🧀",
-    "X",
-    "OOOO",
-    "!!!",
-    "123",
-    "000",
-    "undefined",
-    "aardappel",
-    "HAHA",
-    "LOL",
-    "∆",
-    "Ω",
-    "Æ",
-    "Q",
-    "ZXCV",
-    "MMMM",
-    "plok",
-    "vrrr",
-    "hmm",
-    "???!!!",
-    "BANANA.EXE"
+    "BRUH",
+    "????!!!!",
+    "TURBO",
+    "KWAARK",
+    "stoel",
+    "mayo",
+    "plop"
 ];
 
-const symbols=
-"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?@#$%&*+=<>/\\\\|[]{}∆ΩЖΨλπ¥¢§∞";
-
-function random(arr){
-    return arr[Math.floor(Math.random()*arr.length)];
+function random(a){
+    return a[Math.floor(Math.random()*a.length)];
 }
 
-function notify(text){
-    popup.textContent=text;
-    popup.classList.add("show");
-
-    setTimeout(()=>{
-        popup.classList.remove("show");
-    },700);
-}
-
-function box(html){
-    const d=document.createElement("div");
+function addBox(html){
+    let d=document.createElement("div");
     d.className="box";
     d.innerHTML=html;
-    world.appendChild(d);
+    main.appendChild(d);
     return d;
 }
 
 
-/* ================================
-   REKENMACHINE
-================================ */
+/* REKENMACHINE */
 
-box(`
-<input id="calc" placeholder="...">
-<button onclick="calculate()">=</button>
-<button onclick="document.getElementById('calc').value=''">x</button>
-<div class="out big" id="calcOut">0</div>
+addBox(`
+<h2>rekenmachine</h2>
+<input id="calc">
+<button onclick="calc()">=</button>
+<button onclick="document.getElementById('calc').value=''">wissen</button>
+<div class="output" id="calcOut">0</div>
 `);
 
-
-/* ================================
-   RANDOM GETAL
-================================ */
-
-box(`
-<input id="min" type="number" value="1">
-<input id="max" type="number" value="100">
-<button onclick="randomNumber()">?</button>
-<div class="out big" id="randomNumber">?</div>
-`);
-
-
-/* ================================
-   TEKENEN
-================================ */
-
-box(`
-<canvas id="paint" width="360" height="210"></canvas>
-<input id="paintColor" type="color" value="#00ffff">
-<button onclick="clearPaint()">x</button>
-`);
-
-
-/* ================================
-   RANDOM EMOJI
-================================ */
-
-box(`
-<div class="big" id="emoji">?</div>
-<button onclick="randomEmoji()">...</button>
-`);
-
-
-/* ================================
-   KLEUR
-================================ */
-
-box(`
-<div class="color" id="color"></div>
-<button onclick="newColor()">?</button>
-<div class="out" id="colorCode">#000000</div>
-`);
-
-
-/* ================================
-   STOPWATCH
-================================ */
-
-box(`
-<div class="big" id="stopwatch">00:00:00</div>
-<button onclick="startWatch()">▶</button>
-<button onclick="stopWatch()">■</button>
-<button onclick="resetWatch()">↻</button>
-`);
-
-
-/* ================================
-   GELD
-================================ */
-
-box(`
-<div class="big" id="cash">€0</div>
-<button onclick="money()">€</button>
-`);
-
-
-/* ================================
-   KIP
-================================ */
-
-box(`
-<div class="big" id="chicken">0 🐔</div>
-<button onclick="chicken()">🐔</button>
-`);
-
-
-/* ================================
-   SLIDER
-================================ */
-
-box(`
-<input type="range" min="0" max="1000" value="500"
-oninput="document.getElementById('sliderOut').textContent=this.value">
-<div class="big" id="sliderOut">500</div>
-`);
-
-
-/* ================================
-   TEKST OMKEREN
-================================ */
-
-box(`
-<input id="reverseInput" placeholder="...">
-<button onclick="reverseText()">←</button>
-<div class="out" id="reverseOut">...</div>
-`);
-
-
-/* ================================
-   GELUID
-================================ */
-
-box(`
-<button onclick="tone(80)">.</button>
-<button onclick="tone(180)">.</button>
-<button onclick="tone(400)">.</button>
-<button onclick="tone(900)">.</button>
-<button onclick="tone(1800)">.</button>
-`);
-
-
-/* ================================
-   MOUSE
-================================ */
-
-box(`
-<div id="mouseZone">
-<div id="mouseDot"></div>
-</div>
-<div class="out" id="mouseInfo">0 / 0</div>
-`);
-
-
-/* ================================
-   DNA
-================================ */
-
-box(`
-<div class="out" id="dna">ATCG</div>
-<button onclick="dna()">🧬</button>
-`);
-
-
-/* ================================
-   RANDOM NAAM
-================================ */
-
-box(`
-<div class="big" id="name">?</div>
-<button onclick="nameGen()">?</button>
-`);
-
-
-/* ================================
-   TEMPERATUUR
-================================ */
-
-box(`
-<input type="range" min="-273" max="1000" value="20"
-oninput="document.getElementById('temperature').textContent=this.value+'°C'">
-<div class="big" id="temperature">20°C</div>
-`);
-
-
-/* ================================
-   REACTIE
-================================ */
-
-box(`
-<div class="big" id="reaction">?</div>
-<button onclick="reaction()">START</button>
-`);
-
-
-/* ================================
-   TARGET
-================================ */
-
-box(`
-<canvas id="target" width="360" height="210"></canvas>
-<div class="out" id="score">0</div>
-`);
-
-
-/* ================================
-   STEEN PAPIER SCHAAR
-================================ */
-
-box(`
-<button onclick="rps('🪨')">🪨</button>
-<button onclick="rps('📄')">📄</button>
-<button onclick="rps('✂️')">✂️</button>
-<div class="out" id="rps"></div>
-`);
-
-
-/* ================================
-   TIMER
-================================ */
-
-box(`
-<input id="timerInput" type="number" value="10">
-<button onclick="timer()">▶</button>
-<div class="big" id="timerOut">10</div>
-`);
-
-
-/* ================================
-   NOTITIES
-================================ */
-
-box(`
-<textarea id="notes" placeholder="..."></textarea>
-<button onclick="saveNotes()">💾</button>
-<button onclick="loadNotes()">↻</button>
-`);
-
-
-/* ================================
-   RANDOM ANTWOORD
-================================ */
-
-box(`
-<input id="question" placeholder="?">
-<button onclick="answer()">?</button>
-<div class="out" id="answer">...</div>
-`);
-
-
-/* ================================
-   GRAFIEK
-================================ */
-
-box(`
-<canvas id="graph" width="360" height="210"></canvas>
-<button onclick="makeGraph()">↗</button>
-`);
-
-
-/* ================================
-   SPINNER
-================================ */
-
-box(`
-<div class="big" id="spinner">0°</div>
-<button onclick="spin()">↻</button>
-`);
-
-
-/* ================================
-   FAKE TERMINAL
-================================ */
-
-box(`
-<div id="terminal"></div>
-<input id="terminalInput"
-placeholder="..."
-onkeydown="terminalCommand(event)">
-`);
-
-
-/* ================================
-   ALIEN
-================================ */
-
-box(`
-<div class="big" id="alien">👽</div>
-<button onclick="alien()">?</button>
-`);
-
-
-/* ================================
-   PRODUCTIVITEIT
-================================ */
-
-box(`
-<div class="bar">
-<div id="productivityBar"></div>
-</div>
-<button onclick="productivity()">?</button>
-<div class="out" id="productivity">0%</div>
-`);
-
-
-/* ================================
-   MOLECUUL
-================================ */
-
-box(`
-<div class="big" id="molecule">?</div>
-<button onclick="molecule()">⚛</button>
-`);
-
-
-/* ================================
-   HOGER LAGER
-================================ */
-
-box(`
-<div class="big" id="higherNumber">50</div>
-<button onclick="higherLower('higher')">↑</button>
-<button onclick="higherLower('lower')">↓</button>
-<div class="out" id="higherResult"></div>
-`);
-
-
-/* ================================
-   VORM
-================================ */
-
-box(`
-<div id="shape" style="
-width:80px;
-height:80px;
-margin:auto;
-background:#f00;
-"></div>
-<button onclick="shape()">?</button>
-`);
-
-
-/* ================================
-   RANDOM TEKST
-================================ */
-
-box(`
-<div class="big" id="randomText">...</div>
-<button onclick="randomText()">...</button>
-`);
-
-
-/* ================================
-   COUNTER
-================================ */
-
-box(`
-<div class="big" id="counter">0</div>
-<button onclick="counterChange(1)">+</button>
-<button onclick="counterChange(-1)">-</button>
-<button onclick="counterChange(Math.floor(Math.random()*100))">?</button>
-`);
-
-
-/* ================================
-   BROWSER ACHIEVEMENT
-================================ */
-
-box(`
-<button onclick="achievement()">🏆</button>
-<div class="out" id="achievement">0</div>
-`);
-
-
-/* ================================
-   STERREN
-================================ */
-
-box(`
-<div class="big" id="stars">⭐</div>
-<button onclick="stars()">✦</button>
-`);
-
-
-/* ================================
-   NEP PEILING
-================================ */
-
-box(`
-<button onclick="poll()">?</button>
-<div class="out" id="poll"></div>
-`);
-
-
-/* ================================
-   WILLEKEURIGE FORMULE
-================================ */
-
-box(`
-<div class="out" id="formula">x = ?</div>
-<button onclick="formula()">∑</button>
-`);
-
-
-/* ================================
-   SNAKE
-================================ */
-
-box(`
-<canvas id="snake" width="360" height="220"></canvas>
-<button onclick="startSnake()">▶</button>
-<div class="out" id="snakeScore">0</div>
-`);
-
-
-/* ================================
-   BREAKOUT
-================================ */
-
-box(`
-<canvas id="breakout" width="360" height="220"></canvas>
-<button onclick="startBreakout()">▶</button>
-`);
-
-
-/* ================================
-   PI
-================================ */
-
-box(`
-<div class="big" id="pi">3.14</div>
-<button onclick="morePi()">π</button>
-`);
-
-
-/* ================================
-   RANDOM PLAATS
-================================ */
-
-box(`
-<div class="out" id="place">...</div>
-<button onclick="place()">🌍</button>
-`);
-
-
-/* ================================
-   NEP AI
-================================ */
-
-box(`
-<input id="aiInput" placeholder="...">
-<button onclick="fakeAI()">↗</button>
-<div class="out" id="aiOutput">...</div>
-`);
-
-
-/* ================================
-   MEMO
-================================ */
-
-box(`
-<div class="big" id="memo">?</div>
-<button onclick="memo()">?</button>
-`);
-
-
-/* ================================
-   GELUID SLIDER
-================================ */
-
-box(`
-<input type="range" min="20" max="2000" value="440"
-oninput="tone(Number(this.value))">
-`);
-
-
-/* ================================
-   ELEMENT RANDOMIZER
-================================ */
-
-box(`
-<button onclick="randomizeBoxes()">↯</button>
-<button onclick="resetBoxes()">↩</button>
-`);
-
-
-/* ================================
-   FUNCTIES
-================================ */
-
-function calculate(){
+function calc(){
     let x=document.getElementById("calc").value;
 
     try{
-        if(!/^[0-9+\-*/(). %]+$/.test(x)) throw 0;
-
+        if(!/^[0-9+\\-*/(). %]+$/.test(x)) throw 1;
         document.getElementById("calcOut").textContent=
             Function("return "+x)();
     }catch{
-        document.getElementById("calcOut").textContent="ERROR";
+        document.getElementById("calcOut").textContent="fout";
     }
 }
 
 
+/* SNAKE */
+
+addBox(`
+<h2>Snake</h2>
+<canvas id="snake" width="250" height="180"></canvas>
+<button onclick="startSnake()">start</button>
+<div class="output" id="snakeScore">0</div>
+`);
+
+const sc=document.getElementById("snake");
+const sx=sc.getContext("2d");
+
+let snake=[];
+let food={x:5,y:5};
+let dir={x:1,y:0};
+let snakeTimer;
+let snakeScore=0;
+
+function startSnake(){
+
+    clearInterval(snakeTimer);
+
+    snake=[
+        {x:5,y:5},
+        {x:4,y:5},
+        {x:3,y:5}
+    ];
+
+    dir={x:1,y:0};
+    snakeScore=0;
+    food={
+        x:Math.floor(Math.random()*12),
+        y:Math.floor(Math.random()*9)
+    };
+
+    snakeTimer=setInterval(updateSnake,130);
+}
+
+function updateSnake(){
+
+    let head={
+        x:snake[0].x+dir.x,
+        y:snake[0].y+dir.y
+    };
+
+    if(
+        head.x<0||
+        head.y<0||
+        head.x>=12||
+        head.y>=9||
+        snake.some(x=>x.x===head.x&&x.y===head.y)
+    ){
+        clearInterval(snakeTimer);
+        return;
+    }
+
+    snake.unshift(head);
+
+    if(head.x===food.x&&head.y===food.y){
+
+        snakeScore++;
+
+        document.getElementById("snakeScore").textContent=
+            snakeScore;
+
+        food={
+            x:Math.floor(Math.random()*12),
+            y:Math.floor(Math.random()*9)
+        };
+
+    }else{
+        snake.pop();
+    }
+
+    sx.clearRect(0,0,250,180);
+
+    sx.fillStyle="red";
+    sx.fillRect(food.x*20,food.y*20,18,18);
+
+    sx.fillStyle="lime";
+
+    snake.forEach(x=>{
+        sx.fillRect(x.x*20,x.y*20,18,18);
+    });
+}
+
+document.addEventListener("keydown",e=>{
+
+    if(e.key==="ArrowUp"&&dir.y!==1)
+        dir={x:0,y:-1};
+
+    if(e.key==="ArrowDown"&&dir.y!==-1)
+        dir={x:0,y:1};
+
+    if(e.key==="ArrowLeft"&&dir.x!==1)
+        dir={x:-1,y:0};
+
+    if(e.key==="ArrowRight"&&dir.x!==-1)
+        dir={x:1,y:0};
+});
+
+
+/* KLIK GAME */
+
+addBox(`
+<h2>klik</h2>
+<div class="big" id="clickScore">0</div>
+<button onclick="clickGame()">KLIK</button>
+`);
+
+let clickScore=0;
+
+function clickGame(){
+    clickScore++;
+    document.getElementById("clickScore").textContent=clickScore;
+}
+
+
+/* RANDOM GETAL */
+
+addBox(`
+<h2>getal</h2>
+<input id="min" value="1">
+<input id="max" value="100">
+<button onclick="randomNumber()">doe</button>
+<div class="big" id="number">?</div>
+`);
+
 function randomNumber(){
+
     let a=Number(document.getElementById("min").value);
     let b=Number(document.getElementById("max").value);
 
-    if(a>b)[a,b]=[b,a];
-
-    document.getElementById("randomNumber").textContent=
+    document.getElementById("number").textContent=
         Math.floor(Math.random()*(b-a+1))+a;
 }
 
 
-function randomEmoji(){
-    document.getElementById("emoji").textContent=
-        random([
-            "😀","😂","🤣","😎","🥶","🤨","😵",
-            "👽","👾","🤖","🐸","🐔","🦆","🦀",
-            "🍌","🍕","🧀","🌚","🌝","💀","🔥"
-        ]);
-}
-
-
-function newColor(){
-    let c="#"+Math.floor(Math.random()*16777215)
-        .toString(16)
-        .padStart(6,"0");
-
-    document.getElementById("color").style.background=c;
-    document.getElementById("colorCode").textContent=c;
-}
-
-
-let watchStart=0;
-let watchInterval=null;
-
-function startWatch(){
-
-    if(watchInterval)return;
-
-    watchStart=Date.now();
-
-    watchInterval=setInterval(()=>{
-
-        let ms=Date.now()-watchStart;
-
-        let s=Math.floor(ms/1000);
-        let m=Math.floor(s/60);
-
-        s%=60;
-
-        document.getElementById("stopwatch").textContent=
-            String(m).padStart(2,"0")+":"+
-            String(s).padStart(2,"0")+":"+
-            String(Math.floor(ms%1000/10)).padStart(2,"0");
-
-    },10);
-}
-
-
-function stopWatch(){
-    clearInterval(watchInterval);
-    watchInterval=null;
-}
-
-
-function resetWatch(){
-    stopWatch();
-    document.getElementById("stopwatch").textContent="00:00:00";
-}
-
-
-let cash=0;
-
-function money(){
-    cash+=Math.floor(Math.random()*100000);
-    document.getElementById("cash").textContent=
-        "€"+cash.toLocaleString("nl-NL");
-}
-
-
-let chickens=0;
-
-function chicken(){
-    chickens++;
-    document.getElementById("chicken").textContent=
-        chickens+" 🐔";
-}
-
-
-function reverseText(){
-
-    document.getElementById("reverseOut").textContent=
-        document.getElementById("reverseInput")
-        .value
-        .split("")
-        .reverse()
-        .join("");
-}
-
-
-let audio;
-
-function tone(freq){
-
-    audio=audio||new AudioContext();
-
-    let osc=audio.createOscillator();
-    let gain=audio.createGain();
-
-    osc.frequency.value=freq;
-
-    osc.connect(gain);
-    gain.connect(audio.destination);
-
-    gain.gain.value=.07;
-
-    osc.start();
-
-    osc.stop(audio.currentTime+.15);
-}
-
-
-function dna(){
-
-    let s="";
-    let bases="ATCG";
-
-    for(let i=0;i<80;i++)
-        s+=bases[Math.floor(Math.random()*4)];
-
-    document.getElementById("dna").textContent=s;
-}
-
-
-function nameGen(){
-
-    let a=[
-        "Zor","Mega","Turbo","Professor",
-        "Dimi","Flop","Xeno","Banaan",
-        "Kaas","Ultra"
-    ];
-
-    let b=[
-        "snor","aardappel","bliksem",
-        "kwark","kip","donder",
-        "stoel","meneer","999"
-    ];
-
-    document.getElementById("name").textContent=
-        random(a)+" "+random(b);
-}
-
-
-let reactionRunning=false;
-
-function reaction(){
-
-    if(reactionRunning)return;
-
-    reactionRunning=true;
-
-    const el=document.getElementById("reaction");
-
-    el.textContent="WACHT";
-
-    setTimeout(()=>{
-
-        el.textContent="NU!";
-
-        let start=performance.now();
-
-        const fn=()=>{
-
-            el.textContent=
-                Math.round(performance.now()-start)+" ms";
-
-            reactionRunning=false;
-        };
-
-        document.addEventListener("click",fn,{once:true});
-
-    },1000+Math.random()*3000);
-}
-
-
-/* TARGET */
-
-const targetCanvas=document.getElementById("target");
-const targetCtx=targetCanvas.getContext("2d");
-
-let targetX=100;
-let targetY=100;
-let targetScore=0;
-
-function newTarget(){
-
-    targetCtx.clearRect(0,0,360,210);
-
-    targetX=30+Math.random()*300;
-    targetY=30+Math.random()*150;
-
-    targetCtx.fillStyle="#f00";
-
-    targetCtx.beginPath();
-    targetCtx.arc(targetX,targetY,25,0,Math.PI*2);
-    targetCtx.fill();
-
-    targetCtx.fillStyle="#fff";
-
-    targetCtx.beginPath();
-    targetCtx.arc(targetX,targetY,11,0,Math.PI*2);
-    targetCtx.fill();
-}
-
-targetCanvas.onclick=e=>{
-
-    let r=targetCanvas.getBoundingClientRect();
-
-    let x=(e.clientX-r.left)*360/r.width;
-    let y=(e.clientY-r.top)*210/r.height;
-
-    if(Math.hypot(x-targetX,y-targetY)<30){
-
-        targetScore++;
-
-        document.getElementById("score").textContent=
-            targetScore;
-
-        newTarget();
-    }
-};
-
-newTarget();
-
-
-function rps(player){
-
-    let c=["🪨","📄","✂️"];
-    let cpu=random(c);
-
-    let result;
-
-    if(player===cpu)
-        result="gelijk";
-
-    else if(
-        player==="🪨"&&cpu==="✂️" ||
-        player==="📄"&&cpu==="🪨" ||
-        player==="✂️"&&cpu==="📄"
-    )
-        result="jij";
-
-    else
-        result="computer";
-
-    document.getElementById("rps").textContent=
-        player+" "+cpu+" "+result;
-}
-
-
-let timerInterval;
-
-function timer(){
-
-    clearInterval(timerInterval);
-
-    let n=Number(
-        document.getElementById("timerInput").value
-    );
-
-    document.getElementById("timerOut").textContent=n;
-
-    timerInterval=setInterval(()=>{
-
-        n--;
-
-        document.getElementById("timerOut").textContent=n;
-
-        if(n<=0){
-
-            clearInterval(timerInterval);
-
-            notify(random(words));
-        }
-
-    },1000);
-}
-
-
-function saveNotes(){
-    localStorage.setItem(
-        "weirdNotes",
-        document.getElementById("notes").value
-    );
-}
-
-function loadNotes(){
-    document.getElementById("notes").value=
-        localStorage.getItem("weirdNotes")||"";
-}
-
-
-function answer(){
-
-    document.getElementById("answer").textContent=
-        random([
-            "ja",
-            "nee",
-            "misschien",
-            "waarschijnlijk",
-            "absoluut",
-            "42",
-            "een banaan",
-            "volgende dinsdag",
-            "nee maar ook ja",
-            "404",
-            "ik weet het niet"
-        ]);
-}
-
-
-function makeGraph(){
-
-    let c=document.getElementById("graph");
-    let x=c.getContext("2d");
-
-    x.clearRect(0,0,360,210);
-
-    x.strokeStyle=
-        `hsl(${Math.random()*360},100%,60%)`;
-
-    x.lineWidth=3;
-
-    x.beginPath();
-
-    for(let i=0;i<360;i+=5){
-
-        let y=105+
-            Math.sin(i/15)*50+
-            (Math.random()-.5)*70;
-
-        if(i===0)x.moveTo(i,y);
-        else x.lineTo(i,y);
-    }
-
-    x.stroke();
-}
-
-
-let rotation=0;
-
-function spin(){
-
-    rotation+=360+Math.random()*1000;
-
-    document.getElementById("spinner").textContent=
-        Math.round(rotation)+"°";
-}
-
-
-function alien(){
-
-    document.getElementById("alien").textContent=
-        random([
-            "👽",
-            "👾",
-            "🛸",
-            "👽👾",
-            "🧠👽",
-            "👽🦆",
-            "🤖👽"
-        ]);
-}
-
-
-function productivity(){
-
-    let n=Math.floor(Math.random()*101);
-
-    document.getElementById("productivity").textContent=
-        n+"%";
-
-    document.getElementById("productivityBar")
-        .style.width=n+"%";
-}
-
-
-function molecule(){
-
-    document.getElementById("molecule").textContent=
-        random([
-            "H₂O",
-            "CO₂",
-            "NaCl",
-            "CH₄",
-            "C₆H₁₂O₆",
-            "XeF₄",
-            "UwHuiswerk₂",
-            "X₉₉"
-        ]);
-}
-
-
-let higherValue=50;
-
-function higherLower(choice){
-
-    let next=Math.floor(Math.random()*100)+1;
-
-    let correct=
-        choice==="higher"
-        ?next>higherValue
-        :next<higherValue;
-
-    document.getElementById("higherResult").textContent=
-        correct?"goed":"fout";
-
-    higherValue=next;
-
-    document.getElementById("higherNumber").textContent=
-        higherValue;
-}
-
-
-function shape(){
-
-    let s=document.getElementById("shape");
-
-    s.style.width=
-        Math.random()*180+20+"px";
-
-    s.style.height=
-        Math.random()*180+20+"px";
-
-    s.style.borderRadius=
-        Math.random()*100+"%";
-
-    s.style.background=
-        `hsl(${Math.random()*360},100%,50%)`;
-
-    s.style.transform=
-        `rotate(${Math.random()*360}deg)`;
-}
-
-
-function randomText(){
-
-    let result="";
-
-    for(let i=0;i<Math.floor(Math.random()*8)+1;i++)
-        result+=random(words)+" ";
-
-    document.getElementById("randomText").textContent=result;
-}
-
-
-let count=0;
-
-function counterChange(n){
-
-    count+=n;
-
-    document.getElementById("counter").textContent=
-        count;
-}
-
-
-let ach=0;
-
-function achievement(){
-
-    ach++;
-
-    document.getElementById("achievement").textContent=
-        ach;
-}
-
-
-function stars(){
-
-    document.getElementById("stars").textContent=
-        random([
-            "⭐",
-            "⭐⭐",
-            "⭐⭐⭐⭐",
-            "🌟",
-            "✨",
-            "💫",
-            "🌠",
-            "⭐🦆⭐",
-            "⭐⭐⭐⭐⭐⭐⭐⭐"
-        ]);
-}
-
-
-function poll(){
-
-    document.getElementById("poll").textContent=
-        random([
-            "37% ja",
-            "63% nee",
-            "99% banaan",
-            "12% stoel",
-            "100% waarom",
-            "0% logisch"
-        ]);
-}
-
-
-function formula(){
-
-    let a=Math.floor(Math.random()*100);
-    let b=Math.floor(Math.random()*100);
-
-    document.getElementById("formula").textContent=
-        `${a}x² + ${b}x = ${a*b}`;
-}
-
-
-function morePi(){
-
-    document.getElementById("pi").textContent=
-        Math.PI.toString()
-        .slice(
-            0,
-            Math.floor(Math.random()*12)+4
-        );
-}
-
-
-function place(){
-
-    document.getElementById("place").textContent=
-        random([
-            "Amsterdam",
-            "Mars",
-            "een koelkast",
-            "Atlantis",
-            "de maan",
-            "een parkeerplaats",
-            "de oceaan",
-            "een onbekende kelder",
-            "nummer 404",
-            "achter je"
-        ]);
-}
-
-
-function fakeAI(){
-
-    let q=document.getElementById("aiInput").value;
-
-    document.getElementById("aiOutput").textContent=
-        q
-        ? random([
-            "Interessant.",
-            "Daar moet ik even over nadenken.",
-            "Het antwoord is waarschijnlijk banaan.",
-            "Volgens mijn berekeningen: 42.",
-            "Dat klinkt als een probleem voor morgen.",
-            "Ik heb hier absoluut geen verstand van.",
-            "Mijn antwoord is dinsdag."
-        ])
-        : "Geen invoer gedetecteerd.";
-}
-
-
-function memo(){
-
-    document.getElementById("memo").textContent=
-        random([
-            "onthoud dit",
-            "vergeet dit",
-            "wat was ik ook alweer aan het doen?",
-            "🧠",
-            "nee",
-            "ja",
-            "42"
-        ]);
-}
-
-
-/* ================================
-   TERMINAL
-================================ */
-
-const terminal=document.getElementById("terminal");
-
-terminal.innerHTML=
-    "><br>";
-
-function terminalCommand(e){
-
-    if(e.key!=="Enter")return;
-
-    let input=document.getElementById("terminalInput");
-    let command=input.value;
-
-    terminal.innerHTML+=
-        "<br>> "+command;
-
-    let response;
-
-    if(command==="help")
-        response="help / banana / matrix / money / dance / clear";
-
-    else if(command==="banana")
-        response="🍌";
-
-    else if(command==="matrix")
-        response="01001000 01000101 01001100 01010000";
-
-    else if(command==="money")
-        response="€999999999999";
-
-    else if(command==="dance")
-        response="🕺💃🕺💃🕺";
-
-    else if(command==="clear"){
-        terminal.innerHTML="";
-        input.value="";
-        return;
-    }
-
-    else
-        response=random(words);
-
-    terminal.innerHTML+="<br>"+response;
-
-    terminal.scrollTop=terminal.scrollHeight;
-
-    input.value="";
-}
-
-
-/* ================================
-   PAINT
-================================ */
+/* TEKENEN */
+
+addBox(`
+<h2>tekenen</h2>
+<canvas id="paint" width="250" height="160"></canvas>
+<button onclick="clearPaint()">weg</button>
+`);
 
 const paint=document.getElementById("paint");
-const pctx=paint.getContext("2d");
-
+const pc=paint.getContext("2d");
 let drawing=false;
 
 paint.onmousedown=()=>drawing=true;
@@ -1507,648 +475,525 @@ paint.onmousemove=e=>{
 
     let r=paint.getBoundingClientRect();
 
-    let x=(e.clientX-r.left)*360/r.width;
-    let y=(e.clientY-r.top)*210/r.height;
+    pc.fillStyle=random([
+        "red","blue","lime","yellow",
+        "purple","black","orange"
+    ]);
 
-    pctx.fillStyle=
-        document.getElementById("paintColor").value;
-
-    pctx.beginPath();
-
-    pctx.arc(x,y,5,0,Math.PI*2);
-
-    pctx.fill();
+    pc.fillRect(
+        e.clientX-r.left,
+        e.clientY-r.top,
+        8,
+        8
+    );
 };
 
 function clearPaint(){
-    pctx.clearRect(0,0,360,210);
+    pc.clearRect(0,0,250,160);
 }
 
 
-/* ================================
-   MOUSE
-================================ */
+/* MEME */
 
-document.getElementById("mouseZone")
-.addEventListener("mousemove",e=>{
-
-    let r=e.currentTarget.getBoundingClientRect();
-
-    let x=e.clientX-r.left;
-    let y=e.clientY-r.top;
-
-    document.getElementById("mouseDot").style.left=x+"px";
-    document.getElementById("mouseDot").style.top=y+"px";
-
-    document.getElementById("mouseInfo").textContent=
-        Math.round(x)+" / "+Math.round(y);
-});
+addBox(`
+<h2>meme</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10">
+<div class="memeText">${random(nonsense)}</div>
+`);
 
 
-/* ================================
-   SNAKE
-================================ */
+/* NOG EEN MEME */
 
-const snakeCanvas=document.getElementById("snake");
-const snakeCtx=snakeCanvas.getContext("2d");
+addBox(`
+<h2>???</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcRkr0KewwnwmGmoQQi8ltA_TarFWQ93IoZRQ4X_cx3DQQ&s=10">
+<button onclick="document.body.classList.toggle('shake')">druk</button>
+`);
 
-let snake=[];
-let food={x:10,y:10};
-let snakeDir={x:1,y:0};
-let snakeGame=null;
-let snakePoints=0;
 
-function startSnake(){
+/* RANDOM AFBEELDING */
 
-    clearInterval(snakeGame);
+addBox(`
+<h2>foto</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTbCfXlQ-LQkHbRKhK02aoikfgs_JSKMVi7TifRxL1M4w&s=10">
+`);
 
-    snake=[
-        {x:8,y:8},
-        {x:7,y:8},
-        {x:6,y:8}
-    ];
 
-    snakeDir={x:1,y:0};
-    snakePoints=0;
+/* FOTO */
 
-    placeFood();
+addBox(`
+<h2>hmm</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcTn4U34c6mnHOmr5faLm3lho2fPdcmvFc1tmqcpVXVWRA&s">
+`);
 
-    snakeGame=setInterval(updateSnake,110);
+
+/* FOTO 2 */
+
+addBox(`
+<h2>dit ook</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSfJMgE_4SOeA74h1kj1XYzVcKbhlYxjiS9j_ZUoxN2vA&s=10">
+`);
+
+
+/* RANDOM MEME TEKST */
+
+addBox(`
+<h2>tekst</h2>
+<div class="memeText" id="memeText">BRUH</div>
+<button onclick="newMeme()">nieuw</button>
+`);
+
+function newMeme(){
+    document.getElementById("memeText").textContent=
+        random(nonsense);
 }
 
-function placeFood(){
 
-    food={
-        x:Math.floor(Math.random()*18),
-        y:Math.floor(Math.random()*11)
-    };
-}
+/* TIMER */
 
-function updateSnake(){
+addBox(`
+<h2>timer</h2>
+<input id="timerInput" value="10">
+<button onclick="startTimer()">start</button>
+<div class="big" id="timerOut">10</div>
+`);
 
-    let head={
-        x:snake[0].x+snakeDir.x,
-        y:snake[0].y+snakeDir.y
-    };
+let timerID;
 
-    if(
-        head.x<0||
-        head.x>=18||
-        head.y<0||
-        head.y>=11||
-        snake.some(s=>s.x===head.x&&s.y===head.y)
-    ){
-        clearInterval(snakeGame);
-        return;
-    }
+function startTimer(){
 
-    snake.unshift(head);
+    clearInterval(timerID);
 
-    if(head.x===food.x&&head.y===food.y){
-
-        snakePoints++;
-
-        document.getElementById("snakeScore")
-        .textContent=snakePoints;
-
-        placeFood();
-
-    }else{
-        snake.pop();
-    }
-
-    drawSnake();
-}
-
-function drawSnake(){
-
-    snakeCtx.clearRect(0,0,360,220);
-
-    snakeCtx.fillStyle="#f00";
-
-    snakeCtx.fillRect(
-        food.x*20,
-        food.y*20,
-        18,
-        18
+    let n=Number(
+        document.getElementById("timerInput").value
     );
 
-    snakeCtx.fillStyle="#0f0";
+    timerID=setInterval(()=>{
 
-    snake.forEach(s=>{
-        snakeCtx.fillRect(
-            s.x*20,
-            s.y*20,
-            18,
-            18
-        );
-    });
-}
+        document.getElementById("timerOut").textContent=n;
 
-document.addEventListener("keydown",e=>{
+        n--;
 
-    if(e.key==="ArrowUp"&&snakeDir.y!==1)
-        snakeDir={x:0,y:-1};
-
-    if(e.key==="ArrowDown"&&snakeDir.y!==-1)
-        snakeDir={x:0,y:1};
-
-    if(e.key==="ArrowLeft"&&snakeDir.x!==1)
-        snakeDir={x:-1,y:0};
-
-    if(e.key==="ArrowRight"&&snakeDir.x!==-1)
-        snakeDir={x:1,y:0};
-});
-
-
-/* ================================
-   BREAKOUT
-================================ */
-
-const bc=document.getElementById("breakout");
-const bx=bc.getContext("2d");
-
-let breakoutRunning=false;
-let ball={x:180,y:170,dx:3,dy:-3,r:6};
-let paddle={x:145,w:70};
-let bricks=[];
-
-function startBreakout(){
-
-    bricks=[];
-
-    for(let r=0;r<4;r++){
-
-        for(let c=0;c<8;c++){
-
-            bricks.push({
-                x:c*45+2,
-                y:r*22+10,
-                w:40,
-                h:17,
-                alive:true
-            });
+        if(n<0){
+            clearInterval(timerID);
+            document.getElementById("timerOut").textContent="BOEM";
         }
-    }
 
-    ball={
-        x:180,
-        y:170,
-        dx:3,
-        dy:-3,
-        r:6
-    };
-
-    paddle.x=145;
-    breakoutRunning=true;
-
-    requestAnimationFrame(breakoutLoop);
-}
-
-function breakoutLoop(){
-
-    if(!breakoutRunning)return;
-
-    bx.clearRect(0,0,360,220);
-
-    bricks.forEach(b=>{
-
-        if(b.alive){
-
-            bx.fillStyle=
-                `hsl(${b.x+b.y},100%,60%)`;
-
-            bx.fillRect(
-                b.x,b.y,b.w,b.h
-            );
-        }
-    });
-
-    bx.fillStyle="white";
-
-    bx.fillRect(
-        paddle.x,
-        205,
-        paddle.w,
-        8
-    );
-
-    bx.beginPath();
-
-    bx.arc(
-        ball.x,
-        ball.y,
-        ball.r,
-        0,
-        Math.PI*2
-    );
-
-    bx.fill();
-
-    ball.x+=ball.dx;
-    ball.y+=ball.dy;
-
-    if(ball.x<0||ball.x>360)
-        ball.dx*=-1;
-
-    if(ball.y<0)
-        ball.dy*=-1;
-
-    if(
-        ball.y>195 &&
-        ball.x>paddle.x &&
-        ball.x<paddle.x+paddle.w
-    ){
-        ball.dy=-Math.abs(ball.dy);
-    }
-
-    bricks.forEach(b=>{
-
-        if(
-            b.alive &&
-            ball.x>b.x &&
-            ball.x<b.x+b.w &&
-            ball.y>b.y &&
-            ball.y<b.y+b.h
-        ){
-
-            b.alive=false;
-            ball.dy*=-1;
-        }
-    });
-
-    if(ball.y>230)
-        breakoutRunning=false;
-
-    requestAnimationFrame(breakoutLoop);
-}
-
-bc.addEventListener("mousemove",e=>{
-
-    let r=bc.getBoundingClientRect();
-
-    paddle.x=
-        (e.clientX-r.left)*360/r.width-
-        paddle.w/2;
-});
-
-
-/* ================================
-   RANDOM BOX POSITIES
-================================ */
-
-function randomizeBoxes(){
-
-    document.querySelectorAll(".box")
-    .forEach(b=>{
-
-        b.style.transform=
-            `rotate(${Math.random()*20-10}deg)
-             translate(
-                ${Math.random()*30-15}px,
-                ${Math.random()*30-15}px
-             )`;
-    });
-}
-
-function resetBoxes(){
-
-    document.querySelectorAll(".box")
-    .forEach(b=>{
-        b.style.transform="";
-    });
+    },1000);
 }
 
 
-/* ================================
+/* STEEN PAPIER SCHAAR */
+
+addBox(`
+<h2>steen</h2>
+<button onclick="rps('steen')">steen</button>
+<button onclick="rps('papier')">papier</button>
+<button onclick="rps('schaar')">schaar</button>
+<div class="output" id="rps">...</div>
+`);
+
+function rps(x){
+
+    let c=random(["steen","papier","schaar"]);
+
+    document.getElementById("rps").textContent=
+        x+" tegen "+c+" = "+random([
+            "gewonnen",
+            "verloren",
+            "gelijk",
+            "wat"
+        ]);
+}
+
+
+/* RANDOM TEKST */
+
+addBox(`
+<h2>ding</h2>
+<div class="big" id="randomText">???</div>
+<button onclick="randomText()">klik</button>
+`);
+
+function randomText(){
+    document.getElementById("randomText").textContent=
+        random(nonsense);
+}
+
+
+/* COUNTER */
+
+addBox(`
+<h2>nummer</h2>
+<div class="big" id="counter">0</div>
+<button onclick="counter(1)">+</button>
+<button onclick="counter(-1)">-</button>
+<button onclick="counter(100)">100</button>
+`);
+
+let count=0;
+
+function counter(x){
+    count+=x;
+    document.getElementById("counter").textContent=count;
+}
+
+
+/* REACTIE */
+
+addBox(`
+<h2>reactie</h2>
+<div class="big" id="reaction">wacht</div>
+<button onclick="reaction()">start</button>
+`);
+
+function reaction(){
+
+    let e=document.getElementById("reaction");
+
+    e.textContent="wacht...";
+
+    setTimeout(()=>{
+        e.textContent="NU";
+    },1000+Math.random()*3000);
+}
+
+
+/* TERMINAL */
+
+addBox(`
+<h2>computer</h2>
+<div id="terminal">> welkom<br></div>
+<input id="terminalInput" placeholder="typ iets"
+onkeydown="terminal(event)">
+`);
+
+function terminal(e){
+
+    if(e.key!=="Enter")return;
+
+    let input=document.getElementById("terminalInput");
+    let t=document.getElementById("terminal");
+
+    t.innerHTML+=
+        "<br>> "+input.value+
+        "<br>"+random(nonsense);
+
+    input.value="";
+    t.scrollTop=t.scrollHeight;
+}
+
+
+/* SLIDER */
+
+addBox(`
+<h2>schuif</h2>
+<input type="range" min="0" max="100" value="50"
+oninput="slider(this.value)">
+<div class="big" id="slider">50</div>
+`);
+
+function slider(x){
+    document.getElementById("slider").textContent=x;
+}
+
+
+/* DANSENDE TEKST */
+
+addBox(`
+<h2>lol</h2>
+<div class="marquee">
+<span>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span>
+</div>
+`);
+
+
+/* KLEUR */
+
+addBox(`
+<h2>kleur</h2>
+<div id="color"
+style="height:80px;background:red;border:5px solid black">
+</div>
+<button onclick="color()">andere</button>
+`);
+
+function color(){
+
+    document.getElementById("color").style.background=
+        `hsl(${Math.random()*360},100%,50%)`;
+}
+
+
+/* GELUID */
+
+addBox(`
+<h2>geluid</h2>
+<button onclick="beep(100)">laag</button>
+<button onclick="beep(500)">normaal</button>
+<button onclick="beep(1500)">hoog</button>
+`);
+
+let audio;
+
+function beep(freq){
+
+    audio=audio||new AudioContext();
+
+    let osc=audio.createOscillator();
+    let gain=audio.createGain();
+
+    osc.frequency.value=freq;
+
+    osc.connect(gain);
+    gain.connect(audio.destination);
+
+    gain.gain.value=.05;
+
+    osc.start();
+    osc.stop(audio.currentTime+.15);
+}
+
+
+/* AFBEELDING MET RANDOM TEKST */
+
+addBox(`
+<h2>???</h2>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=ANd9GcSzyHmx52Fd21148RRR3_9ZUTnyh22BBw7ByEWBdzsEeQ&s=10">
+<div class="memeText">WAT GEBEURT HIER</div>
+`);
+
+
+/* EXTRA ROMMEL */
+
+for(let i=0;i<12;i++){
+
+    addBox(`
+    <h2>${random([
+        "ding",
+        "iets",
+        "???",
+        "tool",
+        "haha",
+        "nummer",
+        "knop"
+    ])}</h2>
+
+    <button onclick="
+        this.parentElement.style.transform=
+        'rotate('+(${Math.random()*40-20})+'deg)'
+    ">
+        ${random(nonsense)}
+    </button>
+
+    <div class="output">
+        ${random(nonsense)}
+    </div>
+    `);
+}
+
+
+/* ============================
    RANDOM LETTERS
-================================ */
+============================ */
 
-function spawnGlitch(){
+function spawnRandom(){
 
-    let e=document.createElement("div");
+    let d=document.createElement("div");
 
-    e.className="glitch";
+    d.className="random";
 
-    e.textContent=
-        random(symbols.split(""));
+    d.textContent=random(nonsense);
 
-    e.style.left=Math.random()*100+"vw";
-    e.style.top=Math.random()*100+"vh";
+    d.style.left=Math.random()*100+"vw";
+    d.style.top=Math.random()*100+"vh";
 
-    e.style.fontSize=
-        (10+Math.random()*100)+"px";
-
-    e.style.color=
-        `hsl(${Math.random()*360},100%,60%)`;
-
-    e.style.animation=
-        `flicker ${.05+Math.random()*.3}s infinite`;
-
-    overlay.appendChild(e);
-
-    let x=(Math.random()*1000)-500;
-    let y=(Math.random()*800)-400;
-
-    e.animate([
-        {
-            transform:"translate(0,0) rotate(0)",
-            opacity:0
-        },
-        {
-            transform:
-                `translate(${x}px,${y}px)
-                 rotate(${Math.random()*720}deg)
-                 scale(${Math.random()*3+1})`,
-            opacity:1
-        },
-        {
-            opacity:0
-        }
-    ],{
-        duration:500+Math.random()*1800
-    });
-
-    setTimeout(()=>e.remove(),2500);
-}
-
-
-/* ================================
-   VLIEGENDE WOORDEN
-================================ */
-
-function flyingWord(){
-
-    let e=document.createElement("div");
-
-    e.className="fly";
-
-    e.textContent=random(words);
-
-    e.style.top=Math.random()*100+"vh";
-
-    e.style.color=
-        `hsl(${Math.random()*360},100%,60%)`;
-
-    e.style.fontSize=
-        (15+Math.random()*70)+"px";
-
-    overlay.appendChild(e);
-
-    let y=(Math.random()*500)-250;
-
-    e.animate([
-        {
-            transform:"translateX(-200px) rotate(-30deg)",
-            opacity:0
-        },
-        {
-            transform:
-                `translateX(50vw)
-                 translateY(${y}px)
-                 rotate(${Math.random()*300-150}deg)`,
-            opacity:1
-        },
-        {
-            transform:
-                `translateX(110vw)
-                 translateY(${y*2}px)
-                 rotate(700deg)`,
-            opacity:0
-        }
-    ],{
-        duration:1000+Math.random()*1500
-    });
-
-    setTimeout(()=>e.remove(),2600);
-}
-
-
-/* ================================
-   BLOKKEN
-================================ */
-
-function randomBlock(){
-
-    let e=document.createElement("div");
-
-    e.style.position="fixed";
-    e.style.left=Math.random()*100+"vw";
-    e.style.top=Math.random()*100+"vh";
-    e.style.width=20+Math.random()*200+"px";
-    e.style.height=20+Math.random()*200+"px";
-
-    e.style.border=
-        "3px solid "+
-        `hsl(${Math.random()*360},100%,60%)`;
-
-    e.style.zIndex=8990;
-    e.style.pointerEvents="none";
-
-    overlay.appendChild(e);
-
-    e.animate([
-        {transform:"rotate(0) scale(.1)",opacity:0},
-        {transform:"rotate(360deg) scale(1)",opacity:1},
-        {transform:"rotate(900deg) scale(2)",opacity:0}
-    ],{
-        duration:800+Math.random()*1500
-    });
-
-    setTimeout(()=>e.remove(),2400);
-}
-
-
-/* ================================
-   FLASH
-================================ */
-
-function flash(){
-
-    let e=document.createElement("div");
-
-    e.className="flash";
-
-    e.style.background=
+    d.style.color=
         `hsl(${Math.random()*360},100%,50%)`;
 
-    overlay.appendChild(e);
+    d.style.fontSize=
+        10+Math.random()*80+"px";
 
-    e.animate([
-        {opacity:0},
-        {opacity:.8},
-        {opacity:0}
-    ],{
-        duration:120
-    });
+    mess.appendChild(d);
 
-    setTimeout(()=>e.remove(),150);
+    setTimeout(()=>{
+        d.remove();
+    },1500);
+}
+
+setInterval(()=>{
+
+    for(let i=0;i<Math.floor(Math.random()*5)+1;i++)
+        spawnRandom();
+
+},250);
+
+
+/* ============================
+   WIT SCHERM
+============================ */
+
+let whiteBusy=false;
+
+function whiteScreen(){
+
+    if(whiteBusy)return;
+
+    whiteBusy=true;
+
+    let screen=document.getElementById("whiteScreen");
+    let name=document.getElementById("whiteName");
+
+    name.textContent=random(names);
+
+    screen.style.display="flex";
+
+    setTimeout(()=>{
+
+        screen.style.display="none";
+        whiteBusy=false;
+
+    },2500+Math.random()*2500);
 }
 
 
-/* ================================
-   SCANLINES
-================================ */
-
-for(let i=0;i<6;i++){
-
-    let s=document.createElement("div");
-
-    s.className="scan";
-
-    s.style.animationDelay=
-        Math.random()*2+"s";
-
-    overlay.appendChild(s);
-}
-
-
-/* ================================
-   AUTOMATISCHE ROMMEL
-================================ */
+/* om de zoveel tijd */
 
 setInterval(()=>{
 
-    for(let i=0;i<Math.floor(Math.random()*6)+1;i++)
-        spawnGlitch();
+    if(Math.random()<0.35){
+        whiteScreen();
+    }
 
-},170);
+},18000);
 
 
-setInterval(()=>{
-
-    if(Math.random()<.8)
-        flyingWord();
-
-},500);
-
+/* ============================
+   RANDOM FLASH
+============================ */
 
 setInterval(()=>{
 
-    if(Math.random()<.7)
-        randomBlock();
+    if(Math.random()<0.08){
+
+        let f=document.createElement("div");
+
+        f.className="flash";
+
+        document.body.appendChild(f);
+
+        setTimeout(()=>{
+            f.remove();
+        },100);
+    }
 
 },700);
 
 
-setInterval(()=>{
-
-    if(Math.random()<.15)
-        flash();
-
-},400);
-
-
-/* ================================
-   KLEUREN
-================================ */
+/* ============================
+   RANDOM ROTATIE
+============================ */
 
 setInterval(()=>{
 
-    if(Math.random()<.25){
+    let boxes=document.querySelectorAll(".box");
 
-        document.body.style.background=
-            `hsl(${Math.random()*360},35%,${3+Math.random()*8}%)`;
-    }
+    if(boxes.length){
 
-},1000);
+        let b=boxes[
+            Math.floor(Math.random()*boxes.length)
+        ];
 
-
-/* ================================
-   FILTER
-================================ */
-
-setInterval(()=>{
-
-    if(Math.random()<.1){
-
-        document.body.style.filter=
-            `hue-rotate(${Math.random()*360}deg)
-             contrast(${.7+Math.random()*2})
-             saturate(${.5+Math.random()*4})`;
-
-        setTimeout(()=>{
-            document.body.style.filter="";
-        },300+Math.random()*600);
+        b.style.transform=
+            `rotate(${Math.random()*16-8}deg)`;
     }
 
 },900);
 
 
-/* ================================
-   MUIS-EFFECT
-================================ */
+/* ============================
+   RANDOM PAGINA KLEUR
+============================ */
+
+setInterval(()=>{
+
+    if(Math.random()<0.12){
+
+        document.body.style.background=
+            random([
+                "red",
+                "blue",
+                "lime",
+                "yellow",
+                "purple",
+                "#123456",
+                "#ff00ff",
+                "#00ffff",
+                "#555",
+                "#999"
+            ]);
+    }
+
+},1200);
+
+
+/* ============================
+   MUIS LETTERS
+============================ */
 
 document.addEventListener("mousemove",e=>{
 
-    if(Math.random()<.1){
+    if(Math.random()<0.04){
 
         let d=document.createElement("div");
 
-        d.textContent=
-            random(symbols.split(""));
+        d.textContent=random(nonsense);
 
         d.style.position="fixed";
         d.style.left=e.clientX+"px";
         d.style.top=e.clientY+"px";
-        d.style.color=
-            `hsl(${Math.random()*360},100%,60%)`;
-        d.style.fontSize=
-            10+Math.random()*35+"px";
-        d.style.fontWeight="1000";
-        d.style.zIndex=10001;
+        d.style.color=random([
+            "red",
+            "blue",
+            "lime",
+            "purple",
+            "orange"
+        ]);
+        d.style.fontSize="20px";
+        d.style.zIndex=100001;
         d.style.pointerEvents="none";
 
         document.body.appendChild(d);
 
-        d.animate([
-            {
-                transform:"translate(0,0) scale(1)",
-                opacity:1
-            },
-            {
-                transform:
-                    `translate(
-                        ${Math.random()*100-50}px,
-                        ${Math.random()*100-50}px
-                    )
-                    rotate(500deg)
-                    scale(0)`,
-                opacity:0
-            }
-        ],{
-            duration:500+Math.random()*500
-        });
-
-        setTimeout(()=>d.remove(),1100);
+        setTimeout(()=>d.remove(),500);
     }
 });
 
 
-/* ================================
-   KLIK EFFECT
-================================ */
+/* ============================
+   KLIK EXPLOSIE
+============================ */
 
 document.addEventListener("click",e=>{
 
-    for(let i=0;i<5;i++){
+    for(let i=0;i<3;i++){
 
         let d=document.createElement("div");
 
-        d.textContent=
-            random(symbols.split(""));
+        d.textContent=random(nonsense);
 
         d.style.position="fixed";
         d.style.left=e.clientX+"px";
         d.style.top=e.clientY+"px";
-        d.style.color=
-            `hsl(${Math.random()*360},100%,60%)`;
-        d.style.fontSize=
-            10+Math.random()*30+"px";
-        d.style.zIndex=10001;
+        d.style.zIndex=100001;
         d.style.pointerEvents="none";
+        d.style.color=
+            `hsl(${Math.random()*360},100%,50%)`;
 
         document.body.appendChild(d);
+
+        let x=Math.random()*200-100;
+        let y=Math.random()*200-100;
 
         d.animate([
             {
@@ -2157,50 +1002,53 @@ document.addEventListener("click",e=>{
             },
             {
                 transform:
-                    `translate(
-                        ${Math.random()*250-125}px,
-                        ${Math.random()*250-125}px
-                    )
-                    rotate(${Math.random()*720}deg)
-                    scale(0)`,
+                    `translate(${x}px,${y}px)
+                     rotate(500deg)
+                     scale(0)`,
                 opacity:0
             }
         ],{
-            duration:500+Math.random()*500
+            duration:600
         });
 
-        setTimeout(()=>d.remove(),1200);
+        setTimeout(()=>d.remove(),650);
     }
 });
 
 
-/* ================================
-   GIGANTISCHE LETTER
-================================ */
+/* ============================
+   GIGANTISCHE LETTERS
+============================ */
 
 setInterval(()=>{
 
-    if(Math.random()<.35){
+    if(Math.random()<0.2){
 
-        let e=document.createElement("div");
+        let d=document.createElement("div");
 
-        e.textContent=
-            random(symbols.split(""));
+        d.textContent=random([
+            "A",
+            "X",
+            "?",
+            "!",
+            "42",
+            "🐔"
+        ]);
 
-        e.style.position="fixed";
-        e.style.left=Math.random()*100+"vw";
-        e.style.top=Math.random()*100+"vh";
-        e.style.fontSize=
-            100+Math.random()*350+"px";
-        e.style.fontWeight="1000";
-        e.style.color=
+        d.style.position="fixed";
+        d.style.left=Math.random()*100+"vw";
+        d.style.top=Math.random()*100+"vh";
+        d.style.fontSize=
+            100+Math.random()*250+"px";
+        d.style.fontWeight="bold";
+        d.style.color=
             `hsl(${Math.random()*360},100%,50%)`;
-        e.style.zIndex=8995;
-        e.style.pointerEvents="none";
+        d.style.zIndex=8999;
+        d.style.pointerEvents="none";
 
-        document.body.appendChild(e);
+        document.body.appendChild(d);
 
-        e.animate([
+        d.animate([
             {
                 transform:"scale(0) rotate(0)",
                 opacity:0
@@ -2210,172 +1058,48 @@ setInterval(()=>{
                 opacity:1
             },
             {
-                transform:"scale(3) rotate(720deg)",
+                transform:"scale(3) rotate(600deg)",
                 opacity:0
             }
         ],{
-            duration:900
+            duration:1000
         });
 
-        setTimeout(()=>e.remove(),1000);
-    }
-
-},700);
-
-
-/* ================================
-   RANDOM TITEL
-================================ */
-
-setInterval(()=>{
-
-    document.title=
-        random(words)+
-        random(words)+
-        random(words);
-
-},80);
-
-
-/* ================================
-   RANDOM ROTATIE
-================================ */
-
-setInterval(()=>{
-
-    document.querySelectorAll(".box")
-    .forEach(b=>{
-
-        if(Math.random()<.15){
-
-            b.style.transform=
-                `rotate(${Math.random()*20-10}deg)
-                 scale(${.8+Math.random()*.4})`;
-        }
-    });
-
-},400);
-
-
-/* ================================
-   RANDOM POPUP
-================================ */
-
-setInterval(()=>{
-
-    if(Math.random()<.025){
-
-        notify(random([
-            "nee",
-            "waarom",
-            "42",
-            "🐔",
-            "ERROR",
-            "???",
-            "BANANA",
-            "OK",
-            "AAAA",
-            "..."
-        ]));
+        setTimeout(()=>d.remove(),1100);
     }
 
 },1000);
 
 
-/* ================================
-   RANDOM GELUID
-================================ */
+/* ============================
+   TITEL WISSELEN
+============================ */
 
 setInterval(()=>{
 
-    if(Math.random()<.025){
+    document.title=random([
+        "site",
+        "???",
+        "AAAA",
+        "42",
+        "banana",
+        "lol",
+        "404",
+        "kip"
+    ]);
 
-        try{
-            tone(
-                50+
-                Math.random()*1800
-            );
-        }catch(e){}
+},300);
+
+
+/* ============================
+   START ROMMEL
+============================ */
+
+setTimeout(()=>{
+    for(let i=0;i<15;i++){
+        spawnRandom();
     }
-
-},3000);
-
-
-/* ================================
-   PAGINA BIJ START DOOR ELKAAR
-================================ */
-
-function shuffleEverything(){
-
-    let children=[...world.children];
-
-    children.sort(
-        ()=>Math.random()-.5
-    );
-
-    children.forEach(x=>{
-        world.appendChild(x);
-    });
-}
-
-shuffleEverything();
-
-
-/* ================================
-   ECHT HELEMAAL ONLOGISCH
-================================ */
-
-setInterval(()=>{
-
-    if(Math.random()<.05){
-
-        let all=[
-            ...document.querySelectorAll("button"),
-            ...document.querySelectorAll(".box")
-        ];
-
-        if(all.length){
-
-            let x=random(all);
-
-            x.style.transform=
-                `rotate(${Math.random()*90-45}deg)
-                 translate(
-                    ${Math.random()*100-50}px,
-                    ${Math.random()*100-50}px
-                 )`;
-        }
-    }
-
 },500);
-
-
-/* ================================
-   EASTER EGG
-================================ */
-
-let secretClicks=0;
-
-document.addEventListener("keydown",e=>{
-
-    if(e.key.toLowerCase()==="x"){
-
-        secretClicks++;
-
-        if(secretClicks>=7){
-
-            document.body.classList.toggle("party");
-
-            for(let i=0;i<100;i++)
-                spawnGlitch();
-
-            notify("????????????????");
-
-            secretClicks=0;
-        }
-    }
-});
-
 
 </script>
 
