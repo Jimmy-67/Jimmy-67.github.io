@@ -8,286 +8,393 @@
 
     <body>
         Dit is mijn eerste website! torrie torrie torrie torrie adam torrie
-        hoi hoi 
-        nee 
-        roel blackie froukje torrie
-    </body>
-    <!-- SNAKE GAME BLOK -->
-<div id="snakeGame" style="
-    width: 360px;
+<!-- GRAFFITI SPRAY BLOK -->
+<div id="graffitiTool" style="
+    width: 340px;
     max-width: 100%;
     margin: 30px auto;
-    padding: 20px;
-    background: #111;
-    border: 3px solid #333;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    text-align: center;
-    font-family: Arial, sans-serif;
+    padding: 18px;
+    background: #181818;
     color: white;
+    border-radius: 18px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,.35);
+    position: relative;
+    z-index: 99999;
 ">
-    <h2 style="margin: 0 0 10px;">🐍 Snake</h2>
 
-    <div style="margin-bottom: 12px; font-size: 18px;">
-        Score: <span id="snakeScore">0</span>
-    </div>
+    <h2 style="margin:0 0 5px;">🎨 Graffiti Spray</h2>
 
-    <canvas id="snakeCanvas"
-        width="320"
-        height="320"
-        style="
-            width: 320px;
-            max-width: 100%;
-            background: #050505;
-            border: 2px solid #444;
-            border-radius: 10px;
-            display: block;
-            margin: auto;
-        ">
-    </canvas>
-
-    <p style="font-size: 14px; color: #aaa; margin: 12px 0;">
-        Gebruik de pijltjestoetsen om te bewegen
+    <p style="
+        color:#aaa;
+        font-size:14px;
+        margin:5px 0 15px;
+    ">
+        Kies een spuitbus en spray over de website!
     </p>
 
-    <button onclick="startSnake()" style="
-        padding: 10px 22px;
-        border: none;
-        border-radius: 10px;
-        background: #27ae60;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
+    <div style="
+        display:flex;
+        justify-content:center;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-bottom:15px;
     ">
-        Start / Opnieuw
+
+        <button class="sprayColor" data-color="#ff0055"
+            style="background:#ff0055;">
+            🧴
+        </button>
+
+        <button class="sprayColor" data-color="#00e5ff"
+            style="background:#00e5ff;">
+            🧴
+        </button>
+
+        <button class="sprayColor" data-color="#7dff00"
+            style="background:#7dff00;">
+            🧴
+        </button>
+
+        <button class="sprayColor" data-color="#fff000"
+            style="background:#fff000;">
+            🧴
+        </button>
+
+        <button class="sprayColor" data-color="#9b00ff"
+            style="background:#9b00ff;">
+            🧴
+        </button>
+
+        <button class="sprayColor" data-color="#ffffff"
+            style="background:white;">
+            🧴
+        </button>
+
+    </div>
+
+    <div style="margin-bottom:12px;">
+        <label style="font-size:13px;">Spray-grootte</label>
+        <input id="spraySize" type="range"
+            min="10" max="100" value="45"
+            style="width:180px; vertical-align:middle;">
+    </div>
+
+    <button id="sprayMode" style="
+        border:0;
+        border-radius:10px;
+        padding:10px 18px;
+        background:#333;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+    ">
+        🎨 Spray aan
+    </button>
+
+    <button id="clearGraffiti" style="
+        border:0;
+        border-radius:10px;
+        padding:10px 18px;
+        background:#b71c1c;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+        margin-left:5px;
+    ">
+        🗑️ Wis
     </button>
 </div>
 
-<script>
-(function () {
-    const canvas = document.getElementById("snakeCanvas");
-    const ctx = canvas.getContext("2d");
-    const scoreText = document.getElementById("snakeScore");
 
-    const grid = 16;
-    const tile = canvas.width / grid;
+<!-- GRAFFITI LAAG OVER DE HELE WEBSITE -->
+<canvas id="graffitiCanvas"></canvas>
 
-    let snake;
-    let food;
-    let dx;
-    let dy;
-    let nextDx;
-    let nextDy;
-    let score;
-    let gameRunning = false;
-    let gameOver = false;
-    let gameLoop;
-
-    function createFood() {
-        let newFood;
-
-        do {
-            newFood = {
-                x: Math.floor(Math.random() * grid),
-                y: Math.floor(Math.random() * grid)
-            };
-        } while (
-            snake.some(part =>
-                part.x === newFood.x && part.y === newFood.y
-            )
-        );
-
-        return newFood;
+<style>
+    .sprayColor {
+        width:48px;
+        height:58px;
+        border:3px solid #555;
+        border-radius:10px;
+        cursor:pointer;
+        font-size:23px;
+        transition:.15s;
+        box-shadow: inset 0 -8px 0 rgba(0,0,0,.2);
     }
 
-    function drawGame() {
-        // Achtergrond
-        ctx.fillStyle = "#050505";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    .sprayColor:hover {
+        transform:translateY(-4px) rotate(-3deg);
+        border-color:white;
+    }
 
-        // Subtiel raster
-        ctx.strokeStyle = "#111";
-        ctx.lineWidth = 1;
+    .sprayColor.selected {
+        transform:translateY(-5px) scale(1.08);
+        border-color:white;
+        box-shadow:
+            0 0 0 3px #111,
+            0 0 15px white,
+            inset 0 -8px 0 rgba(0,0,0,.2);
+    }
 
-        for (let i = 0; i <= grid; i++) {
-            ctx.beginPath();
-            ctx.moveTo(i * tile, 0);
-            ctx.lineTo(i * tile, canvas.height);
-            ctx.stroke();
+    #graffitiCanvas {
+        position:fixed;
+        left:0;
+        top:0;
+        width:100vw;
+        height:100vh;
+        pointer-events:none;
+        z-index:99998;
+    }
 
-            ctx.beginPath();
-            ctx.moveTo(0, i * tile);
-            ctx.lineTo(canvas.width, i * tile);
-            ctx.stroke();
+    body.graffitiActive {
+        cursor:crosshair;
+    }
+</style>
+
+
+<script>
+(function() {
+
+    const canvas = document.getElementById("graffitiCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const sizeSlider = document.getElementById("spraySize");
+    const sprayMode = document.getElementById("sprayMode");
+    const clearButton = document.getElementById("clearGraffiti");
+    const colorButtons = document.querySelectorAll(".sprayColor");
+
+    let currentColor = "#ff0055";
+    let spraySize = 45;
+    let spraying = false;
+    let active = false;
+
+    // Canvas precies zo groot maken als het scherm
+    function resizeCanvas() {
+        const oldCanvas = document.createElement("canvas");
+        oldCanvas.width = canvas.width;
+        oldCanvas.height = canvas.height;
+
+        if (canvas.width && canvas.height) {
+            oldCanvas.getContext("2d").drawImage(canvas, 0, 0);
         }
 
-        // Voedsel
-        ctx.fillStyle = "#ff4757";
-        ctx.beginPath();
-        ctx.arc(
-            food.x * tile + tile / 2,
-            food.y * tile + tile / 2,
-            tile * 0.35,
-            0,
-            Math.PI * 2
-        );
-        ctx.fill();
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        // Slang
-        snake.forEach((part, index) => {
-            ctx.fillStyle = index === 0 ? "#2ed573" : "#20bf6b";
+        if (oldCanvas.width && oldCanvas.height) {
+            ctx.drawImage(oldCanvas, 0, 0);
+        }
+    }
 
-            ctx.fillRect(
-                part.x * tile + 1,
-                part.y * tile + 1,
-                tile - 2,
-                tile - 2
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Kleur kiezen
+    colorButtons.forEach(button => {
+
+        button.addEventListener("click", function() {
+
+            currentColor = this.dataset.color;
+
+            colorButtons.forEach(b =>
+                b.classList.remove("selected")
             );
+
+            this.classList.add("selected");
+
+            active = true;
+            document.body.classList.add("graffitiActive");
+
+            sprayMode.textContent = "🎨 Spray aan";
         });
 
-        // Game over scherm
-        if (gameOver) {
-            ctx.fillStyle = "rgba(0,0,0,0.7)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "white";
-            ctx.textAlign = "center";
-
-            ctx.font = "bold 32px Arial";
-            ctx.fillText(
-                "GAME OVER",
-                canvas.width / 2,
-                canvas.height / 2 - 10
-            );
-
-            ctx.font = "18px Arial";
-            ctx.fillText(
-                "Klik op Opnieuw",
-                canvas.width / 2,
-                canvas.height / 2 + 25
-            );
-        }
-    }
-
-    function updateGame() {
-        if (!gameRunning) return;
-
-        dx = nextDx;
-        dy = nextDy;
-
-        const head = {
-            x: snake[0].x + dx,
-            y: snake[0].y + dy
-        };
-
-        // Botsing met muur
-        if (
-            head.x < 0 ||
-            head.x >= grid ||
-            head.y < 0 ||
-            head.y >= grid
-        ) {
-            endGame();
-            return;
-        }
-
-        // Botsing met zichzelf
-        if (
-            snake.some(part =>
-                part.x === head.x && part.y === head.y
-            )
-        ) {
-            endGame();
-            return;
-        }
-
-        snake.unshift(head);
-
-        // Voedsel gegeten
-        if (
-            head.x === food.x &&
-            head.y === food.y
-        ) {
-            score++;
-            scoreText.textContent = score;
-            food = createFood();
-        } else {
-            snake.pop();
-        }
-
-        drawGame();
-    }
-
-    function endGame() {
-        gameRunning = false;
-        gameOver = true;
-        clearInterval(gameLoop);
-        drawGame();
-    }
-
-    window.startSnake = function () {
-        clearInterval(gameLoop);
-
-        snake = [
-            { x: 8, y: 8 },
-            { x: 7, y: 8 },
-            { x: 6, y: 8 }
-        ];
-
-        dx = 1;
-        dy = 0;
-        nextDx = 1;
-        nextDy = 0;
-
-        score = 0;
-        scoreText.textContent = score;
-
-        gameOver = false;
-        gameRunning = true;
-
-        food = createFood();
-
-        drawGame();
-
-        gameLoop = setInterval(updateGame, 120);
-    };
-
-    document.addEventListener("keydown", function (event) {
-        if (!gameRunning) return;
-
-        if (event.key === "ArrowUp" && dy !== 1) {
-            nextDx = 0;
-            nextDy = -1;
-        }
-
-        if (event.key === "ArrowDown" && dy !== -1) {
-            nextDx = 0;
-            nextDy = 1;
-        }
-
-        if (event.key === "ArrowLeft" && dx !== 1) {
-            nextDx = -1;
-            nextDy = 0;
-        }
-
-        if (event.key === "ArrowRight" && dx !== -1) {
-            nextDx = 1;
-            nextDy = 0;
-        }
-
-        event.preventDefault();
     });
 
-    // Teken eerste scherm
-    snake = [
-        { x: 8, y: 8 },
-        { x: 7, y: 8 },
-        { x: 6, y: 8 }
-    ];
+    // Eerste kleur selecteren
+    colorButtons[0].classList.add("selected");
 
-    food = { x: 12, y: 8 };
-    drawGame();
+    // Grootte aanpassen
+    sizeSlider.addEventListener("input", function() {
+        spraySize = Number(this.value);
+    });
+
+
+    // Spray maken
+    function spray(x, y) {
+
+        const amount = 35;
+
+        for (let i = 0; i < amount; i++) {
+
+            const angle = Math.random() * Math.PI * 2;
+
+            const distance =
+                Math.random() * spraySize;
+
+            const px =
+                x + Math.cos(angle) * distance;
+
+            const py =
+                y + Math.sin(angle) * distance;
+
+            const dotSize =
+                Math.random() * 2.5 + 0.7;
+
+            ctx.globalAlpha =
+                Math.random() * 0.55 + 0.25;
+
+            ctx.fillStyle = currentColor;
+
+            ctx.beginPath();
+
+            ctx.arc(
+                px,
+                py,
+                dotSize,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+        }
+
+        // paar grotere spetters
+        for (let i = 0; i < 4; i++) {
+
+            const angle = Math.random() * Math.PI * 2;
+
+            const distance =
+                Math.random() * spraySize * 1.5;
+
+            const px =
+                x + Math.cos(angle) * distance;
+
+            const py =
+                y + Math.sin(angle) * distance;
+
+            ctx.globalAlpha = .5;
+            ctx.fillStyle = currentColor;
+
+            ctx.beginPath();
+
+            ctx.arc(
+                px,
+                py,
+                Math.random() * 4 + 1,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+        }
+
+        ctx.globalAlpha = 1;
+    }
+
+
+    // Muis indrukken
+    canvas.addEventListener("mousedown", function(e) {
+
+        if (!active) return;
+
+        spraying = true;
+
+        spray(e.clientX, e.clientY);
+    });
+
+
+    // Muis loslaten
+    window.addEventListener("mouseup", function() {
+        spraying = false;
+    });
+
+
+    // Slepen
+    canvas.addEventListener("mousemove", function(e) {
+
+        if (!active || !spraying) return;
+
+        spray(e.clientX, e.clientY);
+    });
+
+
+    // Touchscreen ondersteuning
+    canvas.addEventListener("touchstart", function(e) {
+
+        if (!active) return;
+
+        e.preventDefault();
+
+        spraying = true;
+
+        const touch = e.touches[0];
+
+        spray(
+            touch.clientX,
+            touch.clientY
+        );
+
+    }, {passive:false});
+
+
+    canvas.addEventListener("touchmove", function(e) {
+
+        if (!active || !spraying) return;
+
+        e.preventDefault();
+
+        const touch = e.touches[0];
+
+        spray(
+            touch.clientX,
+            touch.clientY
+        );
+
+    }, {passive:false});
+
+
+    canvas.addEventListener("touchend", function() {
+        spraying = false;
+    });
+
+
+    // Spray aan/uit
+    sprayMode.addEventListener("click", function() {
+
+        active = !active;
+
+        if (active) {
+
+            document.body.classList.add("graffitiActive");
+
+            this.textContent = "🎨 Spray aan";
+
+        } else {
+
+            document.body.classList.remove("graffitiActive");
+
+            this.textContent = "🚫 Spray uit";
+
+        }
+
+    });
+
+
+    // Alles wissen
+    clearButton.addEventListener("click", function() {
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+    });
+
 })();
 </script>
+    </body>
+   
 </html>
