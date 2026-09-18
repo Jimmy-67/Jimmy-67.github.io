@@ -1,399 +1,734 @@
 <html>
     <head>
 <img src=https://nevadasagebrush.com/wp-content/uploads/2026/09/image-5.png alt="Afbeelding">
-<textarea name="ja" id="ja"></textarea>
-<time datetime="tijd"></time>
+
 <search></search>
     </head>
 
     <body>
         Dit is mijn eerste website! torrie torrie torrie torrie adam torrie
-<!-- GRAFFITI SPRAY BLOK -->
-<div id="graffitiTool" style="
-    width: 340px;
-    max-width: 100%;
-    margin: 30px auto;
-    padding: 18px;
-    background: #181818;
-    color: white;
-    border-radius: 18px;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0,0,0,.35);
-    position: relative;
-    z-index: 99999;
-">
+<!-- UGLY GRAFFITI TOOL -->
+<div id="graffitiTool">
 
-    <h2 style="margin:0 0 5px;">🎨 Graffiti Spray</h2>
+    <div class="uglyTitle">
+        💀 GRAFFITI SPUIT 3000 💀
+    </div>
 
-    <p style="
-        color:#aaa;
-        font-size:14px;
-        margin:5px 0 15px;
-    ">
-        Kies een spuitbus en spray over de website!
-    </p>
+    <div class="uglySub">
+        KLIK OP EEN BUS EN SPUIT OVERAL!!!
+    </div>
 
-    <div style="
-        display:flex;
-        justify-content:center;
-        gap:10px;
-        flex-wrap:wrap;
-        margin-bottom:15px;
-    ">
+    <div class="sprayButtons">
 
-        <button class="sprayColor" data-color="#ff0055"
-            style="background:#ff0055;">
-            🧴
+        <button class="sprayColor selected" data-color="#ff0055"
+            style="background:#ff0055;">🧴</button>
+
+        <button class="sprayColor" data-color="#00ffff"
+            style="background:#00ffff;">🧴</button>
+
+        <button class="sprayColor" data-color="#39ff14"
+            style="background:#39ff14;">🧴</button>
+
+        <button class="sprayColor" data-color="#ffff00"
+            style="background:#ffff00;">🧴</button>
+
+        <button class="sprayColor" data-color="#9900ff"
+            style="background:#9900ff;">🧴</button>
+
+        <button class="sprayColor" data-color="#ff6600"
+            style="background:#ff6600;">🧴</button>
+
+    </div>
+
+    <div class="uglyControls">
+
+        <span>GROOTTE:</span>
+
+        <input id="spraySize"
+            type="range"
+            min="10"
+            max="120"
+            value="45">
+
+    </div>
+
+    <div class="uglyButtons">
+
+        <button id="sprayMode">
+            🎨 SPRAY AAN
         </button>
 
-        <button class="sprayColor" data-color="#00e5ff"
-            style="background:#00e5ff;">
-            🧴
-        </button>
-
-        <button class="sprayColor" data-color="#7dff00"
-            style="background:#7dff00;">
-            🧴
-        </button>
-
-        <button class="sprayColor" data-color="#fff000"
-            style="background:#fff000;">
-            🧴
-        </button>
-
-        <button class="sprayColor" data-color="#9b00ff"
-            style="background:#9b00ff;">
-            🧴
-        </button>
-
-        <button class="sprayColor" data-color="#ffffff"
-            style="background:white;">
-            🧴
+        <button id="clearGraffiti">
+            💣 ALLES WEG
         </button>
 
     </div>
 
-    <div style="margin-bottom:12px;">
-        <label style="font-size:13px;">Spray-grootte</label>
-        <input id="spraySize" type="range"
-            min="10" max="100" value="45"
-            style="width:180px; vertical-align:middle;">
+    <div id="sprayStatus">
+        STATUS: KLAAR OM TE SPUITEN
     </div>
 
-    <button id="sprayMode" style="
-        border:0;
-        border-radius:10px;
-        padding:10px 18px;
-        background:#333;
-        color:white;
-        font-weight:bold;
-        cursor:pointer;
-    ">
-        🎨 Spray aan
-    </button>
-
-    <button id="clearGraffiti" style="
-        border:0;
-        border-radius:10px;
-        padding:10px 18px;
-        background:#b71c1c;
-        color:white;
-        font-weight:bold;
-        cursor:pointer;
-        margin-left:5px;
-    ">
-        🗑️ Wis
-    </button>
 </div>
 
 
-<!-- GRAFFITI LAAG OVER DE HELE WEBSITE -->
+<!-- TRANSPARANTE GRAFFITI LAAG -->
 <canvas id="graffitiCanvas"></canvas>
 
+
 <style>
-    .sprayColor {
-        width:48px;
-        height:58px;
-        border:3px solid #555;
-        border-radius:10px;
-        cursor:pointer;
-        font-size:23px;
-        transition:.15s;
-        box-shadow: inset 0 -8px 0 rgba(0,0,0,.2);
-    }
 
-    .sprayColor:hover {
-        transform:translateY(-4px) rotate(-3deg);
-        border-color:white;
-    }
+#graffitiTool {
+    width: 350px;
+    max-width: 90%;
+    margin: 30px auto;
 
-    .sprayColor.selected {
-        transform:translateY(-5px) scale(1.08);
-        border-color:white;
-        box-shadow:
-            0 0 0 3px #111,
-            0 0 15px white,
-            inset 0 -8px 0 rgba(0,0,0,.2);
-    }
+    padding: 12px;
 
-    #graffitiCanvas {
-        position:fixed;
-        left:0;
-        top:0;
-        width:100vw;
-        height:100vh;
-        pointer-events:none;
-        z-index:99998;
-    }
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #ff00ff 0px,
+            #ff00ff 10px,
+            #00ffff 10px,
+            #00ffff 20px
+        );
 
-    body.graffitiActive {
-        cursor:crosshair;
-    }
+    border: 7px dotted black;
+
+    box-shadow:
+        10px 10px 0px black,
+        -5px -5px 0px yellow;
+
+    font-family: "Comic Sans MS", cursive;
+    text-align: center;
+
+    position: relative;
+    z-index: 100000;
+}
+
+.uglyTitle {
+    background: yellow;
+    color: red;
+
+    border: 5px solid black;
+
+    padding: 8px;
+
+    font-size: 23px;
+    font-weight: bold;
+
+    transform: rotate(-2deg);
+
+    text-shadow:
+        3px 3px white;
+}
+
+.uglySub {
+    margin-top: 10px;
+
+    background: black;
+    color: lime;
+
+    padding: 7px;
+
+    border: 3px solid red;
+
+    font-size: 12px;
+}
+
+.sprayButtons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin: 15px 0;
+}
+
+.sprayColor {
+
+    width: 45px;
+    height: 55px;
+
+    border: 5px solid black;
+
+    cursor: pointer;
+
+    font-size: 24px;
+
+    box-shadow:
+        4px 4px 0 black;
+
+    transition: .1s;
+}
+
+.sprayColor:nth-child(2) {
+    transform: rotate(4deg);
+}
+
+.sprayColor:nth-child(3) {
+    transform: rotate(-5deg);
+}
+
+.sprayColor:nth-child(4) {
+    transform: rotate(3deg);
+}
+
+.sprayColor:nth-child(5) {
+    transform: rotate(-4deg);
+}
+
+.sprayColor:hover {
+    transform: scale(1.15) rotate(10deg);
+}
+
+.sprayColor.selected {
+
+    border-color: white;
+
+    box-shadow:
+        0 0 0 5px black,
+        0 0 15px white;
+
+    transform: scale(1.15) rotate(-5deg);
+}
+
+.uglyControls {
+
+    background: orange;
+
+    border: 4px solid black;
+
+    padding: 8px;
+
+    margin-bottom: 10px;
+
+    font-weight: bold;
+}
+
+#spraySize {
+    width: 150px;
+}
+
+.uglyButtons {
+
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+.uglyButtons button {
+
+    padding: 10px;
+
+    border: 5px solid black;
+
+    font-family: "Comic Sans MS", cursive;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 4px 4px 0 black;
+}
+
+#sprayMode {
+    background: lime;
+}
+
+#clearGraffiti {
+    background: red;
+    color: white;
+}
+
+#sprayMode:active,
+#clearGraffiti:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
+
+#sprayStatus {
+
+    margin-top: 12px;
+
+    background: white;
+
+    color: black;
+
+    border: 4px dashed black;
+
+    padding: 6px;
+
+    font-size: 11px;
+}
+
+
+/* DE GRAFFITI-LAAG */
+#graffitiCanvas {
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 99999;
+
+    pointer-events: none;
+}
+
+
+/* Muiscursor wanneer spray aan staat */
+body.graffitiActive {
+    cursor: crosshair !important;
+}
+
 </style>
 
 
 <script>
+
 (function() {
 
-    const canvas = document.getElementById("graffitiCanvas");
-    const ctx = canvas.getContext("2d");
+    const canvas =
+        document.getElementById("graffitiCanvas");
 
-    const sizeSlider = document.getElementById("spraySize");
-    const sprayMode = document.getElementById("sprayMode");
-    const clearButton = document.getElementById("clearGraffiti");
-    const colorButtons = document.querySelectorAll(".sprayColor");
+    const ctx =
+        canvas.getContext("2d");
+
+    const sizeSlider =
+        document.getElementById("spraySize");
+
+    const sprayMode =
+        document.getElementById("sprayMode");
+
+    const clearButton =
+        document.getElementById("clearGraffiti");
+
+    const status =
+        document.getElementById("sprayStatus");
+
+    const colorButtons =
+        document.querySelectorAll(".sprayColor");
+
 
     let currentColor = "#ff0055";
-    let spraySize = 45;
-    let spraying = false;
-    let active = false;
 
-    // Canvas precies zo groot maken als het scherm
+    let spraySize = 45;
+
+    let spraying = false;
+
+    let active = true;
+
+
+    /* CANVAS GOED INSTELLEN */
+
     function resizeCanvas() {
-        const oldCanvas = document.createElement("canvas");
+
+        const oldCanvas =
+            document.createElement("canvas");
+
         oldCanvas.width = canvas.width;
         oldCanvas.height = canvas.height;
 
-        if (canvas.width && canvas.height) {
-            oldCanvas.getContext("2d").drawImage(canvas, 0, 0);
+        if (canvas.width > 0 && canvas.height > 0) {
+
+            oldCanvas
+                .getContext("2d")
+                .drawImage(canvas, 0, 0);
+
         }
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        if (oldCanvas.width && oldCanvas.height) {
-            ctx.drawImage(oldCanvas, 0, 0);
+        if (oldCanvas.width > 0) {
+
+            ctx.drawImage(
+                oldCanvas,
+                0,
+                0,
+                oldCanvas.width,
+                oldCanvas.height,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
         }
+
     }
 
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
 
-    // Kleur kiezen
+    window.addEventListener(
+        "resize",
+        resizeCanvas
+    );
+
+
+    /* KLEUR KIEZEN */
+
     colorButtons.forEach(button => {
 
-        button.addEventListener("click", function() {
+        button.addEventListener(
+            "click",
+            function() {
 
-            currentColor = this.dataset.color;
+                currentColor =
+                    this.dataset.color;
 
-            colorButtons.forEach(b =>
-                b.classList.remove("selected")
-            );
+                colorButtons.forEach(b =>
+                    b.classList.remove("selected")
+                );
 
-            this.classList.add("selected");
+                this.classList.add("selected");
 
-            active = true;
-            document.body.classList.add("graffitiActive");
+                active = true;
 
-            sprayMode.textContent = "🎨 Spray aan";
-        });
+                sprayMode.textContent =
+                    "🎨 SPRAY AAN";
+
+                status.textContent =
+                    "STATUS: SPUITEN MET " +
+                    currentColor;
+
+                document.body
+                    .classList
+                    .add("graffitiActive");
+
+            }
+        );
 
     });
 
-    // Eerste kleur selecteren
-    colorButtons[0].classList.add("selected");
 
-    // Grootte aanpassen
-    sizeSlider.addEventListener("input", function() {
-        spraySize = Number(this.value);
-    });
+    /* GROOTTE */
+
+    sizeSlider.addEventListener(
+        "input",
+        function() {
+
+            spraySize =
+                Number(this.value);
+
+        }
+    );
 
 
-    // Spray maken
+    /* SPRAY FUNCTIE */
+
     function spray(x, y) {
 
-        const amount = 35;
+        if (!active) return;
 
-        for (let i = 0; i < amount; i++) {
 
-            const angle = Math.random() * Math.PI * 2;
+        /*
+         * Veel kleine puntjes
+         * rond de muispositie.
+         */
+
+        for (
+            let i = 0;
+            i < 45;
+            i++
+        ) {
+
+            const angle =
+                Math.random() *
+                Math.PI * 2;
 
             const distance =
-                Math.random() * spraySize;
+                Math.random() *
+                spraySize;
 
             const px =
-                x + Math.cos(angle) * distance;
+                x +
+                Math.cos(angle) *
+                distance;
 
             const py =
-                y + Math.sin(angle) * distance;
+                y +
+                Math.sin(angle) *
+                distance;
 
-            const dotSize =
-                Math.random() * 2.5 + 0.7;
+            const radius =
+                Math.random() * 3 + 0.5;
+
 
             ctx.globalAlpha =
-                Math.random() * 0.55 + 0.25;
+                Math.random() * 0.7 + 0.2;
 
-            ctx.fillStyle = currentColor;
+            ctx.fillStyle =
+                currentColor;
 
             ctx.beginPath();
 
             ctx.arc(
                 px,
                 py,
-                dotSize,
+                radius,
                 0,
                 Math.PI * 2
             );
 
             ctx.fill();
+
         }
 
-        // paar grotere spetters
-        for (let i = 0; i < 4; i++) {
 
-            const angle = Math.random() * Math.PI * 2;
+        /*
+         * Grotere verfspetters
+         */
+
+        for (
+            let i = 0;
+            i < 7;
+            i++
+        ) {
+
+            const angle =
+                Math.random() *
+                Math.PI * 2;
 
             const distance =
-                Math.random() * spraySize * 1.5;
+                Math.random() *
+                spraySize * 1.8;
 
             const px =
-                x + Math.cos(angle) * distance;
+                x +
+                Math.cos(angle) *
+                distance;
 
             const py =
-                y + Math.sin(angle) * distance;
+                y +
+                Math.sin(angle) *
+                distance;
 
-            ctx.globalAlpha = .5;
-            ctx.fillStyle = currentColor;
+            ctx.globalAlpha = .65;
+
+            ctx.fillStyle =
+                currentColor;
 
             ctx.beginPath();
 
             ctx.arc(
                 px,
                 py,
-                Math.random() * 4 + 1,
+                Math.random() * 5 + 1,
                 0,
                 Math.PI * 2
             );
 
             ctx.fill();
+
         }
 
         ctx.globalAlpha = 1;
+
     }
 
 
-    // Muis indrukken
-    canvas.addEventListener("mousedown", function(e) {
+    /*
+     * BELANGRIJK:
+     *
+     * Omdat de canvas pointer-events:none heeft,
+     * luisteren we naar de hele pagina.
+     */
 
-        if (!active) return;
+    document.addEventListener(
+        "mousedown",
+        function(e) {
 
-        spraying = true;
+            if (!active) return;
 
-        spray(e.clientX, e.clientY);
-    });
+            /*
+             * Niet sprayen wanneer
+             * je de knoppen gebruikt.
+             */
 
+            if (
+                e.target.closest("#graffitiTool")
+            ) {
+                return;
+            }
 
-    // Muis loslaten
-    window.addEventListener("mouseup", function() {
-        spraying = false;
-    });
+            spraying = true;
 
-
-    // Slepen
-    canvas.addEventListener("mousemove", function(e) {
-
-        if (!active || !spraying) return;
-
-        spray(e.clientX, e.clientY);
-    });
-
-
-    // Touchscreen ondersteuning
-    canvas.addEventListener("touchstart", function(e) {
-
-        if (!active) return;
-
-        e.preventDefault();
-
-        spraying = true;
-
-        const touch = e.touches[0];
-
-        spray(
-            touch.clientX,
-            touch.clientY
-        );
-
-    }, {passive:false});
-
-
-    canvas.addEventListener("touchmove", function(e) {
-
-        if (!active || !spraying) return;
-
-        e.preventDefault();
-
-        const touch = e.touches[0];
-
-        spray(
-            touch.clientX,
-            touch.clientY
-        );
-
-    }, {passive:false});
-
-
-    canvas.addEventListener("touchend", function() {
-        spraying = false;
-    });
-
-
-    // Spray aan/uit
-    sprayMode.addEventListener("click", function() {
-
-        active = !active;
-
-        if (active) {
-
-            document.body.classList.add("graffitiActive");
-
-            this.textContent = "🎨 Spray aan";
-
-        } else {
-
-            document.body.classList.remove("graffitiActive");
-
-            this.textContent = "🚫 Spray uit";
+            spray(
+                e.clientX,
+                e.clientY
+            );
 
         }
+    );
 
-    });
+
+    document.addEventListener(
+        "mouseup",
+        function() {
+
+            spraying = false;
+
+        }
+    );
 
 
-    // Alles wissen
-    clearButton.addEventListener("click", function() {
+    document.addEventListener(
+        "mousemove",
+        function(e) {
 
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+            if (!active) return;
 
-    });
+            if (!spraying) return;
+
+            if (
+                e.target.closest("#graffitiTool")
+            ) {
+                return;
+            }
+
+            spray(
+                e.clientX,
+                e.clientY
+            );
+
+        }
+    );
+
+
+    /* TOUCH */
+
+    document.addEventListener(
+        "touchstart",
+        function(e) {
+
+            if (!active) return;
+
+            if (
+                e.target.closest("#graffitiTool")
+            ) {
+                return;
+            }
+
+            spraying = true;
+
+            const touch =
+                e.touches[0];
+
+            spray(
+                touch.clientX,
+                touch.clientY
+            );
+
+        },
+        {passive:true}
+    );
+
+
+    document.addEventListener(
+        "touchmove",
+        function(e) {
+
+            if (!active) return;
+
+            if (!spraying) return;
+
+            const touch =
+                e.touches[0];
+
+            spray(
+                touch.clientX,
+                touch.clientY
+            );
+
+        },
+        {passive:true}
+    );
+
+
+    document.addEventListener(
+        "touchend",
+        function() {
+
+            spraying = false;
+
+        }
+    );
+
+
+    /* AAN / UIT */
+
+    sprayMode.addEventListener(
+        "click",
+        function() {
+
+            active = !active;
+
+            if (active) {
+
+                this.textContent =
+                    "🎨 SPRAY AAN";
+
+                status.textContent =
+                    "STATUS: KLAAR OM TE SPUITEN";
+
+                document.body
+                    .classList
+                    .add("graffitiActive");
+
+            } else {
+
+                this.textContent =
+                    "🚫 SPRAY UIT";
+
+                status.textContent =
+                    "STATUS: UITGESCHAKELD";
+
+                document.body
+                    .classList
+                    .remove("graffitiActive");
+
+                spraying = false;
+
+            }
+
+        }
+    );
+
+
+    /* ALLES WISSEN */
+
+    clearButton.addEventListener(
+        "click",
+        function() {
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            status.textContent =
+                "STATUS: ALLES WEG 💀";
+
+        }
+    );
+
+
+    document.body
+        .classList
+        .add("graffitiActive");
 
 })();
+
 </script>
     </body>
    
