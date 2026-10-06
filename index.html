@@ -1,12 +1,391 @@
-<html>
-    <head>
-<img src=https://nevadasagebrush.com/wp-content/uploads/2026/09/image-5.png alt="Afbeelding">
+```html
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PORRIE</title>
 
-<search></search>
-    </head>
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-    <body>
-        Dit is mijn eerste website! torrie torrie torrie torrie adam torrie
-    </body>
-   
+    body {
+        margin: 0;
+        font-family: Comic Sans MS, Arial, sans-serif;
+        background: repeating-linear-gradient(
+            45deg,
+            #ff00cc,
+            #ff00cc 20px,
+            #00ffff 20px,
+            #00ffff 40px
+        );
+        overflow-x: hidden;
+        cursor: crosshair;
+    }
+
+    header {
+        background: yellow;
+        border: 8px solid black;
+        text-align: center;
+        padding: 20px;
+        transform: rotate(-1deg);
+        box-shadow: 15px 15px 0 black;
+        margin: 20px;
+    }
+
+    h1 {
+        font-size: clamp(70px, 15vw, 180px);
+        margin: 0;
+        color: red;
+        text-shadow:
+            8px 8px black,
+            -5px -5px blue;
+        animation: shake 0.3s infinite;
+    }
+
+    .subtitle {
+        font-size: 30px;
+        background: white;
+        border: 5px solid black;
+        display: inline-block;
+        padding: 10px;
+    }
+
+    .counter {
+        position: fixed;
+        right: 15px;
+        top: 15px;
+        z-index: 100;
+        background: lime;
+        border: 5px solid black;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        transform: rotate(3deg);
+    }
+
+    main {
+        max-width: 1100px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .box {
+        background: white;
+        border: 7px solid black;
+        padding: 25px;
+        margin: 30px 0;
+        box-shadow: 12px 12px 0 black;
+    }
+
+    .box:nth-child(even) {
+        transform: rotate(1.5deg);
+        background: #ffff00;
+    }
+
+    .box:nth-child(odd) {
+        transform: rotate(-1deg);
+        background: #00ff66;
+    }
+
+    h2 {
+        font-size: 50px;
+        margin-top: 0;
+        color: blue;
+        text-shadow: 4px 4px red;
+    }
+
+    p {
+        font-size: 22px;
+    }
+
+    button {
+        font-family: Comic Sans MS, Arial, sans-serif;
+        font-size: 25px;
+        font-weight: bold;
+        padding: 15px 25px;
+        margin: 8px;
+        background: orange;
+        border: 6px solid black;
+        box-shadow: 7px 7px 0 black;
+        cursor: pointer;
+    }
+
+    button:hover {
+        transform: translate(5px, 5px) rotate(4deg);
+        box-shadow: 2px 2px 0 black;
+    }
+
+    .porrie {
+        display: inline-block;
+        font-size: 80px;
+        margin: 10px;
+        animation: bounce 0.7s infinite alternate;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: #ff66ff;
+        border: 6px solid black;
+        padding: 20px;
+        text-align: center;
+        font-size: 70px;
+        transform: rotate(var(--r));
+    }
+
+    .card span {
+        display: block;
+        font-size: 25px;
+        margin-top: 10px;
+        background: white;
+        border: 3px solid black;
+    }
+
+    #chaos {
+        min-height: 180px;
+        position: relative;
+        overflow: hidden;
+        background: black;
+    }
+
+    .flying {
+        position: absolute;
+        font-size: 45px;
+        animation: fly 3s linear forwards;
+        pointer-events: none;
+    }
+
+    footer {
+        background: black;
+        color: yellow;
+        text-align: center;
+        padding: 40px;
+        font-size: 25px;
+        margin-top: 50px;
+    }
+
+    @keyframes shake {
+        0% { transform: translate(0,0) rotate(-2deg); }
+        25% { transform: translate(4px,-3px) rotate(2deg); }
+        50% { transform: translate(-3px,3px) rotate(-1deg); }
+        75% { transform: translate(3px,2px) rotate(2deg); }
+        100% { transform: translate(0,0) rotate(-2deg); }
+    }
+
+    @keyframes bounce {
+        from { transform: translateY(0) rotate(-5deg); }
+        to { transform: translateY(-25px) rotate(5deg); }
+    }
+
+    @keyframes fly {
+        from {
+            left: -80px;
+            top: 50%;
+            transform: rotate(0deg);
+        }
+        to {
+            left: 110%;
+            top: 10%;
+            transform: rotate(720deg);
+        }
+    }
+
+    body.chaosMode {
+        animation: colors 0.5s infinite;
+    }
+
+    @keyframes colors {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="counter">
+    PORRIE'S: <span id="count">0</span>
+</div>
+
+<header>
+    <h1>PORRIE</h1>
+    <div class="subtitle">DE OFFICIËLE PORRIE WEBSITE™</div>
+</header>
+
+<main>
+
+    <section class="box">
+        <h2>WELKOM BIJ PORRIE</h2>
+        <p>
+            Dit is de meest onnodige website die ooit over Porrie is gemaakt.
+            Niemand weet waarom deze website bestaat.
+            Maar hij bestaat.
+        </p>
+
+        <div style="text-align:center;">
+            <span class="porrie">🗿</span>
+            <span class="porrie">🗿</span>
+            <span class="porrie">🗿</span>
+        </div>
+
+        <button onclick="addPorrie()">+ PORRIE</button>
+        <button onclick="porrieAlert()">PORRIE CHECK</button>
+    </section>
+
+    <section class="box">
+        <h2>PORRIE GALERIJ</h2>
+
+        <div class="gallery">
+            <div class="card" style="--r:-4deg;">
+                🗿
+                <span>Porrie klassiek</span>
+            </div>
+
+            <div class="card" style="--r:5deg;">
+                😎
+                <span>Porrie cool</span>
+            </div>
+
+            <div class="card" style="--r:-2deg;">
+                🐸
+                <span>Porrie kikker</span>
+            </div>
+
+            <div class="card" style="--r:7deg;">
+                👽
+                <span>Porrie alien</span>
+            </div>
+
+            <div class="card" style="--r:-6deg;">
+                🤨
+                <span>Porrie kijkt</span>
+            </div>
+
+            <div class="card" style="--r:3deg;">
+                🔥
+                <span>PORRIE FIRE</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="box">
+        <h2>DE PORRIE MACHINE</h2>
+
+        <p id="machineText">
+            Klik hieronder. Je weet niet wat er gaat gebeuren.
+        </p>
+
+        <button onclick="spawnPorrie()">SPAWN PORRIE</button>
+        <button onclick="bigPorrie()">GROTE PORRIE</button>
+        <button onclick="chaos()">CHAOS MODE</button>
+
+        <div id="chaos"></div>
+    </section>
+
+    <section class="box">
+        <h2>PORRIE FEITEN</h2>
+
+        <p>🗿 Porrie bestaat.</p>
+        <p>🗿 Porrie kijkt.</p>
+        <p>🗿 Porrie weet dingen.</p>
+        <p>🗿 Niemand weet wat Porrie doet.</p>
+        <p>🗿 Porrie is waarschijnlijk ergens.</p>
+
+        <button onclick="randomFact()">GEEF MIJ EEN PORRIE FEIT</button>
+        <p id="fact"></p>
+    </section>
+
+</main>
+
+<footer>
+    © 2026 PORRIE INDUSTRIES<br>
+    PORRIE IS OVERAL.
+</footer>
+
+<script>
+let count = 0;
+
+const facts = [
+    "Porrie is waarschijnlijk sterker dan hij eruitziet.",
+    "Porrie heeft ooit naar een muur gekeken.",
+    "Porrie weet waar je bent.",
+    "Porrie heeft geen uitleg nodig.",
+    "Porrie is officieel heel erg Porrie.",
+    "Wetenschappers begrijpen Porrie nog steeds niet.",
+    "Porrie heeft deze website goedgekeurd."
+];
+
+function addPorrie() {
+    count++;
+    document.getElementById("count").textContent = count;
+
+    const button = document.querySelector("button");
+    button.textContent = "+ PORRIE (" + count + ")";
+}
+
+function porrieAlert() {
+    alert("PORRIE CHECK GESLAAGD.\n\nJe bent officieel bij Porrie.");
+}
+
+function spawnPorrie() {
+    const area = document.getElementById("chaos");
+
+    const p = document.createElement("div");
+    p.className = "flying";
+    p.textContent = ["🗿", "😎", "🐸", "👽", "🔥", "PORRIE"][Math.floor(Math.random() * 6)];
+
+    p.style.top = Math.random() * 80 + "%";
+    p.style.fontSize = (30 + Math.random() * 60) + "px";
+
+    area.appendChild(p);
+
+    addPorrie();
+
+    setTimeout(() => {
+        p.remove();
+    }, 3000);
+}
+
+function bigPorrie() {
+    const text = document.getElementById("machineText");
+
+    text.textContent = "PORRIE";
+    text.style.fontSize = "120px";
+    text.style.fontWeight = "bold";
+    text.style.color = "red";
+    text.style.textShadow = "8px 8px yellow";
+    text.style.transform = "rotate(-5deg)";
+}
+
+function chaos() {
+    document.body.classList.toggle("chaosMode");
+
+    if (document.body.classList.contains("chaosMode")) {
+        document.getElementById("machineText").textContent =
+            "CHAOS PORRIE IS GEACTIVEERD.";
+        
+        for (let i = 0; i < 15; i++) {
+            setTimeout(spawnPorrie, i * 100);
+        }
+    } else {
+        document.getElementById("machineText").textContent =
+            "Chaos is weer uitgezet. Helaas.";
+    }
+}
+
+function randomFact() {
+    const fact = facts[Math.floor(Math.random() * facts.length)];
+    document.getElementById("fact").textContent = fact;
+}
+</script>
+
+</body>
 </html>
+```
