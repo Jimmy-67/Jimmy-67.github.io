@@ -49,10 +49,167 @@
     <p>Voor de opdracht maak ik een website over verschillende onderwerpen zoals het binaaire stelsel, kleurmodellen, compressie en AI. Ik leg de onderwerpen uit door middel van tekst, afbeeldingen en video's</p>
 </section>
 
-<section id="reizen">
+
+
+<!-- Fotoalbum met mijn reisbestemmingen -->
+<section class="reizen">
     <h2>Al mijn reizen:</h2>
 
+    <div class="album-kaart">
+        <button class="album-knop" onclick="vorigeReis()" aria-label="Vorige bestemming">&#10094;</button>
+
+        <div class="album-inhoud">
+            <img id="reis-foto" src="frankrijk.jpg" alt="Mijn reisbestemming">
+
+            <h3 id="reis-titel">Frankrijk</h3>
+            <p id="reis-tekst">Frankrijk is een leuke bestemming waar je kunt zwemmen, lekker kunt eten en mooie plekken kunt ontdekken.</p>
+
+            <p id="reis-teller">1 / 4</p>
+        </div>
+
+        <button class="album-knop" onclick="volgendeReis()" aria-label="Volgende bestemming">&#10095;</button>
+    </div>
 </section>
+
+<style>
+/* De buitenkant van het fotoalbum */
+.reisalbum {
+    max-width: 800px;
+    margin: 30px auto;
+    text-align: center;
+}
+
+/* De kaart met afbeelding en tekst */
+.album-kaart {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Het gedeelte met de foto en informatie */
+.album-inhoud {
+    flex: 1;
+    min-width: 0;
+}
+
+/* De afbeelding */
+.album-inhoud img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* De pijltjes */
+.album-knop {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* Kleur wanneer je over een pijltje gaat */
+.album-knop:hover {
+    background: #60a5fa;
+}
+
+/* De teller onderaan */
+#reis-teller {
+    color: #93c5fd;
+    font-size: 14px;
+}
+
+/* Geschikt maken voor telefoons */
+@media (max-width: 500px) {
+    .album-kaart {
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .album-inhoud img {
+        height: 220px;
+    }
+
+    .album-knop {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+}
+</style>
+
+<script>
+// Alle bestemmingen van mijn fotoalbum
+const reizen = [
+    {
+        titel: "Frankrijk",
+        foto: "frankrijk.jpg",
+        tekst: "Frankrijk is een leuke bestemming waar je kunt zwemmen, lekker kunt eten en mooie plekken kunt ontdekken."
+    },
+    {
+        titel: "Spanje",
+        foto: "spanje.jpg",
+        tekst: "Spanje is een heerlijk land met hele mooi stranden.."
+    },
+    {
+        titel: "Italië",
+        foto: "italie.jpg",
+        tekst: "Italië heeft heel veel mooie steden om te bezoeken."
+    },
+    {
+        titel: "Mijn andere bestemming",
+        foto: "bestemming4.jpg",
+        tekst: "Oostenrijk heeft de beste skigebieden, en zorgt voor de beste skivakantie."
+    }
+];
+
+// De eerste reis wordt getoond
+let huidigeReis = 0;
+
+// De gekozen reis op het scherm laten zien
+function toonReis() {
+    const reis = reizen[huidigeReis];
+
+    document.getElementById("reis-foto").src = reis.foto;
+    document.getElementById("reis-foto").alt = "Foto van " + reis.titel;
+    document.getElementById("reis-titel").textContent = reis.titel;
+    document.getElementById("reis-tekst").textContent = reis.tekst;
+    document.getElementById("reis-teller").textContent =
+        (huidigeReis + 1) + " / " + reizen.length;
+}
+
+// Naar de vorige bestemming
+function vorigeReis() {
+    huidigeReis--;
+
+    if (huidigeReis < 0) {
+        huidigeReis = reizen.length - 1;
+    }
+
+    toonReis();
+}
+
+// Naar de volgende bestemming
+function volgendeReis() {
+    huidigeReis++;
+
+    if (huidigeReis >= reizen.length) {
+        huidigeReis = 0;
+    }
+
+    toonReis();
+}
+</script>
+```
 
     
 
