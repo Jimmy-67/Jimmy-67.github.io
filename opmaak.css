@@ -104,6 +104,10 @@ main a {
     color: #93c5fd;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* Kleine schermen, zoals telefoons */
 @media (max-width: 600px) {
     nav > ul {
