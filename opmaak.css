@@ -9,18 +9,18 @@ body {
 
 /* De grote titel bovenaan de pagina */
 h1 {
-    color: #60a5fa;
+    color: #2F855A;
     text-align: center;
     margin-top: 35px;
 }
 
 h2 {
-    color: #93c5fd;
+    color: #2F855A;
 }
 
 /* De navigatiebalk bovenaan */
 nav {
-    background-color: #1e293b;
+    background-color: #2F855A;
     padding: 12px 20px;
 }
 
@@ -41,7 +41,7 @@ nav > ul {
 /* Alle menu-links */
 nav a {
     display: block;
-    color: white;
+    color: rgb(0, 0, 0);
     text-decoration: none;
     padding: 10px 14px;
     border-radius: 8px;
@@ -49,7 +49,7 @@ nav a {
 
 /* De kleur wanneer je over een menu-link gaat */
 nav a:hover {
-    background-color: #2563eb;
+    background-color: #2F855A;
 }
 
 /* Het onderdeel dat het dropdownmenu bevat */
@@ -64,8 +64,8 @@ nav a:hover {
     top: 100%;
     left: 0;
     min-width: 220px;
-    background-color: #1e293b;
-    border: 1px solid #334155;
+    background-color: #2F855A;
+    border: 1px solid #D69E2E;
     border-radius: 8px;
     padding: 6px;
     z-index: 10;
@@ -101,7 +101,7 @@ img {
 
 /* Links in de inhoud */
 main a {
-    color: #93c5fd;
+    color: #D69E2E;
 }
 
 html {
